@@ -1,0 +1,5 @@
+# Custom .gitignore file
+
+# Don't save .bak or .swp files
+*.bak
+*.swp

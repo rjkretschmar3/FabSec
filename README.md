@@ -29,23 +29,29 @@ For illustrative purposes, the Fabric CA Server I am talking about here is the F
 The following configuration fields from the given _fabric-ca-server-config.yaml_ configuration file have been changed from their defaults:
 	
 * _ca_
+
 Here I just customize the _name_ of the server. For example the TLS-CA Server for Organization 1 will be something like tls-ca-org1 while Organization 1's Fabric CA would be named fab-ca-org1. _keyfile_, _certfile_, and _chainfile_ will be left blank.
 	
 * _tls_
+
 This is one of the few times a TLS CA and a Fabric CA will diverge. For a TLS CA, all I need to do is change the _enabled_ flag to true. However, for a Fabric CA (which needs to use the key material from the Organization's TLS CA to do its communications), I also need to add the _certfile_ and _keyfile_ values that were generated when I initialized the TLS CA Server. (A consequence of this, of course, is when one sets up an Organization in the network, they will need to first fire up the TLS CA Server BEFORE the Fabric CA Server.) Specifically:
 	* The _certfile_ (the TLS's signed certificate file) is found in the signedcerts directory of the TLS Server. (Typically named something like cert.pem.)
 	* The _keyfile_ (the TLS's private key) is found in the keystore directory, and is named something like d1d030ba430db15f6ba714a99918e51948e45f846832e02za48934d9d9e3_sk.
 
 * _port_
+
 This is simply the port to be run on. Each Server should be running on its own port.
 		
 * _affiliations_
+
 Affiliations is being mentioned here if I choose to eventually incorporate it into a more scaled up version. For now left default which is blank.
 
 * _csr_
+
 CSR (Certificate Signing Request) is where one would populate the root CA certificate with custom information. It needs to be filled out before running the server for the first time. Most are optional, however checking that _hosts_ has the proper hostnames is a good idea.
 
 * _signing_
+
 Here the defaults are fine for a production server with special attention paid to the _expiry_ field. Also, one should remove the _profile_ for the type of CA server that this one isn't going to be. _ca_ is the profile for a Fabric CA Server, and _tls_ is the profile for a -- surprise, surprise -- TLS CA Server.
 
 MORE TO COME

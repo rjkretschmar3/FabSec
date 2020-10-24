@@ -36,7 +36,7 @@ fi
 #	2) It'll set the default CA Home directory environmental variable FABRIC_CA_HOME to the present working directory. (Thus, the need to traverse there in the previous steps.)
 #	3) Generates the default YAML configuration file. (Talked about later.)
 #	4) Generates the TLS CA root signed certificate file ca-cert.pem
-#	5) Generates the CA server private key and stores it in the FABRIC_CA_HOME directory under /msp/keystore
+#	5) Generates the TLS CA server private key and stores it in the FABRIC_CA_HOME directory under /msp/keystore
 
 # Remove the old config file and the old key material
 echo "rm ./fabric-ca-server-config.yaml"
@@ -46,9 +46,9 @@ rm ca-cert.pem
 echo "rm -R msp";
 rm -R msp
 
-echo "./fabric-ca-server init -b org$2-tls-admin:org$2-tls-adminpw";
-echo "org$2-tls-admin:org$2-tls-adminpw" > tls-creds.txt
-./fabric-ca-server init -b org$2-tls-admin:org$2-tls-adminpw
+echo "./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw";
+echo "org$2-tls-admin:org$2-tls-admin-pw" > tls-creds.txt
+./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw
 
 # Here is where it gets murky. As mentioned this initialization process generates a default YAML file for server configuration. I have yet to find an elegant way to automatically change some of the default values to the working ones. For now, it opens up vim for manual editing. (However, I can generate and present the values for the operator to write down before changing them.)
 

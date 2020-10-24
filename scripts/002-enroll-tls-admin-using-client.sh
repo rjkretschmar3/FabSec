@@ -4,7 +4,7 @@
 #
 #	The directory infrastructure is already in place. For example, a peer organization of ID 1 would have the directory structure of organization/peerOrganizations/org1.fabsec.com
 #
-#	Furthermore, the the fabric-ca-client binary is located in the ca-client directory under org1.fabsec.com (or whichever organization you're working with).
+#	Furthermore, the fabric-ca-client binary is located in the ca-client directory under org1.fabsec.com (or whichever organization you're working with).
 
 # First move to the appropriate directory.
 if [[ "$1" == "orderer" ]]; then
@@ -39,7 +39,7 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 # FURTHER NOTE ON MSP: The --mspdir flag operates differently for a register command vs an enroll command. For a register command, it points to the location of the cryptographic material to use. For an enroll command, it points to where to store the generated certificates.
 
 # NOTE: We will need the username and password that we siphoned off into tls-creds.txt
-echo "IFS=':' read -ra creds <<< $(cat ../tls-ca-server/tls-creds.txt)";
+echo "IFS=':' read -ra creds <<< \$(cat ../tls-ca-server/tls-creds.txt)";
 IFS=':' read -ra creds <<< $(cat ../tls-ca-server/tls-creds.txt); # This just splits the username and password into an array.
 
 echo "./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${creds[0]}/msp"

@@ -96,6 +96,6 @@ rm ca-cert.pem
 echo "rm -R msp";
 rm -R msp
 
-# Finally start the TLS Server
+# Finally start the Fabric CA Server (aka Organizational CA Server, aka the Enrollment CA Server, aka the eCert Server)
 echo "./fabric-ca-server start"
 ./fabric-ca-server start

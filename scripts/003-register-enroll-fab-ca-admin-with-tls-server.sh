@@ -63,10 +63,10 @@ echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2
 # to leave these around on a true production server.)
 echo "org$2-fab-admin:org$2-fab-admin-pw" > ../fab-ca-server/fab-creds.txt;
 
-# Now, we enroll the Fab CA admin. Again, it's going to look similar to the enroll command
-# in the previous script with the username and password being the ones we've just 
-# registered, and the --mspdir NOW pointing to where we store the key and public cert of 
-# the Fab CA admin for later use.
+# Now, we enroll the Fab CA admin with the TLS server. Again, it's going to look similar 
+# to the enroll command in the previous script with the username and password being the 
+# ones we've just registered, and the --mspdir NOW pointing to where we store the key 
+# and public cert of the Fab CA admin for later use.
 echo "./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp"
 ./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp
 

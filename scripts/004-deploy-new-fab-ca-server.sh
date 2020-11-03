@@ -39,7 +39,21 @@ else
         exit;
 fi
 
-# First grab the credentials from the fab-creds.txt file. 
+# First remove the old config file and the old key material
+echo "rm ./fabric-ca-server-config.yaml"
+rm ./fabric-ca-server-config.yaml
+echo "rm ./fabric-ca-server.db"
+rm ./fabric-ca-server.db
+echo "rm ./IssuerPublicKey"
+rm ./IssuerPublicKey
+echo "rm ./IssuerRevocationPublicKey"
+rm ./IssuerRevocationPublicKey
+echo "rm ./ca-cert.pem";
+rm ./ca-cert.pem
+echo "rm -R ./msp/";
+rm -R ./msp/
+
+# Then, grab the credentials from the fab-creds.txt file. 
 echo "IFS=':' read -ra creds <<< \$(cat fab-creds.txt)";
 IFS=':' read -ra creds <<< $(cat fab-creds.txt);
 
@@ -50,10 +64,10 @@ IFS=':' read -ra creds <<< $(cat fab-creds.txt);
 # renaming to key.pem, is the signing key for the admin and lives in a similar location to 
 # above but msp/keystore/ directory. These will be conveniently place in a directory called tls/
 
-echo "cp ../ca-client/tls-ca/${creds[0]}/msp/signcerts/cert.pem tls";
-cp ../ca-client/tls-ca/${creds[0]}/msp/signcerts/cert.pem tls
-echo "cp ../ca-client/tls-ca/${creds[0]}/msp/keystore/key.pem tls";
-cp ../ca-client/tls-ca/${creds[0]}/msp/keystore/key.pem tls
+echo "cp ../ca-client/tls-ca/${creds[0]}/msp/signcerts/cert.pem tls/";
+cp ../ca-client/tls-ca/${creds[0]}/msp/signcerts/cert.pem tls/
+echo "cp ../ca-client/tls-ca/${creds[0]}/msp/keystore/key.pem tls/";
+cp ../ca-client/tls-ca/${creds[0]}/msp/keystore/key.pem tls/
 
 # Now, just like with the 001 script and the TLS CA Server, we're going to initialize the Fab 
 # CA Server and bootstrap its admin.
@@ -83,6 +97,8 @@ echo "vim fabric-ca-server-config.yaml"
 vim fabric-ca-server-config.yaml
 echo "Done!"
 
+echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
+read -p "Press [Enter] to continue script...";
 
 #The following section will start the server.
 
@@ -91,10 +107,10 @@ echo "Done!"
 # regenerated with the newly populated config information when the servers starts up next
 # time.
 
-echo "rm ca-cert.pem";
-rm ca-cert.pem
-echo "rm -R msp";
-rm -R msp
+echo "rm ./ca-cert.pem";
+rm ./ca-cert.pem
+echo "rm -R ./msp/";
+rm -R ./msp/
 
 # Finally start the Fabric CA Server (aka Organizational CA Server, aka the Enrollment CA Server, aka the eCert Server)
 echo "./fabric-ca-server start"

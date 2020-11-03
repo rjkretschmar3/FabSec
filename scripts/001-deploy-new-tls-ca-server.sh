@@ -54,10 +54,20 @@ fi
 # Remove the old config file and the old key material
 echo "rm ./fabric-ca-server-config.yaml"
 rm ./fabric-ca-server-config.yaml
-echo "rm ca-cert.pem"; 
-rm ca-cert.pem
-echo "rm -R msp";
-rm -R msp
+echo "rm ./fabric-ca-server.db"
+rm ./fabric-ca-server.db
+echo "rm ./IssuerPublicKey"
+rm ./IssuerPublicKey
+echo "rm ./IssuerRevocationPublicKey"
+rm ./IssuerRevocationPublicKey
+echo "rm ./ca-cert.pem"; 
+rm ./ca-cert.pem
+echo "rm ./tls-cert.pem"
+rm ./tls-cert.pem
+echo "rm ./tls-cred.txt"
+rm ./tls-cred.txt
+echo "rm -R ./msp/";
+rm -R ./msp/
 
 echo "./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw";
 echo "org$2-tls-admin:org$2-tls-admin-pw" > tls-creds.txt
@@ -82,6 +92,9 @@ echo "vim fabric-ca-server-config.yaml";
 vim fabric-ca-server-config.yaml
 echo "Done!";
 
+echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
+read -p "Press [Enter] to continue script...";
+
 # The following section will start the server.
 
 # In case the CSR block of the YAML file has been changed in the vim step above, delete the
@@ -89,10 +102,10 @@ echo "Done!";
 # regenerated with the newly populated config information when the servers starts up next
 # time.
 
-echo "rm ca-cert.pem";
-rm ca-cert.pem
-echo "rm -R msp";
-rm -R msp
+echo "rm ./ca-cert.pem";
+rm ./ca-cert.pem
+echo "rm -R ./msp/";
+rm -R ./msp/
 
 # Finally start the TLS Server
 echo "./fabric-ca-server start"

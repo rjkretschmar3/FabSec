@@ -90,14 +90,14 @@ topic is explained in more detail below.
 #### Notes about core.yaml
 The core.yaml configuration file is the main configuration file for a peer node. As with the configuration files for the CA servers,
 if I don't need to explicitly need to change a value from a default, I won't. Unlike the config files for the CA servers, it is not
-auto-generated each time you bring up a peer, but rather downloaded from the offical GitHub repo. That is to say, you need to hand
+auto-generated each time you bring up a peer, but rather downloaded from the official GitHub repo. That is to say, you need to hand
 edit these files each time you want to persist a new value. I'll also talk about some values that won't explicitly be changed from
-their default, but are important to keep in mind or need further explaination. 
+their default, but are important to keep in mind or need further explanation. 
 
 Guidance provided by [Checklist for a Production Peer][1]
 [1]: (https://hyperledger-fabric.readthedocs.io/en/release-2.1/deploypeer/peerchecklist.html)
 
-The following configuation changes from the defaults will take place:
+The following configuration changes from the defaults will take place:
 
 - peer.id
 	- This is the ID by which the peer will be referenced. This will follow the naming convention 
@@ -105,16 +105,16 @@ used for the individual peers (as mentioned above). For example, peer 0 of organ
 `peer0.org1.fabsec.com`.
 
 - peer.networkId
-	- This is the ID by which the network will be referenced. It allows logical seperation of networks 
+	- This is the ID by which the network will be referenced. It allows logical separation of networks 
 and generally it would be named after it's planned usage. For the purposes of this project, this will 
 be `grad-project`.
 
 - peer.listenAddress
-	- This is the address the peer will listen on. By default, this and the other "address" configuation
+	- This is the address the peer will listen on. By default, this and the other "address" configuration
 values below will listen to all IP addresses as identified by 0.0.0.0 which is INADDR\_ANY in TCP 
 parlance. I'll be leaving the address portion of these alone, however in some production scenarios, one
 would probably want to tighten that up. The port starting, again by default, at 7051 will need to be
-changed for each subsiqent peer to come up.
+changed for each subsequent peer to come up.
 
 - peer.chaincodeListenAddress
 	- This is the address the peer will listen on for inbound chaincode connections. The default of
@@ -132,7 +132,7 @@ an address and the `peer.listenAddress` port as its port.
 
 - peer.addressAutoDetect
 	- I'm not changing this from its default, which is false, for now. But to remind myself of its
-existance when/if I containerize later with Docker.
+existence when/if I containerize later with Docker.
 
 - peer.mspConfigPath
 	- This is the path where the peer will find it's local MSP configuration. As of now, I'm leaving it as the
@@ -140,11 +140,11 @@ default of `msp` since each individual peer will have its own local `peer` binar
 
 - peer.localMspId
 	- This is the value of the MSP ID of the organization the peer belongs to. This is a security measure to
-check if a peer's organization is a channel memeber. If not, then the peer won't be allow to join the channel
+check if a peer's organization is a channel member. If not, then the peer won't be allow to join the channel
 for obvious reasons. (This is MSP ID is defined in configtx.yaml.)
 
 - peer.fileSystemPath
-	- This variable points the peer to where the ledger and instaled chainsodes live. The default is 
+	- This variable points the peer to where the ledger and installed chaincode lives. The default is 
 `/var/hyperledger/production`, but since I set up this project to be contained within a special file structure, 
 I will be changing it to `./datastore`. The single dot means the directory `datastore` will be in the peer's
 own directory. Further, this means each peer will have its own individual datastore (to simulate a real network
@@ -173,26 +173,41 @@ this will remain false. This also means that *at least one* peer must be set to 
 meaning that all peers will be leaders and no peers will be no leaders. 
 		- state.enabled: This defaults to false meaning that the Gossip protocol won't be activated.
 
-	- Impicit Data: This is an interesting concept that won't be used in this project, but mentioning it
+	- Implicit Data: This is an interesting concept that won't be used in this project, but mentioning it
 to remind myself it exists. However, since I won't be using it, that's as far as I'll go into here.
 
 - peer.tls.\*
 	- enabled: This is by default false, however we will certainly be using TLS communications, so all peers
 will have this value flipped to true.
-	- cert.file: This file is the certificate (cert.pem) file generated when one enrolls the peer with the
-Fab Server. It is the peer's identity and lives in `msp/signcerts/cert.pem`.
-	- key.file: This file is the private key (fab-key.pem) file generated when one enrolls the peer with the
-Fab Server. It is what the peer uses to sign transactions and lives in `msp/keystore/fab-key.pem`.
-	- rootcert.file: This file is the organization's root cetificate TODO: Finish this.
+	- cert.file: This file is the certificate (cert.pem) file that is generated when one enrolls the peer with 
+the TLS Server. It is the peer's TLS identity and lives in `tls-msp/signcerts/cert.pem`.
+	- key.file: This file is the private key (key.pem) file generated when one enrolls the peer with the
+TLS Server. This lives in `tls-msp/keystore/key.pem`.
+	- rootcert.file: This file is the TLS root certificate It lives at `tls-msp/cacerts/<host>-<port>.pem`.
+
 
 ### Orderers
-An Orderer Node is the node that validates transactions and *orderers* them into blocks.
+An Orderer Node is the node that collects the different transactions and *orderers* them into the blocks that will 
+eventually go on the ledger (blockchain). In a public blockchain, like that of Bitcoin or Ethereum, every node has the
+chance to be an "orderer" (although the call them miners).
 
 #### Notes about order.yaml
 The order.yaml configuration file is the main configuration file for an orderer node.
 
+#### Notes about the Genesis Block and the `configtxgen` tool in relation to Orderers
+Unlike peer nodes which need nothing more than an identity and a properly filled out `core.yaml` configuration file to be 
+spun up, an orderer node which will be the beginning of a new network, that is it won't be joining an existing orderer 
+cluster, needs something called a *Genesis Block*. These Genesis Blocks contain special information about the Channel
+in which the orderer node will be operating on. (More about Channels below.)
+
+### Channels
+Channels are the main way the nodes associate themselves with not only each other, but with the ledgers and chaincode as well.
+
+#### Notes on the Genesis Block and the `configtxgen` tool in relation to Channels.
+So, as mentioned above but intentionally glossed over, every Channel needs a Genesis Block.
+
 ### Chaincode
-Chaincode, as mentioned before, is the Hyperledger equivlant to Smart Contracts. These are Turing-complete programs that hold the business
+Chaincode, as mentioned before, is the Hyperledger equivalent to Smart Contracts. These are Turing-complete programs that hold the business
 logic for a given use case. In that spirit, they are used to encapsulate the *shared processes* of the Fabric network.
 
 ### Ledgers

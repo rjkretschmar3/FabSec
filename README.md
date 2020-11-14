@@ -94,10 +94,10 @@ auto-generated each time you bring up a peer, but rather downloaded from the off
 edit these files each time you want to persist a new value. I'll also talk about some values that won't explicitly be changed from
 their default, but are important to keep in mind or need further explanation. 
 
-Guidance provided by [Checklist for a Production Peer][1]
-[1]: (https://hyperledger-fabric.readthedocs.io/en/release-2.1/deploypeer/peerchecklist.html)
+Guidance provided by [Checklist for a Production Peer](https://hyperledger-fabric.readthedocs.io/en/release-2.1/deploypeer/peerchecklist.html)
 
-The following configuration changes from the defaults will take place:
+<details>
+	<summary>The following configuration changes from the defaults will take place:</summary>
 
 - peer.id
 	- This is the ID by which the peer will be referenced. This will follow the naming convention 
@@ -184,7 +184,7 @@ the TLS Server. It is the peer's TLS identity and lives in `tls-msp/signcerts/ce
 	- key.file: This file is the private key (key.pem) file generated when one enrolls the peer with the
 TLS Server. This lives in `tls-msp/keystore/key.pem`.
 	- rootcert.file: This file is the TLS root certificate It lives at `tls-msp/cacerts/<host>-<port>.pem`.
-
+</details>
 
 ### Orderers
 An Orderer Node is the node that collects the different transactions and *orderers* them into the blocks that will 

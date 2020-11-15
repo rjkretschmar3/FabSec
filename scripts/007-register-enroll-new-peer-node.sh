@@ -32,6 +32,23 @@ if (( $# != 2 )); then
 	exit;
 fi
 
+# EDIT: In an attempt to streamline this script, I'm adding a section where the port numbers of the TLS and
+# Fab CA are chosen depending on which of the Peer Orgs the operator of this script is trying to operate
+# within. This port are now part of my Design Decisions (talked about in the README) and are assign when
+# setting up those servers. In the future, I will hope to make this more dynamic to allow from more than
+# just the two "pre-programmed" Peer Orgs.
+if (( $1 == 1 )); then
+	TLSport=7056;
+	FABport=7057;
+elif (( $1 == 2 )); then
+	TLSport=7058
+	FABport=7059
+else
+	echo "There are current only two Peer Organizations.";
+	exit;
+fi
+
+
 # Since we are using the organization's CA Client to fulfill these requests we should move 
 # to the Fabric CA Client directory of the appropriate Peer Org, and then export the client home as usual.
 echo "cd ../organizations/peerOrganizations/org$1.fabsec.com/ca-client";
@@ -50,9 +67,9 @@ IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt);
 # Now, let's register the peer with the TLS server using the TLS admin cert (which lives in
 # the TLS admin's MSP)
 echo "./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer "\
-	"-u https://hypertest:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp";
+	"-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp";
 ./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer \
-	-u https://hypertest:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp;
+	-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp;
 
 # Since both servers are up-and-running, we can do the same registering with the Fab CA
 # server. The only difference is now we grab the Fab CA Admin's credentials as well as use
@@ -61,9 +78,9 @@ echo "IFS=':' read -ra FABcreds <<< \$(cat ../fab-ca-server/fab-creds.txt)";
 IFS=':' read -ra FABcreds <<< $(cat ../fab-ca-server/fab-creds.txt);
 
 echo "./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer "\
-	"-u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/\${FABcreds[0]}/msp";
+	"-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/\${FABcreds[0]}/msp";
 ./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer \
-	-u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${FABcreds[0]}/msp;
+	-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${FABcreds[0]}/msp;
 
 # Even though, we tend not to use the credentials much after registering, let's still get them
 # into a file just in case. NOTE: However, again, this is a development procedure. Delete them for a production 
@@ -76,18 +93,18 @@ echo "peer$2-org$1:peer$2-org$1-pw" > ../peers/peer$2.org$1.fabsec.com/peer-cred
 # example, if it was the Peer 1 of Organization 2, the path (relative from our PWD of ca-client) 
 # would be: ../peers/peer1.org2.fabsec.com/tls-msp for the TLS server and ../peers/peer1.org2.fabsec.com/msp
 # for the Fab server.
-echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:7054 "\
+echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$TLSport "\
 	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp";
-./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:7054 \
+./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$TLSport \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/tls-msp
 
 # And, since the private key of the peer is not pretty, let us make it so.
 echo "mv ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/*_sk ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/key.pem"
 mv ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/*_sk ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/key.pem
 
-echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:7055 "\
+echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$FABport "\
 	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp"
-./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:7055 \
+./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$FABport \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp
 
 # Again, work our naming magic on the private key.

@@ -54,7 +54,7 @@ echo "Setting up orderer0's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
-cp ../../../../../../test-configs/org0/orderer0/configtx.yaml
+cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
 cd ../
 
 # The orderer has a special set of directories needed for the Raft Consensus Protocol
@@ -65,8 +65,8 @@ mkdir ./wal/
 mkdir ./snapshot/
 cd ../../../
 
-# Set up ca-client/
-echo "Setting up ca-client/ directory..."
+# Set up org0's ca-client/
+echo "Setting up org0's ca-client/ directory..."
 mkdir ca-client/
 cd ca-client/
 mkdir fab-ca/
@@ -75,16 +75,16 @@ mkdir tls-root-cert/
 ln -s ../../../../bin/fabric-ca-client
 cd ../
 
-# Set up fab-ca-server/
-echo "Setting up fab-ca-server/ directory..."
+# Set up org0's fab-ca-server/
+echo "Setting up org0's fab-ca-server/ directory..."
 mkdir fab-ca-server/
 cd fab-ca-server/
 mkdir tls/
 ln -s ../../../../bin/fabric-ca-server
 cd ../
 
-# Set up tls-ca-server/
-echo "Setting up tls-ca-server/ directory..."
+# Set up org0's tls-ca-server/
+echo "Setting up org0's tls-ca-server/ directory..."
 mkdir tls-ca-server/
 cd tls-ca-server/
 ln -s ../../../../bin/fabric-ca-server
@@ -100,6 +100,31 @@ cd peerOrganizations/
 mkdir org1.fabsec.com/
 cd org1.fabsec.com/
 
+# Set up org1 ca-client/
+echo "Setting up org1's ca-client/ directory..."
+mkdir ca-client/
+cd ca-client/
+mkdir fab-ca/
+mkdir tls-ca/
+mkdir tls-root-cert/
+ln -s ../../../../bin/fabric-ca-client
+cd ../
+
+# Set up org1's fab-ca-server/
+echo "Setting up org1's fab-ca-server/ directory..."
+mkdir fab-ca-server/
+cd fab-ca-server/
+mkdir tls/
+ln -s ../../../../bin/fabric-ca-server
+cd ../
+
+# Set up tls-ca-server/
+echo "Setting up tls-ca-server/ directory..."
+mkdir tls-ca-server/
+cd tls-ca-server/
+ln -s ../../../../bin/fabric-ca-server
+cd ../
+
 # Set up peers/
 echo "Setting up peers/ directory with peer0.org1.fabsec.com..."
 mkdir peers/
@@ -111,15 +136,33 @@ mkdir ./blockstore/
 mkdir ./channel-artifacts/
 
 # Set up the configtx directory with its own symlinked binary and YAML file
-echo "Setting up peer0's configtx directory..."
+echo "Setting up org1-peer0's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
-cp ../../../../../../test-configs/org0/orderer0/configtx.yaml
-cd ../../
+cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
+cd ../
 
-# Set up ca-client/
-echo "Setting up ca-client/ directory..."
+# Set up org1-peer0's ca-client/
+echo "Setting up org1-peer0's ca-client/ directory..."
+mkdir ca-client/
+cd ca-client/
+mkdir fab-ca/
+mkdir tls-ca/
+mkdir tls-root-cert/
+ln -s ../../../../../../bin/fabric-ca-client
+cd ../
+
+# Return to peerOrganizations/
+cd ../../../
+
+# Set up second Peer Organization.
+echo "Making Peer Organization: peerOrganizations/org2.fabsec.com/"
+mkdir org2.fabsec.com/
+cd org2.fabsec.com/
+
+# Set up org2's ca-client/
+echo "Setting up org2's ca-client/ directory..."
 mkdir ca-client/
 cd ca-client/
 mkdir fab-ca/
@@ -128,31 +171,23 @@ mkdir tls-root-cert/
 ln -s ../../../../bin/fabric-ca-client
 cd ../
 
-# Set up fab-ca-server/
-echo "Setting up fab-ca-server/ directory..."
+# Set up org2's fab-ca-server/
+echo "Setting up org2's fab-ca-server/ directory..."
 mkdir fab-ca-server/
 cd fab-ca-server/
 mkdir tls/
 ln -s ../../../../bin/fabric-ca-server
 cd ../
 
-# Set up tls-ca-server/
-echo "Setting up tls-ca-server/ directory..."
+# Set up org2's tls-ca-server/
+echo "Setting up org2's tls-ca-server/ directory..."
 mkdir tls-ca-server/
 cd tls-ca-server/
 ln -s ../../../../bin/fabric-ca-server
 cd ../
 
-# Return to peerOrganizations/
-cd ../
-
-# Set up second Peer Organization.
-echo "Making Peer Organization: peerOrganizations/org2.fabsec.com/"
-mkdir org2.fabsec.com/
-cd org2.fabsec.com/
-
-# Set up peers/
-echo "Setting up peers/ directory with peer0.org2.fabsec.com/ and peer1.org2.fabsec.com/..."
+# Set up org2's peers/
+echo "Setting up org2's peers/ directory with peer0.org2.fabsec.com..."
 mkdir peers/
 cd peers/
 mkdir peer0.org2.fabsec.com/
@@ -160,37 +195,55 @@ cd peer0.org2.fabsec.com/
 ln -s ../../../../../bin/peer
 mkdir ./blockstore/
 mkdir ./channel-artifacts/
-cd ../
-mkdir peer1.org2.fabsec.com/
-cd peer1.org2.fabsec.com/
-ln -s ../../../../../bin/peer
-mkdir ./blockstore/
-mkdir ./channel-artifacts/
-cd ../../
 
-# Set up ca-client/
-echo "Setting up ca-client/ directory..."
+# Set up the configtx directory with its own symlinked binary and YAML file
+echo "Setting up org2-peer0's configtx directory..."
+mkdir ./configtx/
+cd ./configtx/
+ln -s ../../../../../../bin/configtxgen
+cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
+cd ../
+
+# Set up org2-peer0's ca-client/
+echo "Setting up org2-peer0's ca-client/ directory..."
 mkdir ca-client/
 cd ca-client/
 mkdir fab-ca/
 mkdir tls-ca/
 mkdir tls-root-cert/
-ln -s ../../../../bin/fabric-ca-client
+ln -s ../../../../../../bin/fabric-ca-client
 cd ../
 
-# Set up fab-ca-server/
-echo "Setting up fab-ca-server/ directory..."
-mkdir fab-ca-server/
-cd fab-ca-server/
-mkdir tls/
-ln -s ../../../../bin/fabric-ca-server
+# Return to peers/
 cd ../
 
-# Set up tls-ca-server/
-echo "Setting up tls-ca-server/ directory..."
-mkdir tls-ca-server/
-cd tls-ca-server/
-ln -s ../../../../bin/fabric-ca-server
+# Set up org2's second peer
+echo "Setting up org2's peer1.org2.fabsec.com..."
+mkdir peer1.org2.fabsec.com/
+cd peer1.org2.fabsec.com/
+ln -s ../../../../../bin/peer
+mkdir ./blockstore/
+mkdir ./channel-artifacts/
+
+# Set up the configtx directory with its own symlinked binary and YAML file
+echo "Setting up org2-peerr10's configtx directory..."
+mkdir ./configtx/
+cd ./configtx/
+ln -s ../../../../../../bin/configtxgen
+cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
+cd ../
+
+# Set up org2-peerr1's ca-client/
+echo "Setting up org2-peer1's ca-client/ directory..."
+mkdir ca-client/
+cd ca-client/
+mkdir fab-ca/
+mkdir tls-ca/
+mkdir tls-root-cert/
+ln -s ../../../../../../bin/fabric-ca-client
+cd ../../
+
+# Return to peerOrganizations/
 cd ../
 
 # ...and we're done!

@@ -85,6 +85,8 @@ mine) in the following diagram:
 
 ![CA Server Diagram](/images/fabric-network-diagram.png)
 
+To see how this diagram looks in directory tree form, please see `fabsec-org-tree.txt`.
+
 #### Notes about fabric-ca-server-config.yaml
 Suffice it to say, this it the main configuration file for the CA Servers. Each server (TLS and Fab) have their own individual versions
 of this file. In fact, depending on the *signing profile* this YAML file contains determines how the server binary (remember it's the same

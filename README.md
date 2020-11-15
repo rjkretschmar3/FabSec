@@ -51,7 +51,17 @@ dynamic via arguments to the script if time permits.
 * There are two options for, what's called, the State Database: CouchDB and LevelDB. The State Database is the database 
 maintained by each Peer which tracks the current values for all of the assets listed on the ledger. LevelDB is the
 default, and embedded, choice for this decision which will be used by this project.
-
+* The ports to the different services are going to be hardcoded since, honestly, I got tired of re-typing
+them in each time. However, a future (post-project) idea would be nice to have them dynamically chosen. They
+are as follows:
+	- Org0, TLS CA -- main: 7054, operations:
+	- Org0, Fab CA -- main: 7055, operations:
+	- Org0, orderer0 -- ListenPort: 7050, Operations: 8443
+	- Org1, TLS CA -- main: 7056, operations:
+	- Org1, Fab CA -- main: 7057, operations:
+	- Org1, peer0 -- listenAddress: 7051, chaincodeListenAddress: 7052
+	- Org2, TLS CA -- main: 7058, operations:
+	- Org2, Fab CA -- main: 7059, operations:
 
 ### The CA Servers
 Here is one of the parts that can get confusing: there are technically TWO different CA Servers per Organization. One 
@@ -191,8 +201,45 @@ An Orderer Node is the node that collects the different transactions and *ordere
 eventually go on the ledger (blockchain). In a public blockchain, like that of Bitcoin or Ethereum, every node has the
 chance to be an "orderer" (although the call them miners).
 
-#### Notes about order.yaml
-The order.yaml configuration file is the main configuration file for an orderer node.
+#### Notes about orderer.yaml
+The orderer.yaml configuration file is the main configuration file for an orderer node. As you might
+notice, many of these values will be similar with those of the `core.yaml` configuation file for the
+peers under different names.
+
+<details>
+	<summary>The following configuration changes from the defaults will take place:</summary>
+
+- General.LocalMSPID
+	- This is the ID by which the orderer will be referenced. One of the main places this name
+is reference is in the `configtx.yaml` file which generates the Genesis Block that is used for
+Channel configuration. If this name is different between the two files, the Channel will not accept
+this Orderer as valid.
+
+- General.LocalMSPDir
+	- This is the relative path to the Local MSP of the Orderer Node. Since this config file, the orderer
+binary, and the MSP are all in the same directory, this will simply reflect to check the local directory.
+
+- General.TLS.\*
+	- These need the same values (key, cert, and TLS root cert) that the peers have (just for the Orderer
+Org), so refer to there for more information.
+
+- General.ListenAddress and General.ListenPort
+	- These values govern the endpoint to other ordering nodes in the same organization. They won't be 
+changed from their defaults, at least in the case of the project network which only has one ordering node.
+
+- General.BootstrapFile
+	- The is the name/location of the block used to bootstrap the ordering node. In the case of a newly 
+formed Ordering Service, that is going to be the Genesis Block which will live at 
+`./system-genesis-block/genesis.block` of the orderer's PWD.
+
+- FileLedger.Location
+	- So, while the Orderers don't have a, what's called, State Database (essentially an indexed view into
+the transaction log), they still need to keep a copy of the blockchain for the system configuation blocks.
+(Such as that of the Genesis Block.) This is where that will be stored.
+
+
+
+</details>
 
 #### Notes about the Genesis Block and the `configtxgen` tool in relation to Orderers
 Unlike peer nodes which need nothing more than an identity and a properly filled out `core.yaml` configuration file to be 

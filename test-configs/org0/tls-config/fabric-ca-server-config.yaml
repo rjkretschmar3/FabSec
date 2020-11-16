@@ -40,7 +40,7 @@
 version: 1.4.8
 
 # Server's listening port (default: 7054)
-port: 7057
+port: 7054
 
 # Cross-Origin Resource Sharing (CORS)
 cors:
@@ -66,10 +66,10 @@ crlsizelimit: 512000
 #############################################################################
 tls:
   # Enable TLS (default: false)
-  enabled: true
+  enabled: true 
   # TLS for the server's listening port
-  certfile: tls/cert.pem
-  keyfile: tls/key.pem
+  certfile:
+  keyfile:
   clientauth:
     type: noclientcert
     certfiles:
@@ -86,7 +86,7 @@ tls:
 #############################################################################
 ca:
   # Name of this CA
-  name: org1-fab-ca
+  name: org0-tls-ca
   # Key file (is only used to import a private key into BCCSP)
   keyfile:
   # Certificate file (default: ca-cert.pem)
@@ -129,8 +129,8 @@ registry:
 
   # Contains identity information which is used when LDAP is disabled
   identities:
-     - name: org1-fab-admin
-       pass: org1-fab-admin-pw
+     - name: org0-tls-admin
+       pass: org0-tls-admin-pw
        type: client
        affiliation: ""
        attrs:
@@ -271,15 +271,15 @@ signing:
         - digital signature
       expiry: 8760h
     profiles:
-      ca:
+      tls:
          usage:
-           - cert sign
-           - crl sign
-         expiry: 43800h
-         caconstraint:
-           isca: true
-           maxpathlen: 0
-    
+            - signing
+            - key encipherment
+            - server auth
+            - client auth
+            - key agreement
+         expiry: 8760h
+
 ###########################################################################
 #  Certificate Signing Request (CSR) section.
 #  This controls the creation of the root CA certificate.
@@ -449,7 +449,7 @@ cfg:
 ###############################################################################
 operations:
     # host and port for the operations server
-    listenAddress: 127.0.0.1:9446
+    listenAddress: 127.0.0.1:9443
 
     # TLS configuration for the operations endpoint
     tls:

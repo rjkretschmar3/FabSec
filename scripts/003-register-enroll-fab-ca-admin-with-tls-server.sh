@@ -19,10 +19,18 @@
 # values as defaults are a security hazard in and of themselves.)
 
 # As usual, move to the ca-client directory of the appropriate org.
+# ADDED: Dynamically decide which port to contact the server on depending on the context of
+# organization the script to being run within.
 if [[ "$1" == "orderer" ]]; then
+	port=7055
 	echo "cd ../organizations/ordererOrganizations/org$2.fabsec.com/ca-client";
 	cd ../organizations/ordererOrganizations/org$2.fabsec.com/ca-client
 elif [[ "$1" == "peer" ]]; then
+	if [[ $2 -eq 1 ]]; then
+        	port=7057;
+        elif [[ $2 -eq 2 ]]; then
+        	port=7059
+        fi
 	echo "cd ../organizations/peerOrganizations/org$2.fabsec.com/ca-client";
 	cd ../organizations/peerOrganizations/org$2.fabsec.com/ca-client
 else
@@ -55,20 +63,20 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 echo "IFS=':' read -ra TLScreds <<< \$(cat ../tls-ca-server/tls-creds.txt);" 
 IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt); 
 
-echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp";
-./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp
+echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp";
+./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp
 
 # Also siphon off the Fab CA credentials into their own file under the fab-ca-server 
 # directory for later use if need be. (Although, big ol' WARNING, probably not a good idea
 # to leave these around on a true production server.)
-echo "org$2-fab-admin:org$2-fab-admin-pw" > ../fab-ca-server/fab-creds.txt;
+echo "org$2-fab-admin:org$2-fab-admin-pw:$port" > ../fab-ca-server/fab-creds.txt;
 
 # Now, we enroll the Fab CA admin with the TLS server. Again, it's going to look similar 
 # to the enroll command in the previous script with the username and password being the 
 # ones we've just registered, and the --mspdir NOW pointing to where we store the key 
 # and public cert of the Fab CA admin for later use.
-echo "./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp"
-./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp
+echo "./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp"
+./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp
 
 # Finally, once the key is generated, it's an ugly alphanumeric string ending in _sk. 
 # Renaming it to something like key.pem would be good since it will be needed to deploy 

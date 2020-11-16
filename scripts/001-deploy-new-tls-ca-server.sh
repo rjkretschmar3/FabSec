@@ -26,10 +26,18 @@ fi
 
 # First move to the appropriate directory: organizations/ordererOrganizations for an 
 # Orderer and organizations/peerOrganizations for a Peer.
+# ADDED: Dynamically decide which port to contact the server on depending on the context of
+# organization the script to being run within.
 if [[ "$1" == "orderer" ]]; then
+	port=7054
 	echo "cd ../organizations/ordererOrganizations/org$2.fabsec.com/tls-ca-server";
 	cd ../organizations/ordererOrganizations/org$2.fabsec.com/tls-ca-server
 elif [[ "$1" == "peer" ]]; then
+	if [[ $2 -eq 1 ]]; then
+        	port=7056;
+    	elif [[ $2 -eq 2 ]]; then
+        	port=7058;
+    	fi
 	echo "cd ../organizations/peerOrganizations/org$2.fabsec.com/tls-ca-server";
 	cd ../organizations/peerOrganizations/org$2.fabsec.com/tls-ca-server
 else
@@ -70,7 +78,7 @@ echo "rm -R ./msp/";
 rm -R ./msp/
 
 echo "./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw";
-echo "org$2-tls-admin:org$2-tls-admin-pw" > tls-creds.txt
+echo "org$2-tls-admin:org$2-tls-admin-pw:$port" > tls-creds.txt
 ./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw
 
 # Here is where it gets murky. As mentioned this initialization process generates a default

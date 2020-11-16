@@ -1,14 +1,14 @@
 NodeOUs:
  Enable: true
  ClientOUIdentifier:
-   Certificate: cacerts/hypertest-7057.pem
+   Certificate: cacerts/hypertest-7059.pem
    OrganizationalUnitIdentifier: client
  PeerOUIdentifier:
-   Certificate: cacerts/hypertest-7057.pem
+   Certificate: cacerts/hypertest-7059.pem
    OrganizationalUnitIdentifier: peer
  AdminOUIdentifier:
-   Certificate: cacerts/hypertest-7057.pem
+   Certificate: cacerts/hypertest-7059.pem
    OrganizationalUnitIdentifier: admin
  OrdererOUIdentifier:
-   Certificate: cacerts/hypertest-7057.pem
+   Certificate: cacerts/hypertest-7059.pem
    OrganizationalUnitIdentifier: orderer

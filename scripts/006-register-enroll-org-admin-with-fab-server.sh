@@ -40,8 +40,8 @@ IFS=':' read -ra creds <<< $(cat ../fab-ca-server/fab-creds.txt)
 #	3) Along with the standard arguments that we send in, since this is a "user" identity,
 #		we have a new argument of --id.type which will be of type 'admin'.
 
-echo "./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp " 
-./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp
+echo "./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp " 
+./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp
 
 # As usual, let's get the credentials into a text file for future use if need be.
 echo "org$2-org-admin:org$2-org-admin-pw" > ../org-creds.txt;
@@ -55,8 +55,8 @@ echo "org$2-org-admin:org$2-org-admin-pw" > ../org-creds.txt;
 # effectively be the whole Organization's MSP. From there, we can start registering and enrolling
 # the node identities.
 
-echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:7055 --tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp"
-./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp
+echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} --tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp"
+./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp
 
 # And, as always, rename the secret key from whatever ugly alphanumeric string they have it as
 # to key.pem. Since these keys are placed in their own directories, namely keystore, under the

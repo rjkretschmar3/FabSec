@@ -21,15 +21,19 @@
 # The configtxgen binary uses the environmental variable of FABRIC_CFG_PATH to find its OWN configuration 
 # file (talked about in the README.md) named configtx.yaml, so we'll set that to the correct directory 
 # after the traversal.
-echo "cd ../organizations/ordererOrganiations/org0.fabsec.com/";
+echo "cd ../organizations/ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com";
+cd ../organizations/ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com;
 echo "export FABRIC_CFG_PATH=${PWD}/configtx"
+export FABRIC_CFG_PATH=${PWD}/configtx
 
 # Almost ready for the command, just need to grab the MSPs from the Peer Orgs 1 and 2 locally into Orderer
 # Org 0 so that the Genesis Block will have the identities for reference.
-echo "cp -R ../../peerOrganizations/org1.fabsec.com/msp ./PeerOrgsMSPs/org1/."
+echo "cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./PeerOrgsMSPs/org1/."
+cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./PeerOrgsMSPs/org1/.
 
-echo "cp -R ../../peerOrganizations/org2.fabsec.com/msp ./PeerOrgsMSPs/org2/."
+echo "cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./PeerOrgsMSPs/org2/."
+cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./PeerOrgsMSPs/org2/.
 
 # Now, let's generate the Genesis Block
 echo "./configtx/configtxgen -profile FabSecOrdererGenesis -channelID system-channel -outputBlock ../system-genesis-block/genesis.block";
-./configtx/configtxgen -profile FabSecOrdererGenesis -channelID system-channel -outputBlock ../system-genesis-block/genesis.block;
+./configtx/configtxgen -profile FabSecOrdererGenesis -channelID system-channel -outputBlock system-genesis-block/genesis.block;

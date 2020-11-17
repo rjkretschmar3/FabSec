@@ -59,7 +59,7 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 # directory of the TLS admin, so that the TLS server knows this command was employed by 
 # the true admin (in lieu of username/password).
 
-# Dynamically grab the TLS admin username to access their MSP.
+# Dynamically grab the TLS admin username to access their MSP as well as grab the port..
 echo "IFS=':' read -ra TLScreds <<< \$(cat ../tls-ca-server/tls-creds.txt);" 
 IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt); 
 
@@ -69,6 +69,7 @@ echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2
 # Also siphon off the Fab CA credentials into their own file under the fab-ca-server 
 # directory for later use if need be. (Although, big ol' WARNING, probably not a good idea
 # to leave these around on a true production server.)
+# EDIT: I've now put the port in there as well to make it psuedo-dynamic
 echo "org$2-fab-admin:org$2-fab-admin-pw:$port" > ../fab-ca-server/fab-creds.txt;
 
 # Now, we enroll the Fab CA admin with the TLS server. Again, it's going to look similar 

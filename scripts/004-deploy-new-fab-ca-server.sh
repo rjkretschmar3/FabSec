@@ -17,15 +17,7 @@
 # the Fab Server of organizations/{orderer|peer}Organizations/org{ID#}.fabsec.com, and 
 # specifically the fab-ca-server directory under that tree.
 
-# First remind the operator that this is a destructive script...
-read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, this will destroy the old key material , not to mention the YAML file, requiring all participates to re-register and re-enroll. If you have an initialized server already, use the non-destructive start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
-
-if [[ $prompt != "y" && $prompt != "Y" ]]; then
-	echo "A wise choice, exiting...";
-	exit;
-fi
-
-# Next, as always, let's move to the correct working directory.
+# First, as always, let's move to the correct working directory.
 if [[ "$1" == "orderer" ]]; then
         echo "cd ../organizations/ordererOrganizations/org$2.fabsec.com/fab-ca-server";
         cd ../organizations/ordererOrganizations/org$2.fabsec.com/fab-ca-server;
@@ -38,6 +30,18 @@ else
         echo -e "\t$0 <orderer|peer> <ID#>";
         exit;
 fi
+
+# Next, remind the operator that this is a destructive script...
+read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, " \
+	"this will destroy the old key material , not to mention the YAML file, requiring all participants " \
+       	"to re-register and re-enroll. If you have an initialized server already, use the non-destructive " \
+	"start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
+
+if [[ $prompt != "y" && $prompt != "Y" ]]; then
+	echo "A wise choice, exiting...";
+	exit;
+fi
+
 
 # First remove the old config file and the old key material
 echo "rm ./fabric-ca-server-config.yaml"
@@ -75,30 +79,38 @@ cp ../ca-client/tls-ca/${creds[0]}/msp/keystore/key.pem tls/
 echo "./fabric-ca-server init -b ${creds[0]}:${creds[1]}"
 ./fabric-ca-server init -b ${creds[0]}:${creds[1]}
 
+# ================================ NOT USED IN TESTING ============================================
 # That was easy. But, this next part isn't. At least until I research that 'yq' program to 
 # help automate this. The previous step generated the default fabric-ca-server-config.yaml
 # file that we'll need to edit in vim. Again, I'll echo out some helpful details to the 
 # operator before they enter vim to guide them on what to change. (It's a bit more than just
 # what the TLS server had to.)
 
-echo "This script will now open the YAML configuration file.";
-echo "Some fields to be changed: "
-echo -e "\tport - The port to operate on. Needs to be changed to 7055 for the Fab CA Server."
-echo -e "\ttls.enabled - Change to true."
-echo -e "\ttls.certfile - Relative path and filename for the TLS CA signedcert. This is the cert.pem we just copied into the local tls directory."
-echo -e "\ttls.keystore - Relative path and filename fort the TLS CA private key. This is the key.pem we just copied into the local tls directory."
-echo -e "\tca.name - Change to org$2-fab-ca."
-echo -e "\tcsr.hosts - Check that the hostnames are in order."
-echo -e "\toperations.listenAddress - Since we have the TLS CA on this same host we need to change this to 9444."
-echo -e "\tsigning.profiles - Delete the ~tls~ profile."
-read -p "Press [Enter] to enter vim..."
+# echo "This script will now open the YAML configuration file.";
+# echo "Some fields to be changed: "
+# echo -e "\tport - The port to operate on. Needs to be changed to 7055 for the Fab CA Server."
+# echo -e "\ttls.enabled - Change to true."
+# echo -e "\ttls.certfile - Relative path and filename for the TLS CA signedcert. This is the " \
+#	"cert.pem we just copied into the local tls directory."
+# echo -e "\ttls.keystore - Relative path and filename fort the TLS CA private key. This is " \
+#	"the key.pem we just copied into the local tls directory."
+# echo -e "\tca.name - Change to org$2-fab-ca."
+# echo -e "\tcsr.hosts - Check that the hostnames are in order."
+# echo -e "\toperations.listenAddress - Since we have the TLS CA on this same host we need to change " \
+	"this to 9444."
+# echo -e "\tsigning.profiles - Delete the ~tls~ profile."
+# read -p "Press [Enter] to enter vim..."
 
-echo "vim fabric-ca-server-config.yaml"
-vim fabric-ca-server-config.yaml
-echo "Done!"
+# echo "vim fabric-ca-server-config.yaml"
+# vim fabric-ca-server-config.yaml
+# echo "Done!"
 
-echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
-read -p "Press [Enter] to continue script...";
+# echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
+# read -p "Press [Enter] to continue script...";
+# The above portion was to make this script more dynamic, however for the project static is fine.
+# Worth keeping for future use, however.
+# For now, we'll copy over the pre-configured YAML file from the test-configs directory.
+cp ../../../../test-configs/org$2/fab-config/fabric-ca-server-config.yaml ./
 
 #The following section will start the server.
 

@@ -63,6 +63,7 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 # certificates.
 
 # NOTE: We will need the username and password that we siphoned off into tls-creds.txt
+# EDIT: We've now put the port in there as well to make it psuedo-dynamic
 echo "IFS=':' read -ra creds <<< \$(cat ../tls-ca-server/tls-creds.txt)";
 IFS=':' read -ra creds <<< $(cat ../tls-ca-server/tls-creds.txt); # This just splits the username and password into an array.
 

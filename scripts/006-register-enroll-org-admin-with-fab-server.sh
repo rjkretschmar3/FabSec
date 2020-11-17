@@ -55,8 +55,16 @@ echo "org$2-org-admin:org$2-org-admin-pw" > ../org-creds.txt;
 # effectively be the whole Organization's MSP. From there, we can start registering and enrolling
 # the node identities.
 
-echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} --tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp"
-./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp
+echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} " \
+	"--tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp"
+./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} \
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp
+
+# EDIT: Now that we have the MSP directory for the Organization, we should also copy the NodeOUs
+# config.yaml file into that MSP. The contents of which will change based on with org we are
+# interacting with. They live in the meta-directory "test-configs/" NodeOUs are talked about more
+# in depth in the README.
+cp ../../../../test-configs/org$2/nodeOUs/config.yaml ../msp/.
 
 # And, as always, rename the secret key from whatever ugly alphanumeric string they have it as
 # to key.pem. Since these keys are placed in their own directories, namely keystore, under the

@@ -18,6 +18,16 @@
 # to choose which Orderer Org they will be going to. As it stands now, however, this project only has 
 # one Orderer Org making the choice trivial.
 
+# Make sure that the user understands what need to happen before they run this script.
+read -p "This script needs both Peer Organizations to have been created (up to script 006) " \
+	"so that their respective MSPs can be collected. Otherwise the Genesis Block can't be " \
+	"created! Are you sure the Peer MSPs exist? [y/N] " prompt
+
+if [[ $prompt != "y" && $prompt != "Y" ]]; then
+	echo "Go make them! : )";
+	exit;
+fi
+
 # The configtxgen binary uses the environmental variable of FABRIC_CFG_PATH to find its OWN configuration 
 # file (talked about in the README.md) named configtx.yaml, so we'll set that to the correct directory 
 # after the traversal.

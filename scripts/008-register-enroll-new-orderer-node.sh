@@ -87,6 +87,12 @@ echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw
 ./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7055 \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp
 
+# Now, we'll copy over the NodeOUs config.yamp file from the test-configs directory.
+cp ../../../../test-configs/org$1/nodeOUs/config.yamp ../msp/.
+
+# While we're at it, let's bring over the orderer's config file as well: orderer.yaml
+cp ../../../../test-configs/org$1/orderer$2/orderer.yaml ../
+
 # Again, work our naming magic on the private key.
 echo "mv ../orderers/orderer$2.org$1.fabsec.com/msp/keystore/*_sk " \
 	"../orderers/orderer$2.org$1.fabsec.com/msp/keystore/key.pem"

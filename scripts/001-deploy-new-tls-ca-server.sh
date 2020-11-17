@@ -16,14 +16,6 @@
 #	Furthermore, that the fabric-ca-server binary is located in the tls-ca-server 
 # directory under org1.fabsec.com (or whichever organization you're working with).
 
-# ADDED TO NOT MAKE THIS MISTAKE AGAIN:
-read -p "This script is for initializing a new TLS server. If you have an existing TLS server, this will destroy the old key material , not to mention the YAML file, requiring all participates to re-register and re-enroll. If you have an initialized server already, use the non-destructive start-tls-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
-
-if [[ $prompt != "y" && $prompt != "Y" ]]; then
-	echo "A wise choice, exiting...";
-	exit;
-fi
-
 # First move to the appropriate directory: organizations/ordererOrganizations for an 
 # Orderer and organizations/peerOrganizations for a Peer.
 # ADDED: Dynamically decide which port to contact the server on depending on the context of
@@ -44,6 +36,17 @@ else
 	echo "Unsure if Orderer or Peer organization!";
 	echo "Pro-tip: proper use of this script comes in the form of: ";
 	echo -e "\t$0 <orderer|peer> <ID#>";
+	exit;
+fi
+
+# ADDED TO NOT MAKE THIS MISTAKE AGAIN:
+read -p "This script is for initializing a new TLS server. If you have an existing TLS server, this " \
+	"will destroy the old key material , not to mention the YAML file, requiring all participants " \
+	"to re-register and re-enroll. If you have an initialized server already, use the non-destructive " \
+	"start-tls-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
+
+if [[ $prompt != "y" && $prompt != "Y" ]]; then
+	echo "A wise choice, exiting...";
 	exit;
 fi
 
@@ -81,27 +84,34 @@ echo "./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw";
 echo "org$2-tls-admin:org$2-tls-admin-pw:$port" > tls-creds.txt
 ./fabric-ca-server init -b org$2-tls-admin:org$2-tls-admin-pw
 
+# ================================ NOT USED IN TESTING ============================================
 # Here is where it gets murky. As mentioned this initialization process generates a default
 # YAML file for server configuration. I have yet to find an elegant way to automatically 
 # change some of the default values to the working ones. For now, it opens up vim for 
 # manual editing. (However, I can generate and present the values for the operator to write
 # down before changing them.) TODO: Research the program 'yq' for this task.
 
-echo "This script will now open the YAML configuration file.";
-echo "Some fields to be changed: ";
-echo -e "\tport - The port to operate on";
-echo -e "\ttls.enabled - Change to true";
-echo -e "\tca.name - Change to org$2-tls-ca";
-echo -e "\tcsr.hosts - Check that the hostnames are in order";
-echo -e "\tsigning.profiles - Delete the ~ca~ profile";
-read -p "Press [Enter] to enter vim...";
+# echo "This script will now open the YAML configuration file.";
+# echo "Some fields to be changed: ";
+# echo -e "\tport - The port to operate on";
+# echo -e "\ttls.enabled - Change to true";
+# echo -e "\tca.name - Change to org$2-tls-ca";
+# echo -e "\tcsr.hosts - Check that the hostnames are in order";
+# echo -e "\tsigning.profiles - Delete the ~ca~ profile";
+# read -p "Press [Enter] to enter vim...";
 
-echo "vim fabric-ca-server-config.yaml";
-vim fabric-ca-server-config.yaml
-echo "Done!";
+# echo "vim fabric-ca-server-config.yaml";
+# vim fabric-ca-server-config.yaml
+# echo "Done!";
 
-echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
-read -p "Press [Enter] to continue script...";
+# echo "If you have a pre-configured YAML file, please copy it over to $PWD before continuing.";
+# read -p "Press [Enter] to continue script...";
+# =================================================================================================
+
+# The above portion was to make this script more dynamic, however for the project static is fine.
+# Worth keeping for future use, however.
+# For now, we'll copy over the pre-configured YAML file from the test-configs directory.
+cp ../../../../test-configs/org$2/tls-config/fabric-ca-server-config.yaml ./
 
 # The following section will start the server.
 

@@ -1,5 +1,7 @@
 # CPSC 597 Graduate Project
 ## On the Applications of Consortium Blockchain Technology as a Dedicated Security Network Deployment
+### By Robert Kretschmar
+### California State University, Fullerton, Department of Computer Science
 
 These are the internals (scripts, chaincode, and binaries) of my CPSC 597 Graduate 
 Project. They are written/modified, administered, and maintained by Robert Kretschmar. 
@@ -8,34 +10,50 @@ time of writing) in guiding the building of this project, so much thanks to thos
 giants on whose shoulders I stand. 
 [Hyperledger Fabric's Read the Docs](https://hyperledger-fabric.readthedocs.io/en/release-2.2/)
 
+Blockchain technology has been a disruptive force in this world. Originally, that disruption was felt in the 
+financial sector with Bitcoin. This relegation to the financial sector existed because the Bitcoin scripting 
+language Script was intentionally non-Turing complete; perfect for its Use Case as a cryptocurrency, but otherwise 
+significantly under-powered for general applications. However, it wasn't long until the next level came in the 
+form of Ethereum which introduced a Turing-complete scripting language along side its cryptocurrency offering. This 
+opened up the world to the possibility of decentralized applications (dApps). While those platforms were necessarily 
+public and open, others still thought about other Use Cases that would benefit from the use of this type of 
+distributed technology -- ledgers in the form of cryptographically connected blocks, decentralized node consensus, 
+scripting to build applications on these platforms, etc. -- in a private and permissioned space. One of those 
+offerings was a system, itself defined and built by a consortium of organizations (from Intel to IBM), maintained by 
+The Linux Foundation called The Hyperledger Project.
+
 FabSec (short for Fabric Security) is an exploration in the potential of using Hyperledger Fabric's 
 Distributed Ledger Technology as a dedicated security network. Hyperledger is an ecosystem of different 
 tools, libraries and frameworks for creating different types of Blockchains: from private and permissioned 
 to public and permissionless. Fabric is one of those Blockchain frameworks. It allows multiple actors to 
 share a blockchain between themsevles for any Use Case which to they could think to apply it.
 
-This project attempts to explore use of this technology in the security space, namely having a dedicated 
-security network between actors. These actors can be two (or more) organizations looking to join forces and 
-pool security resources. How this idea started was thinking about having a dedicated security network as an 
-overlay to something like a Wide-Area Network (WAN) specifically that of a Metropolitan-Area Network (MAN). 
-An extended hope is that this could one day be applied to non-permissioned and/or public blockchains in future 
-work. 
+This project attempts to explore use of this technology in the security space, namely having a dedicated security
+network between actors. These actors can be two (or more) organizations looking to join forces and pool security
+resources. If fact, how this idea got started was thinking about having a dedicated security network as an overlay 
+to something like a Wide-Area Network (WAN) specifically that of a Metropolitan-Area Network (MAN). You could have
+multiple organizations within a city each helping to strengthen the security mission of their networks without 
+having that security centralized as a city is often its own ecosystem of businesses, departments, and other
+stakeholders. An extended hope is that this could one day be applied to non-permissioned and/or public blockchains 
+in future work. 
 
-*A note about terminology: You'll see a few terms being thrown around such as Consortium Blockchain 
-and Distributed Ledger Technology. For the purposes of this project, these are almost interchangeable, 
-however in different spheres they will have different and distinct definitions, so please be aware 
-of that and always do your due diligence. (For another example, you'll see later when we talk about 
-chaincode vs smart contracts; interchangeable in the context of this (and a few other projects), but 
-do technically mean two different things.)*
+*A note about terminology: You'll see a few terms being used here such as Consortium Blockchain and Distributed 
+Ledger. For the purposes of this project, these are interchangeable. This holds as a Blockchain system at its base 
+is nothing more than a Distributed Ledger of transactions. It's just as the public Blockchain sphere increases, 
+that term generally refers to the Bitcoin, Ethereum, et al menagerie of systems. Another example seen later of 
+this is Chaincode vs Smart Contracts.*
 
 The choice to start with using Fabric for this idea was the ability to have full control of the blockchain in 
 question while the structure was being planned out and the scripts and chaincode were being developed. A public 
-blockchain such as Etheruem sounded like too many unknown variables right out-of-the-gate. That being aid, and as 
-mentioned above, it is a hope that once the plans are solidifed translating this work to a public blockchain won't 
-be too difficult. For security network applications, I believe this could have great value in the realms of Public 
-Key Infrastructure (PKI), Two-Factor Authentication (2FA), Distributed Denial of Service (DDoS) prevention, Domain 
-Name System Security (DNSSec), and beyond! The Proof-of-Concept of his research project will be a single 
-blockchain -- or Channel in Hyperledger parlance -- to be used as a distributed log aggregator.
+blockchain such as Etheruem sounded like too many unknown variables right out-of-the-gate. That being said, and 
+as mentioned above, it is a hope that once the plans are solidified translating this work to a public blockchain 
+won't be too difficult. However, something thought about after this choice was made was doubling down on the idea 
+of using a permissioned blockchain such as Fabric for a real implementation, such as for a MAN. The beauty of the 
+idea is that its easily translatable to many different platform. For security network applications, I believe this 
+could have great value in the realms of Public Key Infrastructure (PKI), Two-Factor Authentication (2FA), 
+Distributed Denial of Service (DDoS) prevention, Domain Name System Security (DNSSec), and beyond! The Proof-of-
+Concept of his research project will be a single blockchain -- or Channel in Hyperledger parlance -- to be used as a 
+distributed log aggregator. As anyone in blue team security can tell you, the logs are everything!
 
 ### Design Decisions
 	

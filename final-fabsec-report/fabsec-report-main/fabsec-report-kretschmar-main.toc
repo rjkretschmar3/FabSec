@@ -1,6 +1,20 @@
 \contentsline {section}{\numberline {1}Abstract}{3}%
 \contentsline {section}{\numberline {2}Introduction}{4}%
-\contentsline {subsection}{\numberline {2.1}Project Objectives}{4}%
-\contentsline {section}{\numberline {3}Hyperledger Fabric}{5}%
-\contentsline {subsection}{\numberline {3.1}Design Decisions}{5}%
-\contentsline {subsection}{\numberline {3.2}The CA Servers}{5}%
+\contentsline {subsection}{\numberline {2.1}Background}{4}%
+\contentsline {subsection}{\numberline {2.2}Project Motivation}{4}%
+\contentsline {subsection}{\numberline {2.3}Project Objectives}{5}%
+\contentsline {subsection}{\numberline {2.4}Key Achievements}{6}%
+\contentsline {section}{\numberline {3}Hyperledger Fabric}{7}%
+\contentsline {subsection}{\numberline {3.1}The Certificate Authority Servers}{7}%
+\contentsline {subsection}{\numberline {3.2}Membership Service Providers}{8}%
+\contentsline {subsection}{\numberline {3.3}Peers}{9}%
+\contentsline {subsection}{\numberline {3.4}Orderers}{9}%
+\contentsline {subsubsection}{\numberline {3.4.1}The Raft Consensus Protocol}{10}%
+\contentsline {subsection}{\numberline {3.5}Channels}{11}%
+\contentsline {subsubsection}{\numberline {3.5.1}The Genesis Block}{11}%
+\contentsline {subsection}{\numberline {3.6}Chaincode}{11}%
+\contentsline {subsection}{\numberline {3.7}Ledgers}{11}%
+\contentsline {section}{\numberline {4}System Design}{12}%
+\contentsline {section}{\numberline {5}Um, I dunno, a section like Transaction Flow or something?}{17}%
+\contentsline {section}{\numberline {6}Summary}{18}%
+\contentsline {section}{\numberline {7}Conclusion}{19}%

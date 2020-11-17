@@ -1,0 +1,89 @@
+organizations/
+|-- ordererOrganizations/
+|   |-- org0.fabsec.com/
+|       |-- ca-client/
+|       |   |-- fab-ca/
+|       |   |-- fabric-ca-client -> ../../../../bin/fabric-ca-client
+|       |   |-- tls-ca/
+|       |   |-- tls-root-cert/
+|       |-- fab-ca-server/
+|       |   |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+|       |   |-- tls/
+|       |-- orderers/
+|       |   |-- orderer0.org0.fabsec.com/
+|       |       |-- blockstore/
+|       |       |-- configtx/
+|       |       |   |-- configtxgen -> ../../../../../../bin/configtxgen
+|       |       |   |-- configtx.yaml
+|       |       |-- etcdraft/
+|       |       |   |-- snapshot/
+|       |       |   |-- wal/
+|       |       |-- orderer -> ../../../../../bin/orderer
+|       |       |-- PeerOrgsMSPs/
+|       |       |   |-- org1/
+|       |       |   |-- org2/
+|       |       |-- system-genesis-block/
+|       |-- tls-ca-server/
+|           |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+|-- peerOrganizations/
+    |-- org1.fabsec.com/
+    |   |-- ca-client/
+    |   |   |-- fab-ca/
+    |   |   |-- fabric-ca-client -> ../../../../bin/fabric-ca-client
+    |   |   |-- tls-ca/
+    |   |   |-- tls-root-cert/
+    |   |-- fab-ca-server/
+    |   |   |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+    |   |   |-- tls/
+    |   |-- peers
+    |   |   |-- peer0.org1.fabsec.com/
+    |   |       |-- blockstore/
+    |   |       |-- ca-client/
+    |   |       |   |-- fab-ca/
+    |   |       |   |-- fabric-ca-client -> ../../../../../../bin/fabric-ca-client
+    |   |       |   |-- tls-ca/
+    |   |       |   |-- tls-root-cert/
+    |   |       |-- channel-artifacts/
+    |   |       |-- configtx/
+    |   |       |   |-- configtxgen -> ../../../../../../bin/configtxgen
+    |   |       |   |-- configtx.yaml
+    |   |       |-- peer -> ../../../../../bin/peer
+    |   |-- tls-ca-server/
+    |       |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+    |-- org2.fabsec.com/
+        |-- ca-client/
+        |   |-- fab-ca/
+        |   |-- fabric-ca-client -> ../../../../bin/fabric-ca-client
+        |   |-- tls-ca/
+        |   |-- tls-root-cert
+        |-- fab-ca-server/
+        |   |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+        |   |-- tls/
+        |-- peers/
+        |   |-- peer0.org2.fabsec.com/
+        |   |   |-- blockstore/
+        |   |   |-- ca-client/
+        |   |   |   |-- fab-ca/
+        |   |   |   |-- fabric-ca-client -> ../../../../../../bin/fabric-ca-client
+        |   |   |   |-- tls-ca/
+        |   |   |   |-- tls-root-cert/
+        |   |   |-- channel-artifacts/
+        |   |   |-- configtx/
+        |   |   |   |-- configtxgen -> ../../../../../../bin/configtxgen
+        |   |   |   |-- configtx.yaml
+        |   |   |-- peer -> ../../../../../bin/peer
+        |   |-- peer1.org2.fabsec.com/
+        |       |-- blockstore/
+        |       |-- ca-client/
+        |       |   |-- fab-ca/
+        |       |   |-- fabric-ca-client -> ../../../../../../bin/fabric-ca-client
+        |       |   |-- tls-ca/
+        |       |   |-- tls-root-cert/
+        |       |-- channel-artifacts/
+        |       |-- configtx/
+        |       |   |-- configtxgen -> ../../../../../../bin/configtxgen
+        |       |   |-- configtx.yaml
+        |       |-- peer -> ../../../../../bin/peer
+        |-- tls-ca-server/
+            |-- fabric-ca-server -> ../../../../bin/fabric-ca-server
+

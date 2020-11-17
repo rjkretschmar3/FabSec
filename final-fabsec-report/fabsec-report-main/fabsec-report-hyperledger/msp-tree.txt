@@ -1,0 +1,14 @@
+organizations/
+└── ordererOrganizations
+    └── org0.fabsec.com
+        └── msp
+            ├── cacerts
+            │   └── hypertest-7055.pem
+            ├── IssuerPublicKey
+            ├── IssuerRevocationPublicKey
+            ├── keystore
+            │   └── key.pem
+            ├── signcerts
+            │   └── cert.pem
+            └── user
+

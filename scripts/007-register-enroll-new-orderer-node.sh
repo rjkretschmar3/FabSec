@@ -72,7 +72,7 @@ echo "orderer$2-org$1:orderer$2-org$1-pw" > ../orderers/orderer$2.org$1.fabsec.c
 # would be: ../orderers/orderer0.org0.fabsec.com/tls-msp for the TLS server and 
 # ../orderers/orderer0.org0.fabsec.com/msp for the Fab server.
 echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7054 "\
-	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp";
+	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp";
 ./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7054 \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp;
 
@@ -80,18 +80,18 @@ echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw
 echo "mv ../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/*_sk " \
 	"../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/key.pem"
 mv ../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/*_sk \
-	../orderer/orderer$2.org$1.fabsec.com/tls-msp/keystore/key.pem
+	../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/key.pem
 
 echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7055 " \
 	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp"
 ./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7055 \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp
 
-# Now, we'll copy over the NodeOUs config.yamp file from the test-configs directory.
-cp ../../../../test-configs/org$1/nodeOUs/config.yamp ../msp/.
+# Now, we'll copy over the NodeOUs config.yaml file from the test-configs directory.
+cp ../../../../test-configs/org$1/nodeOUs/config.yaml ../orderers/orderer$2.org$1.fabsec.com/msp/.
 
 # While we're at it, let's bring over the orderer's config file as well: orderer.yaml
-cp ../../../../test-configs/org$1/orderer$2/orderer.yaml ../
+cp ../../../../test-configs/org$1/orderer$2/orderer.yaml ../orderers/orderer$2.org$1.fabsec.com/.
 
 # Again, work our naming magic on the private key.
 echo "mv ../orderers/orderer$2.org$1.fabsec.com/msp/keystore/*_sk " \

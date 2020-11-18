@@ -107,11 +107,11 @@ echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hyper
 ./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$FABport \
 	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp
 
-# Now, we'll copy over the NodeOUs config.yamp file from the test-configs directory.
-cp ../../../../test-configs/org$1/nodeOUs/config.yamp ../msp/.
+# Now, we'll copy over the NodeOUs config.yaml file from the test-configs directory.
+cp ../../../../test-configs/org$1/nodeOUs/config.yaml ../peers/peer$2.org$1.fabsec.com/msp/.
 
 # While we're at it, let's bring over the peer's config file as well: core.yaml
-cp ../../../../test-configs/org$1/peer$2/core-config/core.yaml ../
+cp ../../../../test-configs/org$1/peer$2/core-config/core.yaml ../peers/peer$2.org$1.fabsec.com/.
 
 
 # Again, work our naming magic on the private key.

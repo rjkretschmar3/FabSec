@@ -1,7 +1,7 @@
 #!/bin/bash
 # Written and maintained by Robert Kretschmar
 
-# This script will create a the channel artifacts for creating a new System Channel. A System Channel
+# This script will create the channel artifacts for creating a new System Channel. A System Channel
 # is different than the second Channel we will create called the Application Channel. There can be more
 # than one Application Channel (something that I'll go into in the Application Channel script), but there
 # will only be one System Channel. The System Channel is the first one that needs to be built (i.e. create
@@ -28,9 +28,9 @@ if (( $# != 2 )); then
 fi
 
 # Make sure that the user understands what need to happen before they run this script.
-read -p "This script needs both Peer Organizations to have been created (up to script 006) " \
-	"so that their respective MSPs can be collected. Otherwise the Genesis Block can't be " \
-	"created! Are you sure the Peer MSPs exist? [y/N] " prompt
+read -p "This script needs both Peer Organizations to have been created (up to script 006) \
+so that their respective MSPs can be collected. Otherwise the Genesis Block can't be \
+created! Are you sure the Peer MSPs exist? [y/N] " prompt
 
 if [[ $prompt != "y" && $prompt != "Y" ]]; then
 	echo "Go make them! : )";

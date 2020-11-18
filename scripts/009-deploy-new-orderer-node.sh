@@ -15,9 +15,11 @@ if (( $# != 2 )); then
         exit;
 fi
 
-# Then traverse over to the correct directory.
+# Then traverse over to the correct directory and set the configuration path envar.
 echo "cd ../organizations/ordererOrganizations/org$1.fabsec.com/orderers/orderer$2.org$1.fabsec.com";
 cd ../organizations/ordererOrganizations/org$1.fabsec.com/orderers/orderer$2.org$1.fabsec.com;
+export FABRIC_CFG_PATH=$PWD
+echo $FABRIC_CFG_PATH
 
 # Then execute the orderer!
 ./orderer

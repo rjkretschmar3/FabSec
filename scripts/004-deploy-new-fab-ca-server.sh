@@ -32,10 +32,10 @@ else
 fi
 
 # Next, remind the operator that this is a destructive script...
-read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, " \
-	"this will destroy the old key material , not to mention the YAML file, requiring all participants " \
-       	"to re-register and re-enroll. If you have an initialized server already, use the non-destructive " \
-	"start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
+read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, \
+this will destroy the old key material, not to mention the YAML file, requiring all participants \
+to re-register and re-enroll. If you have an initialized server already, use the non-destructive \
+start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
 
 if [[ $prompt != "y" && $prompt != "Y" ]]; then
 	echo "A wise choice, exiting...";

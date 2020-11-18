@@ -489,7 +489,7 @@ Orderer: &OrdererDefaults
         # K: I'm only using one Consenter (commenting out the others) which will take the form
         # of the orderer address and port. (As well as using orderer0's TLS crypto material.
         Consenters:
-            - Host: orderer0.fabsec.com
+            - Host: orderer0.org0.fabsec.com
               Port: 7050
               ClientTLSCert: ../tls-msp/signcerts/cert.pem
               ServerTLSCert: ../tls-msp/signcerts/cert.pem
@@ -779,21 +779,21 @@ Profiles:
                 - *OrdererOrg
             Capabilities:
                 <<: *OrdererCapabilities
-            Consortiums:
+        Consortiums:
                 FabSecConsortium:
-                    Organizations:
-                        - *PeerOrg1
-                        - *PeerOrg2
+                        Organizations:
+                                - *PeerOrg1
+                                - *PeerOrg2
 
     FabSecChannel:
         Consortium: FabSecConsortium
         <<: *ChannelDefaults
         Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *PeerOrg1
-                - *PeerOrg2
-             Capabilities:
-                <<: *ApplicationCapabilities
+                <<: *ApplicationDefaults
+                Organizations:
+                        - *PeerOrg1
+                        - *PeerOrg2
+                Capabilities:
+                        <<: *ApplicationCapabilities
 
 

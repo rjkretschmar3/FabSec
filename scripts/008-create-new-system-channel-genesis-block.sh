@@ -18,6 +18,15 @@
 # to choose which Orderer Org they will be going to. As it stands now, however, this project only has 
 # one Orderer Org making the choice trivial.
 
+# So, let's make sure we have the correct number of arguments before moving on. If we do not,
+# return a nice message to the user on how to use this script.
+if (( $# != 2 )); then
+	echo "Incorrect amount of arguments!!";
+	echo "Pro-tip: proper use of this script comes in the form of:";
+	echo -e "\t$0 <Org ID#> <Orderer ID#>";
+	exit;
+fi
+
 # Make sure that the user understands what need to happen before they run this script.
 read -p "This script needs both Peer Organizations to have been created (up to script 006) " \
 	"so that their respective MSPs can be collected. Otherwise the Genesis Block can't be " \
@@ -31,8 +40,8 @@ fi
 # The configtxgen binary uses the environmental variable of FABRIC_CFG_PATH to find its OWN configuration 
 # file (talked about in the README.md) named configtx.yaml, so we'll set that to the correct directory 
 # after the traversal.
-echo "cd ../organizations/ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com";
-cd ../organizations/ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com;
+echo "cd ../organizations/ordererOrganizations/org$1.fabsec.com/orderers/orderer$2.org$1.fabsec.com";
+cd ../organizations/ordererOrganizations/org$1.fabsec.com/orderers/orderer$2.org$1.fabsec.com;
 echo "export FABRIC_CFG_PATH=${PWD}/configtx"
 export FABRIC_CFG_PATH=${PWD}/configtx
 

@@ -63,8 +63,8 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 echo "IFS=':' read -ra TLScreds <<< \$(cat ../tls-ca-server/tls-creds.txt);" 
 IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt); 
 
-echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp";
-./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp
+echo "./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp--csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+./fabric-ca-client register -d --id.name org$2-fab-admin --id.secret org$2-fab-admin-pw -u https://localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # Also siphon off the Fab CA credentials into their own file under the fab-ca-server 
 # directory for later use if need be. (Although, big ol' WARNING, probably not a good idea
@@ -76,8 +76,8 @@ echo "org$2-fab-admin:org$2-fab-admin-pw:$port" > ../fab-ca-server/fab-creds.txt
 # to the enroll command in the previous script with the username and password being the 
 # ones we've just registered, and the --mspdir NOW pointing to where we store the key 
 # and public cert of the Fab CA admin for later use.
-echo "./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp"
-./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp
+echo "./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+./fabric-ca-client enroll -d -u https://org$2-fab-admin:org$2-fab-admin-pw@localhost:${TLScreds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/org$2-fab-admin/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # Finally, once the key is generated, it's an ugly alphanumeric string ending in _sk. 
 # Renaming it to something like key.pem would be good since it will be needed to deploy 

@@ -67,8 +67,8 @@ export FABRIC_CA_CLIENT_HOME=$PWD
 echo "IFS=':' read -ra creds <<< \$(cat ../tls-ca-server/tls-creds.txt)";
 IFS=':' read -ra creds <<< $(cat ../tls-ca-server/tls-creds.txt); # This just splits the username and password into an array.
 
-echo "./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@localhost:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${creds[0]}/msp"
-./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@localhost:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${creds[0]}/msp
+echo "./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@localhost:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${creds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@localhost:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${creds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com" 
 
 # Lastly, let's rename that ugly secret key we get to something more manageable.
 echo "mv tls-ca/${creds[0]}/msp/keystore/*_sk tls-ca/${creds[0]}/msp/keystore/key.pem"

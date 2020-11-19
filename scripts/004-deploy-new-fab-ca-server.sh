@@ -97,7 +97,7 @@ echo "./fabric-ca-server init -b ${creds[0]}:${creds[1]}"
 # echo -e "\tca.name - Change to org$2-fab-ca."
 # echo -e "\tcsr.hosts - Check that the hostnames are in order."
 # echo -e "\toperations.listenAddress - Since we have the TLS CA on this same host we need to change " \
-	"this to 9444."
+#	"this to 9444."
 # echo -e "\tsigning.profiles - Delete the ~tls~ profile."
 # read -p "Press [Enter] to enter vim..."
 

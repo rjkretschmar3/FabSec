@@ -20,7 +20,7 @@ echo "export FABRIC_CFG_PATH=${PWD}/configtx";
 export FABRIC_CFG_PATH=${PWD}/configtx
 
 # Also, we need the PeerOrgsMSPs for Channel Creation as well, so let's copy that over.
-cp -R ../../../../ordererOrganization/org0.fabsec.com/orderers/orderer0.org0.fabsec.com/PeerOrgsMSPs/ \
+cp -R ../../../../ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com/PeerOrgsMSPs/ \
 	./
 
 # Now, let's create the Channel Creation Transaction!

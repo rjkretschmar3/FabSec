@@ -312,6 +312,11 @@ csr:
    hosts:
      - hypertest
      - localhost
+     - orderer0.org0.fabsec.com
+     - peer0.org1.fabsec.com
+     - peer0.org2.fabsec.com
+     - peer1.org2.fabsec.com
+ 
    ca:
       expiry: 131400h
       pathlength: 1

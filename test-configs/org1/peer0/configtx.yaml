@@ -92,7 +92,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration.
-        MSPDir: ../msp
+        MSPDir: ../AllOrgsMSPs/org0/msp 
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -149,7 +149,7 @@ Organizations:
         ID: PeerOrg1MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration.
-        MSPDir: ../PeerOrgsMSPs/org1/msp
+        MSPDir: ../AllOrgsMSPs/org1/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -201,7 +201,7 @@ Organizations:
         ID: PeerOrg2MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration.
-        MSPDir: ../PeerOrgsMSPs/org2/msp
+        MSPDir: ../AllOrgsMSPs/org2/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually

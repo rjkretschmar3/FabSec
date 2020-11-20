@@ -47,11 +47,15 @@ export FABRIC_CFG_PATH=${PWD}/configtx
 
 # Almost ready for the command, just need to grab the MSPs from the Peer Orgs 1 and 2 locally into Orderer
 # Org 0 so that the Genesis Block will have the identities for reference.
-echo "cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./PeerOrgsMSPs/org1/."
-cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./PeerOrgsMSPs/org1/.
+# EDIT: Also need the Orderer Org MSP
+echo "cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./AllOrgsMSPs/org1/."
+cp -R ../../../../peerOrganizations/org1.fabsec.com/msp ./AllOrgsMSPs/org1/.
 
-echo "cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./PeerOrgsMSPs/org2/."
-cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./PeerOrgsMSPs/org2/.
+echo "cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./AllOrgsMSPs/org2/."
+cp -R ../../../../peerOrganizations/org2.fabsec.com/msp ./AllOrgsMSPs/org2/.
+
+echo "cp -R ../../msp ./AllOrgsMSPs/org0/.";
+cp -R ../../msp ./AllOrgsMSPs/org0/.
 
 # Now, let's generate the Genesis Block
 echo "./configtx/configtxgen -profile FabSecOrdererGenesis -channelID system-channel -outputBlock ../system-genesis-block/genesis.block";

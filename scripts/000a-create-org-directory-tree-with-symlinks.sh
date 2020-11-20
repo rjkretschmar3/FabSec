@@ -43,8 +43,9 @@ mkdir ./system-genesis-block/;
 
 # Eventually, we'll need to collect the Peer Orgs MSPs into a local directory to feed into the configtxgen
 # binary via the configtx.yaml file.
-mkdir ./PeerOrgsMSPs/
-cd ./PeerOrgsMSPs/
+mkdir ./AllOrgsMSPs/
+cd ./AllOrgsMSPs/
+mkdir ./org0/
 mkdir ./org1/
 mkdir ./org2/
 cd ..

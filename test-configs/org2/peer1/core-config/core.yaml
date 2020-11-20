@@ -266,7 +266,7 @@ peer:
             file: ./tls-msp/keystore/key.pem
         # Trusted root certificate chain for tls.cert
         rootcert:
-            file: ./tls-msp/cacerts/hypertest-7056.pem
+            file: ./tls-msp/cacerts/hypertest-7058.pem
         # Set of root certificate authorities used to verify client certificates
         clientRootCAs:
             files:

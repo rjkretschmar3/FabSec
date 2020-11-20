@@ -66,6 +66,10 @@ echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw
 # in depth in the README.
 cp ../../../../test-configs/org$2/nodeOUs/config.yaml ../msp/.
 
+# EDIT: Add the tls-ca-cert to the Org MSP.
+mkdir ../msp/tlscacerts/
+cp ./tls-root-cert/tls-ca-cert.pem ../msp/tlscacerts/org$2-tls-ca-cert.pem
+
 # And, as always, rename the secret key from whatever ugly alphanumeric string they have it as
 # to key.pem. Since these keys are placed in their own directories, namely keystore, under the
 # MSP, we don't have to worry about the same filename stomping on other filenames. HOWEVER, if

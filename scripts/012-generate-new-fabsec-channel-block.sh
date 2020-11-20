@@ -30,5 +30,5 @@ echo "cp -R ../../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-
 cp -R ../../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/ ./orderer-tls-root-cert/
 
 # Now, let's send it!
-echo "./peer channel create -o orderer0.org0.fabsec.com:6050 -c fabsec-channel -f ./channel-artifacts/fabsec-channel.tx  --outputBlock ./channel-artifacts/fabsec_channel.block --tls --cafile orderer-tls-root-cert/tls-ca-cert.pem"
+echo "./peer channel create -o orderer0.org0.fabsec.com:6050 -c fabsec-channel -f ./channel-artifacts/fabsec-channel.tx  --outputBlock ./channel-artifacts/fabsec-channel.block --tls --cafile orderer-tls-root-cert/tls-ca-cert.pem"
 ./peer channel create -o orderer0.org0.fabsec.com:6050 -c fabsec-channel -f ./channel-artifacts/fabsec-channel.tx  --outputBlock ./channel-artifacts/fabsec-channel.block --tls --cafile orderer-tls-root-cert/tls-ca-cert.pem

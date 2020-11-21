@@ -172,7 +172,7 @@ Organizations:
                 Rule: "OR('PeerOrg1MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('PeerOrg1MSP.peer')"
+                Rule: "OR('PeerOrg1MSP.peer', 'PeerOrg1MSP.admin')"
 
         # AnchorPeers defines the location of peers which can be used for
         # cross-org gossip communication. Note, this value is only encoded in
@@ -224,7 +224,7 @@ Organizations:
                 Rule: "OR('PeerOrg2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('PeerOrg2MSP.peer')"
+                Rule: "OR('PeerOrg2MSP.peer', 'PeerOrg2MSP.admin')"
 
         # AnchorPeers defines the location of peers which can be used for
         # cross-org gossip communication. Note, this value is only encoded in

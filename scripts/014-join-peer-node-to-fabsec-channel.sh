@@ -31,7 +31,7 @@ export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp;
 # The test checks to see if we're not in organization 1 (which means we're not the generator).
 if (( $1 != 1 )); then
 	# This 0 in the fetch subcommand is just saying we want the genesis block (block 0).
-	echo "./peer channel fetch 0 ../channel-artifacts/fabsec-channel.block -o orderer0.org0.fabsec.com "\
+	echo "./peer channel fetch 0 ./channel-artifacts/fabsec-channel.block -o orderer0.org0.fabsec.com:6050 "\
 		"-c fabsec-channel --tls --cafile ./orderer-tls-root-cert/tls-ca-cert.pem";
 	./peer channel fetch 0 ./channel-artifacts/fabsec-channel.block -o orderer0.org0.fabsec.com:6050 \
 		-c fabsec-channel --tls --cafile ./orderer-tls-root-cert/tls-ca-cert.pem

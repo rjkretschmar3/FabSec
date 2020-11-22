@@ -130,5 +130,5 @@ rm -R ./msp/
 
 # Finally start the TLS Server
 echo "./fabric-ca-server start"
-./fabric-ca-server start
+./fabric-ca-server start 2>&1 tls-server-logs.txt
 

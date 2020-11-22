@@ -14,4 +14,4 @@ PEER_PID=$!
 sleep 2 # wait a bit for it to fully deploy.
 echo "Fetching the fabsec-channel Genesis Block and joining fabsec-channel...";
 ./014-join-peer-node-to-fabsec-channel.sh 2 0
-kill -CONT PEER_PID # bring the peer back!
+wait $PEER_PID # bring the peer back!

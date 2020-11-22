@@ -23,4 +23,4 @@ PEER_PID=$!
 sleep 2 # wait a bit for it to fully deploy.
 echo "Joining peer to fabsec-channel..."
 ./014-join-peer-node-to-fabsec-channel.sh 1 0
-kill -CONT PEER_PID # bring the peer back!
+wait $PEER_PID # bring the peer back!

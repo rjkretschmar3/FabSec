@@ -19,10 +19,6 @@ cd ../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.co
 echo "export FABRIC_CFG_PATH=${PWD}/configtx";
 export FABRIC_CFG_PATH=${PWD}/configtx
 
-# Also, we need the PeerOrgsMSPs for Channel Creation as well, so let's copy that over.
-cp -R ../../../../ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com/AllOrgsMSPs/ \
-	./
-
 # Now, let's create the Channel Creation Transaction!
 echo "./configtx/configtxgen -profile FabSecChannel -channelID fabsec-channel -outputCreateChannelTx " \
 	"./channel-artifacts/fabsec-channel.tx";

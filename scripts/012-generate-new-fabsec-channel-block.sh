@@ -3,7 +3,7 @@
 
 # This script will take the channel creation transaction from the last script and submit it to the 
 # ordering service. This will finalize the channel so that the peers can then join. (More about 
-# joining a channel in the next script.)
+# joining a channel in the join script.)
 
 # Let's jump on over to the Peer's directory!
 echo "cd ../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.com";
@@ -22,12 +22,6 @@ echo "export FABRIC_CFG_PATH=$PWD";
 export FABRIC_CFG_PATH=$PWD
 echo "export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp/";
 export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp/
-
-# Another thing is to talk to the Orderer, this peer will need the Orderer's TLS Root Cert. In a 
-# real-world scenario, this would probably happen out-of-band, but for this project, I'll just copy
-# it over from the Orderer Org.
-echo "cp -R ../../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/ ./orderer-tls-root-cert/";
-cp -R ../../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/ ./orderer-tls-root-cert/
 
 # Now, let's send it!
 echo "./peer channel create -o orderer0.org0.fabsec.com:6050 -c fabsec-channel -f ./channel-artifacts/fabsec-channel.tx  --outputBlock ./channel-artifacts/fabsec-channel.block --tls --cafile orderer-tls-root-cert/tls-ca-cert.pem"

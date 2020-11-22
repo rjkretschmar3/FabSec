@@ -20,21 +20,24 @@
 
 # So, let's make sure we have the correct number of arguments before moving on. If we do not,
 # return a nice message to the user on how to use this script.
-if (( $# != 2 )); then
+if (( $# != 2  & $# != 3)); then
 	echo "Incorrect amount of arguments!!";
 	echo "Pro-tip: proper use of this script comes in the form of:";
-	echo -e "\t$0 <Org ID#> <Orderer ID#>";
+	echo -e "\t$0 <Org ID#> <Orderer ID#> [meta]";
 	exit;
 fi
 
 # Make sure that the user understands what need to happen before they run this script.
-read -p "This script needs both Peer Organizations to have been created (up to script 006) \
-so that their respective MSPs can be collected. Otherwise the Genesis Block can't be \
-created! Are you sure the Peer MSPs exist? [y/N] " prompt
+# EDIT: Skip this part for a meta-script
+if [[ "$3" != "meta" ]]; then
+	read -p "This script needs both Peer Organizations to have been created (up to script 006) \
+	so that their respective MSPs can be collected. Otherwise the Genesis Block can't be \
+	created! Are you sure the Peer MSPs exist? [y/N] " prompt
 
-if [[ $prompt != "y" && $prompt != "Y" ]]; then
-	echo "Go make them! : )";
-	exit;
+	if [[ $prompt != "y" && $prompt != "Y" ]]; then
+		echo "Go make them! : )";
+		exit;
+	fi
 fi
 
 # The configtxgen binary uses the environmental variable of FABRIC_CFG_PATH to find its OWN configuration 

@@ -38,8 +38,8 @@ IFS=':' read -ra creds <<< $(cat ../fab-ca-server/fab-creds.txt)
 # Since I am currently doing development all on the same host "hypertest" is fine. However, 
 # when I expand this to multiple virtual hosts (to simulate a real network), I'll have to 
 # figure out the hostname management.
-echo "./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${creds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
-./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${creds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+echo "./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${creds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+./fabric-ca-client enroll -d -u https://${creds[0]}:${creds[1]}@hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${creds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # Lastly, let's rename that ugly secret key we get to something more manageable.
 echo "mv fab-ca/${creds[0]}/msp/keystore/*_sk fab-ca/${creds[0]}/msp/keystore/key.pem"

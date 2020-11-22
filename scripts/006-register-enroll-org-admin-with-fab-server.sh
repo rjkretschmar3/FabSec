@@ -40,8 +40,8 @@ IFS=':' read -ra creds <<< $(cat ../fab-ca-server/fab-creds.txt)
 #	3) Along with the standard arguments that we send in, since this is a "user" identity,
 #		we have a new argument of --id.type which will be of type 'admin'.
 
-echo "./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"" 
-./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+echo "./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"" 
+./fabric-ca-client register -d --id.name org$2-org-admin --id.secret org$2-org-admin-pw --id.type admin -u https://hypertest:${creds[2]} --tls.certfiles tls-root-cert/tls-ca-cert.pem  --mspdir fab-ca/${creds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # As usual, let's get the credentials into a text file for future use if need be.
 echo "org$2-org-admin:org$2-org-admin-pw" > ../org-creds.txt;
@@ -56,9 +56,9 @@ echo "org$2-org-admin:org$2-org-admin-pw" > ../org-creds.txt;
 # the node identities.
 
 echo "./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} " \
-	"--tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+	"--tls.certfile tls-root-cert/tls-ca-cert.pem --mspdir ../msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
 ./fabric-ca-client enroll -d -u https://org$2-org-admin:org$2-org-admin-pw@hypertest:${creds[2]} \
-	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # EDIT: Now that we have the MSP directory for the Organization, we should also copy the NodeOUs
 # config.yaml file into that MSP. The contents of which will change based on with org we are

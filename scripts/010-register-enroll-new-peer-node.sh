@@ -67,9 +67,9 @@ IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt);
 # Now, let's register the peer with the TLS server using the TLS admin cert (which lives in
 # the TLS admin's MSP)
 echo "./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer "\
-	"-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+	"-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer \
-	-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
+	-u https://hypertest:$TLSport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
 
 # Since both servers are up-and-running, we can do the same registering with the Fab CA
 # server. The only difference is now we grab the Fab CA Admin's credentials as well as use
@@ -78,9 +78,9 @@ echo "IFS=':' read -ra FABcreds <<< \$(cat ../fab-ca-server/fab-creds.txt)";
 IFS=':' read -ra FABcreds <<< $(cat ../fab-ca-server/fab-creds.txt);
 
 echo "./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer "\
-	"-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/\${FABcreds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+	"-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/\${FABcreds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client register -d --id.name peer$2-org$1 --id.secret peer$2-org$1-pw --id.type peer \
-	-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${FABcreds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
+	-u https://hypertest:$FABport --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir fab-ca/${FABcreds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
 
 # Even though, we tend not to use the credentials much after registering, let's still get them
 # into a file just in case. NOTE: However, again, this is a development procedure. Delete them for a production 
@@ -94,18 +94,18 @@ echo "peer$2-org$1:peer$2-org$1-pw" > ../peers/peer$2.org$1.fabsec.com/peer-cred
 # would be: ../peers/peer1.org2.fabsec.com/tls-msp for the TLS server and ../peers/peer1.org2.fabsec.com/msp
 # for the Fab server.
 echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$TLSport "\
-	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$TLSport \
-	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/tls-msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/tls-msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # And, since the private key of the peer is not pretty, let us make it so.
 echo "mv ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/*_sk ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/key.pem"
 mv ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/*_sk ../peers/peer$2.org$1.fabsec.com/tls-msp/keystore/key.pem
 
 echo "./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$FABport "\
-	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
 ./fabric-ca-client enroll -d -u https://peer$2-org$1:peer$2-org$1-pw@hypertest:$FABport \
-	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../peers/peer$2.org$1.fabsec.com/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # Now, we'll copy over the NodeOUs config.yaml file from the test-configs directory.
 cp ../../../../test-configs/org$1/nodeOUs/config.yaml ../peers/peer$2.org$1.fabsec.com/msp/.
@@ -113,6 +113,21 @@ cp ../../../../test-configs/org$1/nodeOUs/config.yaml ../peers/peer$2.org$1.fabs
 # While we're at it, let's bring over the peer's config file as well: core.yaml
 cp ../../../../test-configs/org$1/peer$2/core-config/core.yaml ../peers/peer$2.org$1.fabsec.com/.
 
+# Another thing is in order to talk to the Orderer, this peer will need the Orderer's TLS Root Cert. In a
+# real-world scenario, this would probably happen out-of-band, but for this project, I'll just copy
+# it over from the Orderer Org.
+echo "cp -R ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/ "\
+	"../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/";
+cp -R ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/tls-ca-cert.pem \
+	../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/
+
+# Eventually, we'll need some crypto data from the other Organizations, so I'll go ahead and copy over our
+# running AllOrgsMSPs pool into the node. However, again, in production this would want to be done in a less
+# careless manner. i.e. to NOT copy over secret keys and probably to this in a secure out-of-band way.
+echo "cp -R ../../../ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com/AllOrgsMSPs/ "\
+	"../peers/peer$2.org$1.fabsec.com/"
+cp -R ../../../ordererOrganizations/org0.fabsec.com/orderers/orderer0.org0.fabsec.com/AllOrgsMSPs/ \
+	../peers/peer$2.org$1.fabsec.com/
 
 # Again, work our naming magic on the private key.
 echo "mv ../peers/peer$2.org$1.fabsec.com/msp/keystore/*_sk ../peers/peer$2.org$1.fabsec.com/msp/keystore/key.pem"

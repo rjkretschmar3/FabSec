@@ -42,10 +42,10 @@ IFS=':' read -ra TLScreds <<< $(cat ../tls-ca-server/tls-creds.txt);
 # the TLS admin's MSP)
 echo "./fabric-ca-client register -d --id.name orderer$2-org$1 --id.secret orderer$2-org$1-pw "\
 		"--id.type orderer -u https://hypertest:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem " \
-		"--mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+		"--mspdir tls-ca/${TLScreds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client register -d --id.name orderer$2-org$1 --id.secret orderer$2-org$1-pw --id.type orderer \
 	-u https://hypertest:7054 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir \
-	tls-ca/${TLScreds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
+	tls-ca/${TLScreds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
 
 # Since both servers are up-and-running, we can do the same registering with the Fab CA
 # server. The only difference is now we grab the Fab CA Admin's credentials as well as use
@@ -55,10 +55,10 @@ IFS=':' read -ra FABcreds <<< $(cat ../fab-ca-server/fab-creds.txt);
 
 echo "./fabric-ca-client register -d --id.name orderer$2-org$1 --id.secret orderer$2-org$1-pw " \
 	"--id.type orderer -u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir " \
-	"fab-ca/\${FABcreds[0]}/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+	"fab-ca/\${FABcreds[0]}/msp --csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client register -d --id.name orderer$2-org$1 --id.secret orderer$2-org$1-pw --id.type orderer \
 	-u https://hypertest:7055 --tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir \
-	fab-ca/${FABcreds[0]}/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
+	fab-ca/${FABcreds[0]}/msp --csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
 
 # Even though, we tend not to use the credentials much after registering and enrolling, let's still get them
 # into a file just in case. NOTE: However, again, this is a development procedure. Delete them for a production
@@ -72,9 +72,11 @@ echo "orderer$2-org$1:orderer$2-org$1-pw" > ../orderers/orderer$2.org$1.fabsec.c
 # would be: ../orderers/orderer0.org0.fabsec.com/tls-msp for the TLS server and 
 # ../orderers/orderer0.org0.fabsec.com/msp for the Fab server.
 echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7054 "\
-	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
+	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp " \
+	"--csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\"";
 ./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7054 \
-	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/tls-msp \
+	--csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com";
 
 # And, since the private key of the orderer is not pretty, let us make it so.
 echo "mv ../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/*_sk " \
@@ -83,9 +85,11 @@ mv ../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/*_sk \
 	../orderers/orderer$2.org$1.fabsec.com/tls-msp/keystore/key.pem
 
 echo "./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7055 " \
-	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp --csr.hosts \"hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
+	"--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp " \
+	"--csr.hosts \"127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com\""
 ./fabric-ca-client enroll -d -u https://orderer$2-org$1:orderer$2-org$1-pw@hypertest:7055 \
-	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp --csr.hosts "hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
+	--tls.certfiles tls-root-cert/tls-ca-cert.pem --mspdir ../orderers/orderer$2.org$1.fabsec.com/msp \
+	--csr.hosts "127.0.0.1, hypertest, localhost, *.org0.fabsec.com, *.org1.fabsec.com, *.org2.fabsec.com"
 
 # Now, we'll copy over the NodeOUs config.yaml file from the test-configs directory.
 cp ../../../../test-configs/org$1/nodeOUs/config.yaml ../orderers/orderer$2.org$1.fabsec.com/msp/.

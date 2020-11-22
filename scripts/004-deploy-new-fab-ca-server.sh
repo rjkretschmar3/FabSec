@@ -27,21 +27,23 @@ elif [[ "$1" == "peer" ]]; then
 else
         echo "Unsure if Orderer or Peer organization!";
         echo "Pro-tip: proper use of this script comes in the form of: ";
-        echo -e "\t$0 <orderer|peer> <ID#>";
+        echo -e "\t$0 <orderer|peer> <ID#> [meta]";
         exit;
 fi
 
 # Next, remind the operator that this is a destructive script...
-read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, \
-this will destroy the old key material, not to mention the YAML file, requiring all participants \
-to re-register and re-enroll. If you have an initialized server already, use the non-destructive \
-start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
+# EDIT: Skip this part if run by a meta script.
+if [[ "$3" != "meta" ]]; then
+	read -p "This script is for initializing a new Fab CA server. If you have an existing Fab CA server, \
+	this will destroy the old key material, not to mention the YAML file, requiring all participants \
+	to re-register and re-enroll. If you have an initialized server already, use the non-destructive \
+	start-fab-server.sh script instead. Are you sure you want to continue? [y/N] " prompt
 
-if [[ $prompt != "y" && $prompt != "Y" ]]; then
-	echo "A wise choice, exiting...";
-	exit;
+	if [[ $prompt != "y" && $prompt != "Y" ]]; then
+		echo "A wise choice, exiting...";
+		exit;
+	fi
 fi
-
 
 # First remove the old config file and the old key material
 echo "rm ./fabric-ca-server-config.yaml"

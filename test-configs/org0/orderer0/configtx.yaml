@@ -92,7 +92,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration.
-        MSPDir: ../AllOrgsMSPs/org0/msp
+        MSPDir: ../AllOrgsMSPs/org0/msp 
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -121,13 +121,6 @@ Organizations:
         # and peers may to connect to to push transactions and receive blocks respectively.
         OrdererEndpoints:
             - "127.0.0.1:6050"
-
-        # AnchorPeers defines the location of peers which can be used for
-        # cross-org gossip communication. Note, this value is only encoded in
-        # the genesis block in the Application section context.
-        AnchorPeers:
-            - Host: 127.0.0.1
-              Port: 6051
 
     # K: This uses the previous SampleOrg as a template to set up the Org1 Peer Organzation 
     - &PeerOrg1
@@ -178,7 +171,7 @@ Organizations:
         # cross-org gossip communication. Note, this value is only encoded in
         # the genesis block in the Application section context.
         AnchorPeers:
-            - Host: 127.0.0.1
+            - Host: peer0.org1.fabsec.com
               Port: 6051
 
     # K: This uses the previous SampleOrg as a template to set up the Org1 Peer Organzation 
@@ -230,8 +223,8 @@ Organizations:
         # cross-org gossip communication. Note, this value is only encoded in
         # the genesis block in the Application section context.
         AnchorPeers:
-            - Host: 127.0.0.1
-              Port: 6051
+            - Host: peer0.org2.fabsec.com
+              Port: 6053
 
 ################################################################################
 #

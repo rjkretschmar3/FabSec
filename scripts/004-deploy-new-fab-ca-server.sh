@@ -128,4 +128,4 @@ rm -R ./msp/
 
 # Finally start the Fabric CA Server (aka Organizational CA Server, aka the Enrollment CA Server, aka the eCert Server)
 echo "./fabric-ca-server start"
-./fabric-ca-server start 2>&1 fab-server-logs.txt
+./fabric-ca-server start > fab-server-logs.txt 2>&1

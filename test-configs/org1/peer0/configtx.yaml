@@ -122,13 +122,6 @@ Organizations:
         OrdererEndpoints:
             - "127.0.0.1:6050"
 
-        # AnchorPeers defines the location of peers which can be used for
-        # cross-org gossip communication. Note, this value is only encoded in
-        # the genesis block in the Application section context.
-        AnchorPeers:
-            - Host: 127.0.0.1
-              Port: 6051
-
     # K: This uses the previous SampleOrg as a template to set up the Org1 Peer Organzation 
     - &PeerOrg1
         # Name is the key by which this org will be referenced in channel
@@ -178,7 +171,7 @@ Organizations:
         # cross-org gossip communication. Note, this value is only encoded in
         # the genesis block in the Application section context.
         AnchorPeers:
-            - Host: 127.0.0.1
+            - Host: peer0.org1.fabsec.com
               Port: 6051
 
     # K: This uses the previous SampleOrg as a template to set up the Org1 Peer Organzation 
@@ -230,8 +223,8 @@ Organizations:
         # cross-org gossip communication. Note, this value is only encoded in
         # the genesis block in the Application section context.
         AnchorPeers:
-            - Host: 127.0.0.1
-              Port: 6051
+            - Host: peer0.org2.fabsec.com
+              Port: 6053
 
 ################################################################################
 #

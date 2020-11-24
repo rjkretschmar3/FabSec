@@ -22,7 +22,7 @@ echo "cd ../organizations/peerOrganizations/org$1.fabsec.com/peers/peer$2.org$1.
 cd ../organizations/peerOrganizations/org$1.fabsec.com/peers/peer$2.org$1.fabsec.com;
 
 # Set debug logging level. (Comment out when not needed.)
-export FABRIC_LOGGING_SPEC=debug
+# export FABRIC_LOGGING_SPEC=debug
 
 # I talked about this in greater detail in 012, but to find the core.yaml config file, I'll set the
 # FABRIC_CFG_PATH to the PWD. 

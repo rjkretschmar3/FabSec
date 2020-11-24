@@ -86,7 +86,7 @@ peer:
         # Important: The endpoints here have to be endpoints of peers in the same
         # organization, because the peer would refuse connecting to these endpoints
         # unless they are in the same organization as the peer.
-        bootstrap: 127.0.0.1:6055
+        bootstrap: 127.0.0.1:6053
 
         # NOTE: orgLeader and useLeaderElection parameters are mutual exclusive.
         # Setting both to true would result in the termination of the peer
@@ -105,7 +105,7 @@ peer:
         # its own organization. Multiple peers or all peers in an organization
         # may be configured as org leaders, so that they all pull
         # blocks directly from ordering service.
-        orgLeader: true
+        orgLeader: false
 
         # Interval for membershipTracker polling
         membershipTrackerInterval: 5s

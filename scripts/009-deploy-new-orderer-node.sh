@@ -16,7 +16,7 @@ if (( $# != 2 )); then
 fi
 
 # Set logging to debug. (Comment out when not needed.)
-export FABRIC_LOGGING_SPEC=debug
+# export FABRIC_LOGGING_SPEC=debug
 
 # Then traverse over to the correct directory and set the configuration path envar.
 echo "cd ../organizations/ordererOrganizations/org$1.fabsec.com/orderers/orderer$2.org$1.fabsec.com";

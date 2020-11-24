@@ -167,7 +167,7 @@ peer:
         msgExpirationFactor: 20
         # This is an endpoint that is published to peers outside of the organization.
         # If this isn't set, the peer will not be known to other organizations.
-        externalEndpoint:
+        externalEndpoint: peer0.org1.fabsec.com
         # Leader election service configuration
         election:
             # Longest time peer waits for stable membership during leader election startup (unit: second)

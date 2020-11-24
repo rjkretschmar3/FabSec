@@ -116,10 +116,10 @@ cp ../../../../test-configs/org$1/peer$2/core-config/core.yaml ../peers/peer$2.o
 # Another thing is in order to talk to the Orderer, this peer will need the Orderer's TLS Root Cert. In a
 # real-world scenario, this would probably happen out-of-band, but for this project, I'll just copy
 # it over from the Orderer Org.
-echo "cp -R ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert "\
-	"../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/";
-cp -R ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert \
-	../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/
+echo "cp ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/tls-ca-cert.pem "\
+	"../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/.";
+cp ../../../ordererOrganizations/org0.fabsec.com/ca-client/tls-root-cert/tls-ca-cert.pem \
+	../peers/peer$2.org$1.fabsec.com/orderer-tls-root-cert/.
 
 # Eventually, we'll need some crypto data from the other Organizations, so I'll go ahead and copy over our
 # running AllOrgsMSPs pool into the node. However, again, in production this would want to be done in a less

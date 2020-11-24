@@ -3,3 +3,4 @@
 # Don't save .bak or .swp files
 *.bak
 *.swp
+node_modules/

@@ -18,35 +18,57 @@
 # I'll definitely go into these steps in my supporting material, but I'll also give little descriptions as
 # each on comes up in this script.
 
+# EDIT: I'm adding in commandline arguments to make it easier to deploy revisions of the chaincode for
+# quicker turn around time in development. The arguments are as follows:
+#	$1: the directory where the chaincode lives. this will also double as the name of the chaincode.
+#	$2: the version of the chaincode. different versions will allow for upgrading (or in my case,
+#		debugged version of the chaincode). this will double as the  sequence number which starts 
+#		at 1 and must be incremented every "upgrade".
+if (( $# != 2 )); then
+	echo "Incorrect amount of arguments!!";
+	echo "Pro-tip: proper use of this script comes in the form of:";
+	echo -e "\t$0 <Chaincode Name> <Chaincode Version Number>";
+	exit;
+fi
+
 # First, let's traverse to the correct directory: Peer0 of Organization 1. While I could do this on any
 # peer of any Organization, this is the most logical to start at.
 echo "cd ../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.com";
-
-# Now, all of these commands need to be executed by the Administrator of the Organization, so let's set the
-# correct environmental variable to the Admin's MSP.
-echo "export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp";
-export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp
+cd ../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.com/
 
 # Next, we package the code. This will produce a .tar.gz file with the code and some Fabric metadata.
 # Here the parameters are:
 #	--path: the path to the chaincode
 #	--lang: the language the chaincode is in. (This project will use Node.js)
 #	--label: a human readable description of the package.
-echo "./peer lifecycle chaincode package testcc.tar.gz --path ../../../../../chaincode/ --lang node --label testcc";
-./peer lifecycle chaincode package testcc.tar.gz --path ../../../../../chaincode/ --lang node --label testcc;
+# EDIT: Also, creating a new directory called "chaincode" in the peer so we don't have a bunch of loose chaincode
+# packages cluttering up the peer's home directory.
+echo "cd chaincode/";
+cd chaincode/
+echo "FABRIC_CFG_PATH=.. ../peer lifecycle chaincode package $1.tar.gz --path "\
+	"../../../../../../src/chaincode/$1 --lang node --label $1-v$2";
+FABRIC_CFG_PATH=.. ../peer lifecycle chaincode package $1.tar.gz --path ../../../../../../src/chaincode/$1 \
+	--lang node --label $1-v$2;
+echo "cd ..";
+cd ..
+
+# Now, all of these commands need to be executed by the Administrator of the Organization, so let's set the
+# correct environmental variable to the Admin's MSP.
+echo "export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp";
+export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp
 
 # Then we will install the chaincode on the peer. Note: This will be done on each peer of each organization,
 # however, I'll switch to the other peers a bit later to complete this step For now, let's install it on Peer 0
 # of Organization 1. Also, this is when any build errors will be revealed.
-echo "./peer lifecycle chaincode install testcc.tar.gz";
-./peer lifecycle chaincode install testcc.tar.gz;
+echo "./peer lifecycle chaincode install ./chaincode/$1.tar.gz";
+./peer lifecycle chaincode install ./chaincode/$1.tar.gz;
 
 # This next part is a bit of an aside, but it's needed to grab the Package ID which is the label followed by a
 # hash of the package. It is needed for further steps. The queryinstalled command will return the Package ID, but
 # it has a bunch of other details with it which we don't need. So, work a little sed/awk magic to grab the exact
 # portion that we DO need, and save it to a variable.
-PKID = $(./peer lifecycle chaincode queryinstalled | sed -n '2p' | awk '{print $3}' | sed 's/,//');
-echo "Caught PKID $PKID";
+PKID=$(./peer lifecycle chaincode queryinstalled | sed -n '2p' | awk '{print $3}' | sed 's/,//');
+echo "Caught PKID: $PKID";
 
 # Next we use the verbosely named command `approveformyorg` to approve the chaincode for the organization. This
 # happens for each organization. These parameters you set here are called the "Chaincode Definition", and they must 
@@ -62,46 +84,51 @@ echo "Caught PKID $PKID";
 #		run the chaincode, and rather just needs to approve it for the channel)
 #	--sequence: the number of times the chaincode has been defined (also used when upgrading)
 echo "./peer lifecycle chaincode approveformyorg -o orderer0.org0.fabsec.com:6050 --tls --cafile "\
-	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version v0 --package-id "\
-	"$PKID --sequence 1"
+	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version v$2 --package-id "\
+	"$PKID --sequence $2"
 ./peer lifecycle chaincode approveformyorg -o orderer0.org0.fabsec.com:6050 --tls --cafile \
-	orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version v0 --package-id \
-	$PKID --sequence 1
+	orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version v$2 --package-id \
+	$PKID --sequence $2
 
 # Okay, now we have to go to the other organizations and install the chaincode on each endorsing peer as well as approve
 # the chaincode for that organization (only needed on one peer unlike installing).
 
-# Let's move on over to Organization 2's Peer 0, and act as THEIR admin...
+# Let's move on over to Organization 2's Peer 0..
 echo "pushd ../../../org2.fabsec.com/peers/peer0.org2.fabsec.com/";
 pushd ../../../org2.fabsec.com/peers/peer0.org2.fabsec.com/;
 
+# We need to bring the chaincode package over as well. Typically in a real production scenario, this would be done 
+# out-of-band.
+echo "cd chaincode/";
+cd chaincode/
+echo "cp ../../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/chaincode/$1.tar.gz .";
+cp ../../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/chaincode/$1.tar.gz .
+echo "cd ..";
+cd ..
+
+# ..and let's become Org2 Admin for this next step.
 echo "export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp"
 export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp
 
-# We need to bring the chaincode package over as well. Typically in a real production scenario, this would be done 
-# out-of-band.
-echo "cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/testcc.tar.gz .";
-cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/testcc.tar.gz .
-
 # Then we install it on the peer..
-echo "./peer lifecycle chaincode install testcc.tar.gz"
-./peer lifecycle chaincode install testcc.tar.gz
+echo "./peer lifecycle chaincode install ./chaincode/$1.tar.gz"
+./peer lifecycle chaincode install ./chaincode/$1.tar.gz
 
 # And then approve it for Org 2..
 echo "./peer lifecycle chaincode approveformyorg -o orderer0.org0.fabsec.com:6050 --tls --cafile "\
-	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version "\
-	"v0 --package-id $PKID --sequence 1";
+	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version "\
+	"v$2 --package-id $PKID --sequence $2";
 ./peer lifecycle chaincode approveformyorg -o orderer0.org0.fabsec.com:6050 --tls --cafile \
-	orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version v0 \
-	--package-id $PKID --sequence 1
+	orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version v$2 \
+	--package-id $PKID --sequence $2
 
 # Then go over to Peer 1, and just install it there real quick, and then popd back to Peer 0 or Org 1
-echo "cd ../peer1.org2.fabsec.com/";
+echo "cd ../peer1.org2.fabsec.com/chaincode/";
 cd ../peer1.org2.fabsec.com/;
-echo "cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/testcc.tar.gz .";
-cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/testcc.tar.gz .;
-echo "./peer lifecycle chaincode install testcc.tar.gz";
-./peer lifecycle chaincode install testcc.tar.gz;
+echo "cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/chaincode/$1.tar.gz ./chaincode/.";
+cp ../../../org1.fabsec.com/peers/peer0.org1.fabsec.com/chaincode/$1.tar.gz ./chaincode/.;
+echo "./peer lifecycle chaincode install ./chaincode/$1.tar.gz";
+./peer lifecycle chaincode install ./chaincode/$1.tar.gz;
 echo "popd";
 popd;
 
@@ -110,7 +137,7 @@ popd;
 # approved the chaincode.
 
 # ./peer lifecycle chaincode checkcommitreadiness -o orderer0.org0.fabsec.com:6050 --tls --cafile 
-# orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version v0 --sequence 1
+# orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version v$2 --sequence $2
 
 # Now, that we're back at Peer 0 of Organization 1, we revert back to their Admin credentials, and
 # then commit the chaincode -- well, technically the "chaincode definition" as mentioned above -- to
@@ -125,10 +152,10 @@ echo "export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp";
 export CORE_PEER_MSPCONFIGPATH=$PWD/../../msp
 
 echo "./peer lifecycle chaincode commit -o orderer0.org0.fabsec.com:6050 --tls --cafile "\
-	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name testcc --version v0 --sequence "\
-	"1 --peerAddresses peer0.org1.fabsec.com:6051 --tlsRootCertFiles AllOrgsMSPs/org1/msp/tlscacerts/org1-tls-ca-cert.pem "\
+	"orderer-tls-root-cert/tls-ca-cert.pem  --channelID fabsec-channel --name $1 --version v$2 --sequence "\
+	"$2 --peerAddresses peer0.org1.fabsec.com:6051 --tlsRootCertFiles AllOrgsMSPs/org1/msp/tlscacerts/org1-tls-ca-cert.pem "\
 	"--peerAddresses peer0.org2.fabsec.com:6053 --tlsRootCertFiles AllOrgsMSPs/org2/msp/tlscacerts/org2-tls-ca-cert.pem"
 ./peer lifecycle chaincode commit -o orderer0.org0.fabsec.com:6050 --tls --cafile orderer-tls-root-cert/tls-ca-cert.pem  --channelID \
-	fabsec-channel --name testcc --version v0 --sequence 1 --peerAddresses peer0.org1.fabsec.com:6051 --tlsRootCertFiles \
+	fabsec-channel --name $1 --version v$2 --sequence $2 --peerAddresses peer0.org1.fabsec.com:6051 --tlsRootCertFiles \
 	AllOrgsMSPs/org1/msp/tlscacerts/org1-tls-ca-cert.pem --peerAddresses peer0.org2.fabsec.com:6053 --tlsRootCertFiles \
 	AllOrgsMSPs/org2/msp/tlscacerts/org2-tls-ca-cert.pem

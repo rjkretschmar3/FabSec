@@ -1,0 +1,14 @@
+{
+  "name": "testcc",
+  "version": "1.0.0",
+  "description": "Test chaincode.",
+  "main": "index.js",
+  "scripts": {
+  	"start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-shim": "^2.2.1"
+  }
+}

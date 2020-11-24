@@ -135,6 +135,8 @@ cd peer0.org1.fabsec.com/
 ln -s ../../../../../bin/peer
 mkdir ./blockstore/
 mkdir ./channel-artifacts/
+mkdir ./orderer-tls-root-cert/
+mkdir ./chaincode/
 
 # Set up the configtx directory with its own symlinked binary and YAML file
 echo "Setting up org1-peer0's configtx directory..."
@@ -196,6 +198,8 @@ cd peer0.org2.fabsec.com/
 ln -s ../../../../../bin/peer
 mkdir ./blockstore/
 mkdir ./channel-artifacts/
+mkdir ./orderer-tls-root-cert/
+mkdir ./chaincode/
 
 # Set up the configtx directory with its own symlinked binary and YAML file
 echo "Setting up org2-peer0's configtx directory..."
@@ -225,6 +229,8 @@ cd peer1.org2.fabsec.com/
 ln -s ../../../../../bin/peer
 mkdir ./blockstore/
 mkdir ./channel-artifacts/
+mkdir ./orderer-tls-root-cert/
+mkdir ./chaincode/
 
 # Set up the configtx directory with its own symlinked binary and YAML file
 echo "Setting up org2-peerr10's configtx directory..."

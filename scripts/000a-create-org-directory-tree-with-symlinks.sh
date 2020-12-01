@@ -55,6 +55,7 @@ echo "Setting up orderer0's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
+ln -s ../../../../../../bin/configtxlator
 cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
 cd ../
 
@@ -143,6 +144,7 @@ echo "Setting up org1-peer0's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
+ln -s ../../../../../../bin/configtxlator
 cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
 cd ../
 
@@ -206,6 +208,7 @@ echo "Setting up org2-peer0's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
+ln -s ../../../../../../bin/configtxlator
 cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
 cd ../
 
@@ -233,10 +236,11 @@ mkdir ./orderer-tls-root-cert/
 mkdir ./chaincode/
 
 # Set up the configtx directory with its own symlinked binary and YAML file
-echo "Setting up org2-peerr10's configtx directory..."
+echo "Setting up org2-peer1's configtx directory..."
 mkdir ./configtx/
 cd ./configtx/
 ln -s ../../../../../../bin/configtxgen
+ln -s ../../../../../../bin/configtxlator
 cp ../../../../../../test-configs/org0/orderer0/configtx.yaml ./
 cd ../
 

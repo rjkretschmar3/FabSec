@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend Test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Kretschmar",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-ca-client": "^2.2.3",
+    "fabric-network": "^2.2.3",
+    "js-yaml": "^3.14.0"
+  }
+}

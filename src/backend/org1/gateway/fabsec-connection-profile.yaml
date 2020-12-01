@@ -1,0 +1,243 @@
+##############################################################################
+# This is the connection profile for my CPSC 597 Grad Projectwas and was 
+# mostly taken from the Hyperledger Docs (https://hyperledger-fabric.readthedocs
+# .io/en/release-2.2/developapps/connectionprofile.html?highlight=connection
+# %20profile) including the comments, as they are well stated. However, I made
+# all the necessary changes to reflect my network topography as well as modified
+# the comments for personal taste.
+#
+# ----------------------------------------------------------------------------
+#
+# A connection profile contains information about a set of network
+# components. It is typically used to configure a gateway, allowing applications
+# interact with a network channel without worrying about the underlying
+# topology. A connection profile is normally created by an administrator who
+# understands this topology.
+name: "fabsec-channel.profile"
+
+# Analogous to HTTP, properties with an "x-" prefix are deemed
+# "application-specific", and ignored by the gateway. For example, property
+# "x-type" with value "hlfv1" was originally used to identify a connection
+# profile for Fabric 1.x rather than 0.x.
+x-type: "hlfv2"
+x-logginglevel: debug
+
+# A short description of the connection profile
+description: "This is the connection profile for the Fabsec Channel."
+
+# Connection profile schema version. Used by the gateway to
+# interpret these data.
+version: "1.0"
+
+# A logical description of each network channel; its peer and
+# orderer names and their roles within the channel. The physical details of
+# these components (e.g. peer IP addresses) will be specified later in the
+# profile; we focus first on the logical, and then the physical.
+channels:
+
+  # fabsec-channel is the only channel in this connection profile
+  fabsec-channel:
+    # Channel orderers for fabsec-channel. Details of how to connect to
+    # them is specified later, under the physical "orderers:" section
+    orderers:
+      # Orderer logical name
+      - orderer0.org0.fabsec.com
+        
+    # Peers and their roles
+    peers:  
+      # Peer logical name
+      peer0.org1.fabsec.com:
+
+        # Is this an endorsing peer? (It must have chaincode
+        # installed.) Default: true
+        endorsingPeer: true
+
+        # Is this peer used for query? (It must have chaincode
+        # installed.) Default: true
+        chaincodeQuery: true
+
+        # Is this peer used for non-chaincode queries? All peers
+        # support these types of queries, which include queryBlock(),
+        # queryTransaction(), etc. Default: true
+        ledgerQuery: true
+
+        # Is this peer used as an event hub? All peers can produce
+        # events. Default: true
+        eventSource: true
+
+      peer0.org2.fabsec.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.org2.fabsec.com:
+        endorsingPeer: false
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+# List of organizations for all channels. At least one organization
+# is required.
+organizations:
+
+  # Organizational information for Peer Organization 1
+  PeerOrg1:
+
+    # The MSPID used to identify Peer Organization 1
+    mspid: PeerOrg1MSP
+
+    # Peer Organization 1's peers
+    peers:
+      - peer0.org1.fabsec.com 
+
+    # Fabric-CA Certificate Authorities.
+    certificateAuthorities:
+      - org1-fab-ca
+      - org1-tls-ca
+        
+    # The Organizational Administrator's key and cert.
+    adminPrivateKey:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/msp/keystore/key.pem
+    signedCert:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/msp/signcerts/cert.pem
+
+  # Organizational information for the Peer Organization 2
+  PeerOrg2:
+    mspid: PeerOrg2MSP
+    peers:
+      - peer0.org2.fabsec.com
+      - peer1.org2.fabsec.com
+    certificateAuthorities:
+      - org2-fab-ca
+      - org2-tls-ca
+    adminPrivateKey:
+      path: ../../../organizations/peerOrganizations/org2.fabsec.com/msp/keystore/key.pem
+    signedCert:
+      path: ../../../organizations/peerOrganizations/org2.fabsec.com/msp/signcerts/cert.pem
+
+# Orderer physical information, by orderer name
+orderers:
+
+  # Name of Orderer Org's orderer
+  orderer0.org0.fabsec.com:
+
+    # This orderer's IP address
+    url: grpcs://orderer0.org0.fabsec.com:6050
+ 
+    # gRPC connection properties used for communication
+    grpcOptions:
+      ssl-target-name-override: orderer0.org0.fabsec.com
+
+    # The TLS CA Cert used for communicating with the orderer.
+    tlsCACerts:
+      path: ../../../organizations/ordererOrganizations/org0.fabsec.com/msp/tlscacerts/org0-tls-ca-cert.pem
+
+# Peer physical information, by peer name. At least one peer is
+# required.
+peers:
+
+  # Peer Org 1's first peer physical properties
+  peer0.org1.fabsec.com:
+    url: grpcs://peer0.org1.fabsec.com:6051
+    grpcOptions:
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/msp/tlscacerts/org1-tls-ca-cert.pem
+
+  # Peer Org 2's peer physical properties
+  peer0.org2.fabsec.com:
+    url: grpcs://peer0.org2.fabsec.com:6053
+    grpcOptions:
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.com/AllOrgsMSPs/org2/msp/tlscacerts/org2-tls-ca-cert.pem
+
+  peer1.org2.fabsec.com:
+    url: grpcs://peer1.org2.fabsec.com:6055
+    grpcOptions:
+      request-timeout: 120001
+    tlsCACerts:
+      path:  ../../../organizations/peerOrganizations/org1.fabsec.com/peers/peer0.org1.fabsec.com/AllOrgsMSPs/org2/msp/tlscacerts/org2-tls-ca-cert.pem
+
+
+# Fabric-CA Certificate Authority physical information, by name.
+# This information can be used to (e.g.) enroll new users. Communication is via
+# REST, hence options relate to HTTP rather than gRPC.
+certificateAuthorities:
+  # Orderer Organization's Fabric CA
+  org0-fab-ca:
+    url: https://localhost:7055
+
+    # HTTP connection properties used for communication
+    httpOptions:
+      verify: false
+
+    # Fabric-CA supports Certificate Signing Requests (CSRs). A
+    # registrar is needed to enroll new users.
+    registrar:
+      - enrollId: org0-fab-admin
+        enrollSecret: org0-fab-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/ordererOrganizations/org0.fabsec.com/msp/tlscacerts/org0-tls-ca-cert.pem
+    caName: org0-fab-ca
+
+  # Orderer Organization's TLS CA
+  org0-tls-ca:
+    url: https://localhost:7054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: org0-tls-admin
+        enrollSecret: org0-tls-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/ordererOrganizations/org0.fabsec.com/msp/tlscacerts/org0-tls-ca-cert.pem
+    caName: org0-tls-ca
+
+  # Peer Organization 1's Fabric CA
+  org1-fab-ca:
+    url: https://localhost:7057
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: org1-fab-admin
+        enrollSecret: org1-fab-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/msp/tlscacerts/org1-tls-ca-cert.pem
+    caName: org1-fab-ca
+
+  # Peer Organization 1's TLS CA
+  org1-tls-ca:
+    url: https://localhost:7056
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: org1-tls-admin
+        enrollSecret: org1-tls-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org1.fabsec.com/msp/tlscacerts/org1-tls-ca-cert.pem
+    caName: org1-tls-ca
+    
+  # Peer Organization 2's Fabric CA
+  org2-fab-ca:
+    url: https://localhost:7059
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: org2-fab-admin
+        enrollSecret: org2-fab-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org2.fabsec.com/msp/tlscacerts/org2-tls-ca-cert.pem
+    caName: org2-fab-ca
+
+  # Peer Organization 2's TLS CA
+  org2-tls-ca:
+    url: https://localhost:7058
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: org2-tls-admin
+        enrollSecret: org2-tls-admin-pw
+    tlsCACerts:
+      path: ../../../organizations/peerOrganizations/org2.fabsec.com/msp/tlscacerts/org2-tls-ca-cert.pem
+    caName: org2-tls-ca

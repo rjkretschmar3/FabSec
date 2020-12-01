@@ -1,0 +1,12 @@
+This is the JS script to the backend for Organization 1. There are no scripts in the package.json
+file (although, it does have the required libraries defined), but it's rather easy to get up and running.
+
+If node_modules doesn't exist:
+npm install
+
+Before anything:
+node enroll-admin.js
+node register-enroll-user.js
+
+To launch the log monitor/committer:
+node watch-and-commit-logs.js

@@ -10,7 +10,7 @@
 
 class LogMessage {
 	// The constructor takes the inital values to set the LogMessage Object to.
-	constructor(id, u, ,d ,m) {
+	constructor(id, u, d, m) {
 		this.id = id;
 		this.user = u;
 		this.date = d;

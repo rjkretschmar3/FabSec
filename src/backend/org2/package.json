@@ -1,7 +1,7 @@
 {
-  "name": "backend-org1",
+  "name": "backend-org2",
   "version": "1.0.0",
-  "description": "The is the Backend for Organiztion 1.",
+  "description": "The is the Backend for Organiztion 2.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -53,7 +53,7 @@ class LogAggr extends Contract {
 		// Craft a new LogMessage object.
 		var newMesg = new LogMessage(ID, user, date, message);
 		console.info('Crafting new record: {' + newMesg.id + ', ' +
-			newMesg.user + ', ' + date.toDateString() + newMesg.message + '}');
+			newMesg.user + ', ' + newMesg.date + newMesg.message + '}');
 		// Update the global ID
 		ID++;
 

@@ -44,9 +44,9 @@ async function watchAndCommitLogs() {
 		console.log(`Current wallet path is ${walletPath}`);
 
 		// Check to see if the App User identity exists, otherwise we can't move forward.
-		const identity = await wallet.get('org1-app-user');
+		const identity = await wallet.get('org2-app-user');
 		if (!identity) {
-			console.log('An identity for the user "org1-app-user" does not exist in the wallet');
+			console.log('An identity for the user "org2-app-user" does not exist in the wallet');
 			console.log('Run the registerUser.js application before retrying.');
 			return;
 		}
@@ -57,11 +57,11 @@ async function watchAndCommitLogs() {
 		// Anchor Peer will update us on the network topography. This has the added benefit of
 		// letting other peers and orderers come and go dynamically. More on this in the formal
 		// report.
-		console.log('Connecting through Gateway as "org1-app-user" with Discovery...');
+		console.log('Connecting through Gateway as "org2-app-user" with Discovery...');
 		const gateway = new Gateway();
 		await gateway.connect(connProf, {
 			wallet: wallet, 
-			identity: 'org1-app-user', 
+			identity: 'org2-app-user', 
 			discovery: { 
 				enabled: true,
 				asLocalhost: false
@@ -94,7 +94,7 @@ async function watchAndCommitLogs() {
 				console.log('New entries found! Committing to blockchain...');
 				for (; currentCount < lines.length-1; currentCount++) {
 					console.log("Entry: " + lines[currentCount]);
-					await contract.submitTransaction('addMessage', 'org1-app-user',
+					await contract.submitTransaction('addMessage', 'org2-app-user',
 						new Date().toDateString(), lines[currentCount]);
 					}
 				console.log('Done!');

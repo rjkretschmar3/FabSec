@@ -1,0 +1,16 @@
+{
+  "name": "frontend-org2",
+  "version": "1.0.0",
+  "description": "This is Organization 2's frontend. It is powered by Express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Kretschmar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fabric-network": "^2.2.3",
+    "js-yaml": "^3.14.0"
+  }
+}

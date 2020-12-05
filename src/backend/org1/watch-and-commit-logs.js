@@ -17,7 +17,7 @@ const yaml = require ('js-yaml');
 const { Gateway, Wallets } = require('fabric-network');
 
 // The logfile to monitor
-const logfile = './logfile';
+const logfile = '/var/log/syslog'; //'./logfile';
 
 // This is a bit of pre-processing. It will skip the currently existing lines in the
 // logfile. This will not only stop the repeating old entries on a reboot of this process,
@@ -32,7 +32,7 @@ async function watchAndCommitLogs() {
 	try {
 		// First, we load in the necessary Connection Profile. For ease, this will be
                 // the same for both Peer Orgs, however each would have their own version. More
-                // on the connection profile in the commnetos of the profile itself
+                // on the connection profile in the comments of the profile itself.
 		const connProfPath = path.resolve(__dirname, 'gateway', 'fabsec-connection-profile.yaml');
 		console.log(`Loading Connection Profile from ${connProfPath}`);
 		const connProf = yaml.safeLoad(fs.readFileSync(connProfPath, 'utf8'));

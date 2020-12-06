@@ -232,7 +232,7 @@ to grab user-defined ranges. Another interesting interface function I'd like to 
 
 	* log-message.js
 	
-		This is a simple data stucture file to help organize our log entries.
+		This is a simple data structure file to help organize our log entries.
 
 * The Backend
 
@@ -242,12 +242,12 @@ go over each one now:
 
 	* enroll-admin.js
 		
-		This module will use the appropiate Organization's Fabric CA Server to 'enroll' the `app-admin`. As a reminder, 
+		This module will use the appropriate Organization's Fabric CA Server to 'enroll' the `app-admin`. As a reminder, 
 the Fabric CA Server is the one that creates identities for the different participants on the network. This is opposed to the
 TLS Server which is what secures communications. An 'enroll' command just produces crypto material for an identity. Typically,
 this would be proceeded by a 'register' command (which we'll see in the next module), but in this case, we already have an admin
 registered for the Organization, so we'll just use that identity. Of course, in a production environment, you'll probably want
-a dedicated app admin. We interface with the Fabric Server through the `FabricCAServices` componant of the `fabric-ca-client`
+a dedicated app admin. We interface with the Fabric Server through the `FabricCAServices` component of the `fabric-ca-client`
 API provided by Hyperledger. After the enrollment, we wrap all the identity information together in a file, and store it in a
 special directory called a "Wallet". (A Wallet has its own set of API functions to work with it through the `fabric-network` module.)
 
@@ -267,7 +267,7 @@ for a production setting. The real magic is in the suite of functions that the `
 to access the network through the `Gateway` API. The `Gateway` is controlled through a file known as the Connection Profile. This is
 merely a YAML file containing the topography of the network as set up by the operator. With a mode known as Discovery, a lot of how
 the Gateway will find nodes in the network is dynamic. However, the Anchor Peers are the main engine for that, and they are statically
-defined in the Connection Profile. We use our new created `app-user` indentity to indentify ourselves to the Gateway, and then select
+defined in the Connection Profile. We use our new created `app-user` identity to identify ourselves to the Gateway, and then select
 the Channel we want to connect to via the `getNetwork()` function, and then down to the Smart Contract (aka the Chaincode) we want
 to invoke functions from via the `getContract()` function. Finally, we'll commit the new log changes to the Blockchain through the
 `submitTranaction()` API function invoking our Chaincode function of `addMessage`. And that's pretty much how this module works.

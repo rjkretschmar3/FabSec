@@ -17,7 +17,8 @@ const yaml = require ('js-yaml');
 const { Gateway, Wallets } = require('fabric-network');
 
 // The logfile to monitor
-const logfile = '/var/log/syslog'; //'./logfile';
+//const logfile = '/var/log/syslog'; 
+const logfile = './logfile';
 
 // This is a bit of pre-processing. It will skip the currently existing lines in the
 // logfile. This will not only stop the repeating old entries on a reboot of this process,

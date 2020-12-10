@@ -1,0 +1,28 @@
+# K: These are the profiles that I'm adding which will be used for the
+# configtxgen binary which are FabSecOrdererGenesis for creating the system
+# channel Genesis Block, and the FabSecChannel to create the application
+# channel for the Log Aggregator Channel.
+FabSecOrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+        <<: *OrdererDefaults
+        Organizations:
+            - *OrdererOrg
+        Capabilities:
+            <<: *OrdererCapabilities
+        Consortiums:
+            FabSecConsortium:
+                Organizations:
+                    - *PeerOrg1
+                    - *PeerOrg2
+
+FabSecChannel:
+    Consortium: FabSecConsortium
+    <<: *ChannelDefaults
+    Application:
+        <<: *ApplicationDefaults
+        Organizations:
+            - *PeerOrg1
+            - *PeerOrg2
+        Capabilities:
+            <<: *ApplicationCapabilities

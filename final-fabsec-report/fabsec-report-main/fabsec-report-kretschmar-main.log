@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.23)  16 NOV 2020 23:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.23)  8 DEC 2020 01:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -95,13 +95,20 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \Gin@req@height=\dimen148
 \Gin@req@width=\dimen149
 )
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count182
+\float@exts=\toks20
+\float@box=\box46
+\@float@everytoks=\toks21
+\@floatcapt=\box47
+)
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count182
-\l__pdf_internal_box=\box46
+\l__kernel_color_stack_int=\count183
+\l__pdf_internal_box=\box48
 )
 (./fabsec-report-kretschmar-main.aux
-(./fabsec-report-abstract/fabsec-report-abstract-paper.aux)
 (./fabsec-report-introduction/fabsec-report-introduction-paper.aux)
 (./fabsec-report-hyperledger/fabsec-report-hyperledger-paper.aux)
 (./fabsec-report-system-design/fabsec-report-system-design-paper.aux)
@@ -110,20 +117,20 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 (./fabsec-report-conclusion/fabsec-report-conclusion-paper.aux))
 \openout1 = `fabsec-report-kretschmar-main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -161,17 +168,17 @@ LaTeX Font Info:    ... okay on input line 17.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count183
+\scratchcounter=\count184
 \scratchdimen=\dimen150
-\scratchbox=\box47
-\nofMPsegments=\count184
-\nofMParguments=\count185
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count186
+\scratchbox=\box49
+\nofMPsegments=\count185
+\nofMParguments=\count186
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count187
 \MPscratchDim=\dimen151
-\MPnumerator=\count187
-\makeMPintoPDFobject=\count188
-\everyMPtoPDFconversion=\toks21
+\MPnumerator=\count188
+\makeMPintoPDFobject=\count189
+\everyMPtoPDFconversion=\toks23
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -186,59 +193,89 @@ e
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 (./fabsec-report-kretschmar-main.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 3.
+(Font)              <12> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 3.
+(Font)              <8> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 3.
+(Font)              <6> on input line 2.
 )
 \tf@toc=\write3
 \openout3 = `fabsec-report-kretschmar-main.toc'.
 
  [2]
-\openout2 = `./fabsec-report-abstract/fabsec-report-abstract-paper.aux'.
-
-
-(./fabsec-report-abstract/fabsec-report-abstract-paper.tex) [3
-
-]
 \openout2 = `./fabsec-report-introduction/fabsec-report-introduction-paper.aux'
 .
 
 
 (./fabsec-report-introduction/fabsec-report-introduction-paper.tex
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 5.
+(Font)              <7> on input line 4.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 5.
+(Font)              <5> on input line 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
  []
 
-[4
-
+[3
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
  []
 
-)
-Underfull \hbox (badness 10000) in paragraph at lines 20--26
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
-[5] [6]
+<./fabsec-report-introduction/blockchain-diagram.jpg, id=19, 963.6pt x 722.7pt>
+
+File: ./fabsec-report-introduction/blockchain-diagram.jpg Graphic file (type jp
+g)
+<use ./fabsec-report-introduction/blockchain-diagram.jpg>
+Package pdftex.def Info: ./fabsec-report-introduction/blockchain-diagram.jpg  u
+sed on input line 16.
+(pdftex.def)             Requested size: 430.00462pt x 322.49922pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+
+ []
+
+[4] [5 <./fabsec-report-introduction/blockchain-diagram.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+
+ []
+
+
+Overfull \hbox (15.98116pt too wide) in paragraph at lines 34--35
+\OT1/cmr/m/n/12 tributed De-nial of Ser-vice (DDoS) pre-ven-tion, Do-main Name 
+Sys-tem Se-cu-rity (DNSSec),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+
+ []
+
+[7])
+Underfull \hbox (badness 10000) in paragraph at lines 45--27
+
+ []
+
+[8]
 \openout2 = `./fabsec-report-hyperledger/fabsec-report-hyperledger-paper.aux'.
 
  (./fabsec-report-hyperledger/fabsec-report-hyperledger-paper.tex
@@ -247,7 +284,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--3
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 7--8
+
+ []
+
+[9
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
@@ -256,135 +306,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
 
-[7
 
-
-]
 Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
-File: "./fabsec-report-hyperledger/msp-tree-nonuni.txt"  (verbatim)
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 20--21
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 26--27
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
-
- []
-
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 35--36
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 38--39
-
- []
-
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 41--42
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 44--45
-
- []
-
-)
-Underfull \hbox (badness 10000) in paragraph at lines 47--29
-
- []
-
-[11]
-\openout2 = `./fabsec-report-system-design/fabsec-report-system-design-paper.au
-x'.
-
- (./fabsec-report-system-design/fabsec-report-system-design-paper.tex
-Underfull \hbox (badness 10000) in paragraph at lines 2--3
-
- []
-
-<./fabsec-report-system-design/fabric-network-diagram.png, id=45, 1105.12875pt 
-x 676.5275pt>
-File: ./fabsec-report-system-design/fabric-network-diagram.png Graphic file (ty
-pe png)
-<use ./fabsec-report-system-design/fabric-network-diagram.png>
-Package pdftex.def Info: ./fabsec-report-system-design/fabric-network-diagram.p
-ng  used on input line 5.
-(pdftex.def)             Requested size: 430.00462pt x 263.2356pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-[12
-
-
- <./fabsec-report-system-design/fabric-network-diagram.png>]
-File: "./fabsec-report-system-design/fabsec-org-tree-nonuni.txt"  (verbatim)
-
-Overfull \hbox (14.5956pt too wide) in paragraph at lines 13--13
-[]\OT1/cmtt/m/n/12 |       |       |   |-- configtxgen -> ../../../../../../bin
-/configtxgen[] 
- []
-
-[13]
-Overfull \hbox (76.34563pt too wide) in paragraph at lines 13--13
-[]    \OT1/cmtt/m/n/12 |   |       |   |-- fabric-ca-client -> ../../../../../.
-./bin/fabric-ca-client[] 
- []
-
-
-Overfull \hbox (14.5956pt too wide) in paragraph at lines 13--13
-[]    \OT1/cmtt/m/n/12 |   |       |   |-- configtxgen -> ../../../../../../bin
-/configtxgen[] 
- []
-
-
-Overfull \hbox (76.34563pt too wide) in paragraph at lines 13--13
-[]        \OT1/cmtt/m/n/12 |   |   |   |-- fabric-ca-client -> ../../../../../.
-./bin/fabric-ca-client[] 
- []
-
-
-Overfull \hbox (14.5956pt too wide) in paragraph at lines 13--13
-[]        \OT1/cmtt/m/n/12 |   |   |   |-- configtxgen -> ../../../../../../bin
-/configtxgen[] 
- []
-
-[14]
-Overfull \hbox (76.34563pt too wide) in paragraph at lines 13--13
-[]        \OT1/cmtt/m/n/12 |       |   |-- fabric-ca-client -> ../../../../../.
-./bin/fabric-ca-client[] 
- []
-
-
-Overfull \hbox (14.5956pt too wide) in paragraph at lines 13--13
-[]        \OT1/cmtt/m/n/12 |       |   |-- configtxgen -> ../../../../../../bin
-/configtxgen[] 
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
@@ -394,34 +321,514 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--18
 
  []
 
-[15]) [16]
-\openout2 = `./fabsec-report-network-flow/fabsec-report-network-flow-paper.aux'
-.
-
- (./fabsec-report-network-flow/fabsec-report-network-flow-paper.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 2--35
+File: "./fabsec-report-hyperledger/msp-tree-nonuni.txt"  (verbatim)
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 
  []
 
-[17
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--28
+
+ []
 
 
-]
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 44--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--51
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 53--30
+
+ []
+
+[14] [15]
+\openout2 = `./fabsec-report-system-design/fabsec-report-system-design-paper.au
+x'.
+
+ (./fabsec-report-system-design/fabsec-report-system-design-paper.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+
+ []
+
+<./fabsec-report-system-design/fabric-network-diagram.png, id=60, 1105.12875pt 
+x 676.5275pt>
+File: ./fabsec-report-system-design/fabric-network-diagram.png Graphic file (ty
+pe png)
+<use ./fabsec-report-system-design/fabric-network-diagram.png>
+Package pdftex.def Info: ./fabsec-report-system-design/fabric-network-diagram.p
+ng  used on input line 5.
+(pdftex.def)             Requested size: 430.00462pt x 263.2356pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+
+ []
+
+[16
+
+
+ <./fabsec-report-system-design/fabric-network-diagram.png>]
+File: "./fabsec-report-system-design/fabsec-orderer-tree-nonuni.txt"  (verbatim
+)
+
+Overfull \hbox (14.5956pt too wide) in paragraph at lines 14--14
+[]\OT1/cmtt/m/n/12 |       |       |   |-- configtxgen -> ../../../../../../bin
+/configtxgen[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--17
+
+ []
+
+[17]
+File: "./fabsec-report-system-design/fabsec-peer-tree-nonuni.txt"  (verbatim)
+
+Overfull \hbox (76.34563pt too wide) in paragraph at lines 20--20
+[]    \OT1/cmtt/m/n/12 |   |       |   |-- fabric-ca-client -> ../../../../../.
+./bin/fabric-ca-client[] 
+ []
+
+
+Overfull \hbox (14.5956pt too wide) in paragraph at lines 20--20
+[]    \OT1/cmtt/m/n/12 |   |       |   |-- configtxgen -> ../../../../../../bin
+/configtxgen[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
+
+ []
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+
+ []
+
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
+
+ []
+
+[20] [21]
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
+
+ []
+
+[24] [25] [26]
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
+
+ []
+
+[27]
+Overfull \hbox (41.13391pt too wide) in paragraph at lines 168--169
+[]\OT1/cmr/m/n/12 General.TLS.RootCAs -- The CA Server Cer-tifi-cate, \OT1/cmr/
+m/it/12 ./tls-msp/signcerts/hypertest-
+ []
+
+
+Overfull \hbox (47.13579pt too wide) in paragraph at lines 170--171
+\OT1/cmr/m/n/12 when ini-tial-iz-ing the Or-derer Sys-tem Chan-nel, \OT1/cmr/m/
+it/12 ./system-genesis-block/genesis.block\OT1/cmr/m/n/12 . 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+
+ []
+
+[28] [29]
+File: "./fabsec-report-system-design/fabsec-configtx-profiles.txt"  (verbatim)
+
+Overfull \hbox (31.62029pt too wide) in paragraph at lines 201--201
+ []\OT1/cmtt/m/n/12 # K: These are the profiles that I'm adding which will be u
+sed for the[] 
+ []
+
+
+Overfull \hbox (62.4953pt too wide) in paragraph at lines 201--201
+ []\OT1/cmtt/m/n/12 # configtxgen binary which are FabSecOrdererGenesis for cre
+ating the system[] 
+ []
+
+
+Overfull \hbox (43.97029pt too wide) in paragraph at lines 201--201
+ []\OT1/cmtt/m/n/12 # channel Genesis Block, and the FabSecChannel to create th
+e application[] 
+ []
+
+[30] [31] [32] [33] [34]
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
+
+ []
+
+[35]
+Overfull \hbox (13.8234pt too wide) in paragraph at lines 255--256
+\OT1/cmr/m/it/12 output config-block.json \OT1/cmr/m/n/12 and \OT1/cmr/m/it/12 
+jq '.data.data[0]/payload.data.config' config-block.json
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
+
+ []
+
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
+57.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 257.
+
+Overfull \hbox (4.07065pt too wide) in paragraph at lines 257--258
+\OT1/cmr/m/it/12 nel[]group.groups.Application.groups."org\TS1/cmr/m/it/12 $\OT
+1/cmr/m/it/12 orgNum.fabsec.com".values' \OT1/cmr/m/n/12 and adds
+ []
+
+
+Overfull \hbox (14.60408pt too wide) in paragraph at lines 257--258
+\OT1/cmr/m/n/12 the stanza \OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "Anchor Peers": \
+OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "mod[]policy": "Ad-mins", "value":\OMS/cmsy/m
+/n/12 f\OT1/cmr/m/it/12 "anchor[]peers":
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
+
+ []
+
+
+Overfull \hbox (22.25368pt too wide) in paragraph at lines 259--260
+\OT1/cmr/m/it/12 '"\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 payload":\OMS/cmsy/m/n/12
+ f\OT1/cmr/m/it/12 "header":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "channel[]header
+":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "channel[]id": "fabsec-channel", "type":
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
+
+ []
+
+[36] [37]
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
+
+ []
+
+[38] [39]
+Underfull \hbox (badness 10000) in paragraph at lines 320--321
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 326--327
+
+ []
+
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 338--339
+
+ []
+
+
+Overfull \hbox (3.90924pt too wide) in paragraph at lines 340--341
+[] \OT1/cmr/m/n/12 This mod-ule will use the ap-pro-pri-ate Or-ga-ni-za-tion's 
+Fab-ric CA Server
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 340--341
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 344--345
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 348--349
+
+ []
+
+[41]
+Underfull \hbox (badness 10000) in paragraph at lines 350--351
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 362--363
+
+ []
+
+) [42]
+\openout2 = `./fabsec-report-network-flow/fabsec-report-network-flow-paper.aux'
+.
+
+ (./fabsec-report-network-flow/fabsec-report-network-flow-paper.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+
+ []
+
+<./fabsec-report-network-flow/network-flow-1.jpg, id=152, 1378.14874pt x 808.01
+875pt>
+File: ./fabsec-report-network-flow/network-flow-1.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-1.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-1.jpg  used 
+on input line 7.
+(pdftex.def)             Requested size: 430.00462pt x 252.1107pt.
+[43
+
+
+ <./fabsec-report-network-flow/network-flow-1.jpg>]
+<./fabsec-report-network-flow/network-flow-2.jpg, id=157, 1379.1525pt x 807.015
+pt>
+File: ./fabsec-report-network-flow/network-flow-2.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-2.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-2.jpg  used 
+on input line 15.
+(pdftex.def)             Requested size: 430.00462pt x 251.61281pt.
+ [44 <./fabsec-report-network-flow/network-flow-2.jpg>]
+<./fabsec-report-network-flow/network-flow-3.jpg, id=161, 1378.14874pt x 805.00
+75pt>
+File: ./fabsec-report-network-flow/network-flow-3.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-3.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-3.jpg  used 
+on input line 23.
+(pdftex.def)             Requested size: 344.005pt x 200.932pt.
+<./fabsec-report-network-flow/network-flow-4.jpg, id=162, 1376.14125pt x 803.0p
+t>
+File: ./fabsec-report-network-flow/network-flow-4.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-4.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-4.jpg  used 
+on input line 29.
+(pdftex.def)             Requested size: 344.005pt x 200.725pt.
+ [45 <./fabsec-report-network-flow/network-flow-3.jpg> <./fabsec-report-network
+-flow/network-flow-4.jpg>]
+<./fabsec-report-network-flow/network-flow-5.jpg, id=166, 1376.14125pt x 807.01
+5pt>
+File: ./fabsec-report-network-flow/network-flow-5.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-5.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-5.jpg  used 
+on input line 38.
+(pdftex.def)             Requested size: 430.00462pt x 252.16693pt.
+ [46 <./fabsec-report-network-flow/network-flow-5.jpg>]
+<./fabsec-report-network-flow/network-flow-6.jpg, id=170, 1374.13374pt x 805.00
+75pt>
+File: ./fabsec-report-network-flow/network-flow-6.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-6.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-6.jpg  used 
+on input line 46.
+(pdftex.def)             Requested size: 344.005pt x 201.52162pt.
+<./fabsec-report-network-flow/network-flow-7.jpg, id=171, 1376.14125pt x 809.02
+25pt>
+File: ./fabsec-report-network-flow/network-flow-7.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-7.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-7.jpg  used 
+on input line 52.
+(pdftex.def)             Requested size: 344.005pt x 202.23044pt.
+ [47 <./fabsec-report-network-flow/network-flow-6.jpg> <./fabsec-report-network
+-flow/network-flow-7.jpg>]
+<./fabsec-report-network-flow/network-flow-8.jpg, id=175, 1380.15625pt x 805.00
+75pt>
+File: ./fabsec-report-network-flow/network-flow-8.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-8.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-8.jpg  used 
+on input line 61.
+(pdftex.def)             Requested size: 430.00462pt x 250.81494pt.
+ [48 <./fabsec-report-network-flow/network-flow-8.jpg>]
+<./fabsec-report-network-flow/network-flow-9.jpg, id=179, 1379.1525pt x 805.007
+5pt>
+File: ./fabsec-report-network-flow/network-flow-9.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-9.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-9.jpg  used 
+on input line 69.
+(pdftex.def)             Requested size: 430.00462pt x 250.98691pt.
+<./fabsec-report-network-flow/network-flow-10.jpg, id=180, 1374.13374pt x 805.0
+075pt>
+File: ./fabsec-report-network-flow/network-flow-10.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-10.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-10.jpg  used
+ on input line 74.
+(pdftex.def)             Requested size: 387.00153pt x 226.71489pt.
+ [49 <./fabsec-report-network-flow/network-flow-9.jpg>]
+<./fabsec-report-network-flow/network-flow-11.jpg, id=185, 1374.13374pt x 804.0
+0375pt>
+File: ./fabsec-report-network-flow/network-flow-11.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-11.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-11.jpg  used
+ on input line 80.
+(pdftex.def)             Requested size: 387.00153pt x 226.4322pt.
+ [50 <./fabsec-report-network-flow/network-flow-10.jpg> <./fabsec-report-networ
+k-flow/network-flow-11.jpg>]
+<./fabsec-report-network-flow/network-flow-12.jpg, id=190, 1376.14125pt x 803.0
+pt>
+File: ./fabsec-report-network-flow/network-flow-12.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-12.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-12.jpg  used
+ on input line 89.
+(pdftex.def)             Requested size: 430.00462pt x 250.91238pt.
+<./fabsec-report-network-flow/network-flow-13.jpg, id=191, 1374.13374pt x 803.0
+pt>
+File: ./fabsec-report-network-flow/network-flow-13.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-13.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-13.jpg  used
+ on input line 94.
+(pdftex.def)             Requested size: 387.00153pt x 226.1495pt.
+ [51 <./fabsec-report-network-flow/network-flow-12.jpg>]
+<./fabsec-report-network-flow/network-flow-14.jpg, id=195, 1376.14125pt x 809.0
+225pt>
+File: ./fabsec-report-network-flow/network-flow-14.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-14.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-14.jpg  used
+ on input line 100.
+(pdftex.def)             Requested size: 387.00153pt x 227.51233pt.
+ [52 <./fabsec-report-network-flow/network-flow-13.jpg> <./fabsec-report-networ
+k-flow/network-flow-14.jpg>]
+<./fabsec-report-network-flow/network-flow-15.jpg, id=199, 1375.1375pt x 803.0p
+t>
+File: ./fabsec-report-network-flow/network-flow-15.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-15.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-15.jpg  used
+ on input line 109.
+(pdftex.def)             Requested size: 430.00462pt x 251.09616pt.
+<./fabsec-report-network-flow/network-flow-16.jpg, id=200, 1381.16pt x 807.015p
+t>
+File: ./fabsec-report-network-flow/network-flow-16.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-16.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-16.jpg  used
+ on input line 114.
+(pdftex.def)             Requested size: 387.00153pt x 226.12274pt.
+ [53 <./fabsec-report-network-flow/network-flow-15.jpg>]
+<./fabsec-report-network-flow/network-flow-17.jpg, id=204, 1376.14125pt x 803.0
+pt>
+File: ./fabsec-report-network-flow/network-flow-17.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-17.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-17.jpg  used
+ on input line 120.
+(pdftex.def)             Requested size: 387.00153pt x 225.8187pt.
+<./fabsec-report-network-flow/network-flow-18.jpg, id=205, 1375.1375pt x 803.0p
+t>
+File: ./fabsec-report-network-flow/network-flow-18.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-18.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-18.jpg  used
+ on input line 126.
+(pdftex.def)             Requested size: 387.00153pt x 225.97797pt.
+ [54 <./fabsec-report-network-flow/network-flow-16.jpg> <./fabsec-report-networ
+k-flow/network-flow-17.jpg>]
+<./fabsec-report-network-flow/network-flow-19.jpg, id=209, 1378.14874pt x 804.0
+0375pt>
+File: ./fabsec-report-network-flow/network-flow-19.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-19.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-19.jpg  used
+ on input line 132.
+(pdftex.def)             Requested size: 387.00153pt x 225.76973pt.
+ [55 <./fabsec-report-network-flow/network-flow-18.jpg> <./fabsec-report-networ
+k-flow/network-flow-19.jpg>]
+<./fabsec-report-network-flow/network-flow-20.jpg, id=214, 1376.14125pt x 809.0
+225pt>
+File: ./fabsec-report-network-flow/network-flow-20.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-20.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-20.jpg  used
+ on input line 141.
+(pdftex.def)             Requested size: 430.00462pt x 252.79422pt.
+<./fabsec-report-network-flow/network-flow-21.jpg, id=215, 1376.14125pt x 806.0
+1125pt>
+File: ./fabsec-report-network-flow/network-flow-21.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-21.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-21.jpg  used
+ on input line 146.
+(pdftex.def)             Requested size: 387.00153pt x 226.6655pt.
+
+[56 <./fabsec-report-network-flow/network-flow-20.jpg>]
+<./fabsec-report-network-flow/network-flow-22.jpg, id=219, 1378.14874pt x 810.0
+2625pt>
+File: ./fabsec-report-network-flow/network-flow-22.jpg Graphic file (type jpg)
+<use ./fabsec-report-network-flow/network-flow-22.jpg>
+Package pdftex.def Info: ./fabsec-report-network-flow/network-flow-22.jpg  used
+ on input line 151.
+(pdftex.def)             Requested size: 387.00153pt x 227.46088pt.
+) [57 <./fabsec-report-network-flow/network-flow-21.jpg> <./fabsec-report-netwo
+rk-flow/network-flow-22.jpg>]
 \openout2 = `./fabsec-report-summary/fabsec-report-summary-paper.aux'.
 
- (./fabsec-report-summary/fabsec-report-summary-paper.tex) [18
+ (./fabsec-report-summary/fabsec-report-summary-paper.tex) [58
 
 
 ]
 \openout2 = `./fabsec-report-conclusion/fabsec-report-conclusion-paper.aux'.
 
 
-(./fabsec-report-conclusion/fabsec-report-conclusion-paper.tex) [19
+(./fabsec-report-conclusion/fabsec-report-conclusion-paper.tex) [59
 
 
 ]
 (./fabsec-report-kretschmar-main.aux
-(./fabsec-report-abstract/fabsec-report-abstract-paper.aux)
 (./fabsec-report-introduction/fabsec-report-introduction-paper.aux)
 (./fabsec-report-hyperledger/fabsec-report-hyperledger-paper.aux)
 (./fabsec-report-system-design/fabsec-report-system-design-paper.aux)
@@ -429,26 +836,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--35
 (./fabsec-report-summary/fabsec-report-summary-paper.aux)
 (./fabsec-report-conclusion/fabsec-report-conclusion-paper.aux)) ) 
 Here is how much of TeX's memory you used:
- 2169 strings out of 482811
- 35029 string characters out of 5955739
- 280505 words of memory out of 5000000
- 17472 multiletter control sequences out of 15000+600000
- 541148 words of font info for 49 fonts, out of 8000000 for 9000
+ 2389 strings out of 482811
+ 42279 string characters out of 5955739
+ 280487 words of memory out of 5000000
+ 17664 multiletter control sequences out of 15000+600000
+ 542479 words of font info for 53 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 36i,8n,33p,1349b,258s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,8n,33p,1831b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/armer
-suender/.texlive2020/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmtt12.pfb>
-Output written on fabsec-report-kretschmar-main.pdf (19 pages, 1474711 bytes).
+suender/.texlive2020/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk> </ho
+me/armersuender/.texlive2020/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600
+pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mtt12.pfb>
+Output written on fabsec-report-kretschmar-main.pdf (59 pages, 15223349 bytes).
+
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 275 PDF objects out of 1000 (max. 8388607)
+ 174 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,33 +1,370 @@
 \section{System Design}
-	\hspace{10mm}This section will detail the design of my Logging Aggregator System. To better illustrate the network, I'll start with a image:\\
+	\hspace{10mm}Here we come to the System Design. This section will cover the Design Decisions that had to be made, the scripts that bring the network together, and the javascript code that is used to provide the functionality of the system. To better illustrate the network at a high level, I'll start with a image:\\
 	
 	\begin{figure}[h!]
 		\includegraphics[width=\textwidth]{./fabsec-report-system-design/fabric-network-diagram.png}
 		\caption{The FabSec Network Topography}
 	\end{figure}
 	
-	\hspace{10mm}At a high level this system will have three Organizations involved: two Peer Organizations and an Orderer Organization. The Peer Organizations will be the participants that will effective be the users of the system. In the context of the Log Aggregator network, they will be the ones collecting the log messages to send to the Orderer as messages in the transactions, and they are responsible for retrieving those message back at the appropriate time. The Orderer Organization acts as the consensus nodes. It will do the assembling of transactions into blocks, validates those transactions/blocks, and finally disseminates the blocks to the peers. Since this is a distributed network, the Orderer will be a "third-party" outside of those that are peers to a particular Channel.\\
+	\subsection{Design Decisions}
+		\hspace{10mm}At a high level this system will have three Organizations involved: two Peer Organizations and an Orderer Organization. The Peer Organizations will be the participants that will effective be the users of the system. In the context of the Log Aggregator network, they will be the ones collecting the log messages to send to the Orderer as messages in the transactions, and they are responsible for retrieving those message back at the appropriate time. The Orderer Organization acts as the consensus nodes. It will do the assembling of transactions into blocks, validates those transactions/blocks, and finally disseminates the blocks to the peers. Since this is a distributed network, the Orderer will be a "third-party" outside of those that are peers to a particular Channel.\\
 	
-	\hspace{10mm}The following is a directory listing view of how the structure for this project will look:
+		\hspace{10mm}The following is how the Orderer Organization (Org0) looks in a flat directory format:
 	
-	\verbatiminput{./fabsec-report-system-design/fabsec-org-tree-nonuni.txt}
+		\verbatiminput{./fabsec-report-system-design/fabsec-orderer-tree-nonuni.txt}
 	
-	\hspace{10mm}Note: To save space, this is not the entire listing with all of the different files that are needed to make the system work. However, it is a good guide illustration of the general structure of not only how it looks for, say, a node like orderer0.org0.fabsec.com vs an organization like org0.fabsec.com, but how the organizations are logically separated.\\
+		\hspace{10mm}Note: To save space, this is not the entire listing with all of the different files that are needed to make the system work. However, it is a good guide illustration of the general structure of not only how it looks for, say, a node like orderer0.org0.fabsec.com versus an organization like org0.fabsec.com, but how the organizations are logically separated.\\
+		
+		\hspace{10mm}By contrast, this is how a Peer Organization (Org 1) looks in a flat directory format (the other Peer Org (Org 2) will look the same, it will just have room for an extra peer):
+		
+		\verbatiminput{./fabsec-report-system-design/fabsec-peer-tree-nonuni.txt}
 	
-	\hspace{10mm}There will be a dedicated TLS CA and a dedicated Fabric CA for each Organization. This choice is to reflect a real-world scenario where geographically separated Organizations will have their own set of CAs. Speaking of CAs, while it is an option to deploy intermediate CAs (and a solid security decision to do so) for scalability, this project won't be using any. Another decision made in dealing with CA is that of credentials. Credentials, i.e. username and password, are used when register and enrolling entities that will eventually become identities. For now, I have made these static within the scripts that help fire up the network, however a future consideration would be to make them dynamic, allowing a script operator to feed them as commandline arguments to the script.\\
+		\hspace{10mm}There will be a dedicated TLS CA and a dedicated Fabric CA for each Organization. This choice is to reflect a real-world scenario where geographically separated Organizations will have their own set of CAs. Speaking of CAs, while it is an option to deploy intermediate CAs (and a solid security decision to do so) for scalability, this project won't be using any. Another decision made in dealing with CA is that of credentials. Credentials, i.e. username and password, are used when register and enrolling entities that will eventually become identities. For now, I have made these static within the scripts that help fire up the network, however a future consideration would be to make them dynamic, allowing a script operator to feed them as commandline arguments to the script.\\
 	
-	\hspace{10mm}There are two options for, what's called, the State Database: CouchDB and LevelDB. The State Database is a database maintained by each Peer node and presents an indexed view of the current values for all of the assets on the Ledger. While a deep dive into this database is outside the scope of this project, let it be said that LevelDB is the default, and embedded, choice for this decision and the one used for this project.
+		\hspace{10mm}There are two options for, what's called, the State Database: CouchDB and LevelDB. The State Database is a database maintained by each Peer node and presents an indexed view of the current values for all of the assets on the Ledger. While a deep dive into this database is outside the scope of this project, let it be said that LevelDB is the default, and embedded, choice for this decision and the one used for this project.\\
 	
-	\hspace{10mm}Port management is a bit of a nightmare here. In a real world system, this will not be as hectic as an Organization will likely be running all of the nodes on separate physical machines. However, for this project, I'm hardcoded the ports that all of the different entities will run on. They are as follows:
+		\hspace{10mm}Port management is a bit of a nightmare here. In a real world system, this will not be as hectic as an Organization will likely be running all of the nodes on separate physical machines. However, for this project, I'm hardcoded the ports that all of the different entities will run on. They are as follows:
+			\begin{itemize}
+				\item Org0, TLS CA -- main: 7054, operations: 9443
+				\item Org0, Fab CA -- main: 7055, operations: 9444
+				\item Org0, orderer0 -- main: 6050, operations: 8443
+				\item Org1, TLS CA -- main: 7056, operations: 9445
+				\item Org1, Fab CA -- main: 7057, operations: 9446
+				\item Org1, peer0 -- main: 6051, chaincode: 6052, operations: 8446			
+				\item Org2, TLS CA -- main: 7058, operations: 9447
+				\item Org2, Fab CA -- main: 7059, operations: 9448
+				\item Org2, peer0 -- main: 6053, chaincode: 6054, operations: 8447
+				\item Org2, peer1 -- main: 6055, chaincode: 6056, operations: 8448
+			\end{itemize}
+		
+	\subsection{The Network Scripts}
+		\hspace{10mm}The best place to start understanding how this project is set-up is through the scripts. These scripts are how the network gets bootstrapped and realized. As you move through the scripts, more and more of the network will come together until, finally, you have a fully realized network ready for use. The scripts come in to flavors: meta-scripts and base scripts. The meta-scripts are identified by a letter in their name and are a way to more fully automate the base scripts for use in realizing this specific project. The base scripts are identified by a number in their name and are the ones that issue the actual commands to the binaries. They also take in commandline line arguments to be more dynamic with "code reuse". The following is a listing of what they are and how they work:\\
+		
+		The meta-scripts are as follows:
+			\begin{itemize}
+				\item \textbf{000a-create-org-directory-tree-with-symlinks.sh}
+				
+					\hspace{10mm}This script is what creates all of the Organizations as they will be defined in the network. It creates each organization's directory structure, and pre-fills them with the various binaries and configuration files where needed. It is the only meta-script to not use any base scripts.
+					
+				\item \textbf{000b-create-orderer-organization.sh}
+				
+					\hspace{10mm}So, in Fabric, the act of "defining an organization" takes place by registering and enrolling an Organizational Administrator. This is done through the Fabric (Identity) Certificate Authority. To talk to the Fabric Ca Server we need to first set up the TLS CA Server. So, that's the flow of this script: Set up -- and bootstrap the admin of -- the TLS CA Server, set up -- and bootstrap the admin of -- the Fabric CA Server, and then register and enroll the Organizational Admins themselves.
+					
+				\item \textbf{000c-create-peer-organization-1.sh}
+				
+					\hspace{10mm}This follows the same logic as script 000b but for Peer Organization 1.
+					
+				\item \textbf{000d-create-peer-organization-2.sh}
+				
+					\hspace{10mm}This follows the same logic as script 000b but for Peer Organization 2.
+					
+				\item \textbf{000e-create-system-channel-and-deploy-orderer-0.sh}
+				
+					\hspace{10mm}This script will set up the skeleton of the network, and deploy the orderer node to that network. To start, since Hyperledger Fabric is a permissioned blockchain, every node on the network need to have an identity issued by the Fabric CA belonging to their organization. This script starts by doing just that for the orderer node known as \textit{orderer0}. It then creates the Genesis Block for the System Channel. A Channel, in Fabric terms, is essentially an individual network within the over-arching main network. Since Fabric has the ability to be \textit{multi-tenant}, it allows for many for these Channels (or networks) to be set up. There are two types of Channels: the System Channel, and the Application Channel. I'll go more into the Application Channel in the next script's description.\\
+					
+					\hspace{10mm}The Channel is the System Channel, otherwise called the "Ordering System Channel". It is used to create the way to faciliate communication of the Ordering Service (which is just a fancy term for the group of Orderers on the network). In the case of this project, it will only have one Orderer, or an "Ordering Service of one" so-to-speak. The System Channel configuration is stored in a Block on the Blockchain for that Channel. (It is usually one Blockchain per Channel for this reason.) In fact, the initial Channel Configuration is always the first (or Oth) block on the chain, and this what we refer to as the Genesis Block. The process of creating one will be talked about in the base script 008 and it involves a channel configuration YAML file and one of the binaries called \textit{configtxgen}. So, this script will use the base script that generates it. It then deploys the Orderer \textit{orderer0}, which is usually the first node to be defined, which will consume the Genesis Block to bootstrap itself.
+					
+				\item \textbf{000f-create-fabsec-channel-and-deploy-peer0-org1.sh}
+				
+					\hspace{10mm}This script will register and enroll the identity for the Peer \textit{peer0} in Organization 1. IT then creates the "Channel Creation Transaction" for the project's main Application Channel "fabsec-channel". The Channel Creation Transaction is needed for the Ordering Service to register and recognize the newly created channel for itself. This is then used for the next base script to generate the Genesis Block that defines the configuration of the Application Channel, fabsec-channel. As an aside, ideally, if we think about expanding this whole "security network" idea to more than just a Log Aggregator, say also use it for Access Control Lists, then that would be in its own Channel. Each Channel had its own Peers, Orderers, Chaincodes, and Ledger (among other artifacts). Next this script deploys \textit{peer0} and then joins it to the newly instantiated fabsec-channel.
+					
+				\item \textbf{000g-deploy-peer0-org2-and-join-fabsec-channel.sh}
+				
+					\hspace{10mm}This script will register and enroll \textit{peer0} of Organization 2, deploy it, and join it to the fabsec-channel. Since the System Channel was created and instantiated in script 000e and the Application Channel (fabsec-channel) was created and instantiated in the last script (000f), this script doesn't need to do any of that work, and simply just joins the Peer to the existing channel. This is illustrative of how easy it is to add nodes once all of the heavy lifting has been done.
+					
+				\item \textbf{000h-deploy-peer1-org2-and-join-fabsec-channel.sh}
+				
+					\hspace{10mm}This script will register and enroll \textit{peer1} of Organization 2, deploy it, and join it to the fabsec-channel. Again, since the previous script have done most of the work, nothing fancy had to be done here.
+					
+				\item \textbf{000i-designate-anchor-peers-for-fabsec.sh}
+				
+					\hspace{10mm}This meta-script is deceptively simple for its concepts. A lot of the magic is in the base scripts. It involves the concepts of Channel Configuration Updating (which is \textit{not} a trivial process using \textit{jq} and the \textit{configtxlator} binary) and the Gossip Protocol. Suffice it to say, this script sets up the Peers used for inter-organizational peer-to-peer communication.
+					
+				\item \textbf{000j-deploy-logaggr-chaincode}
+				
+					\hspace{10mm}This last meta-script is relatively short since it's really just here for general meta-script flow and completeness, but it uses the base script 016 to deploy the chaincode to the channel. The process of "deploying" involves installing the chaincode to each of the peers, having them approve it for their organization, and committing that chaincode to the channel. (More on these concepts in the description of script 016.) After this meta-script is done, the FabSec Network will have been officially set up.		
+			\end{itemize}
+			
+			The base scripts are as follows:
+			\begin{itemize}
+				\item \textbf{001-deploy-new-tls-ca-server.sh}
+				
+					\hspace{10mm}This script will initialize and deploy an Organization's TLS CA Server. It takes in commandline arguments determining (1) whether it is for an \textit{orderer} or \textit{peer} organization, and (2) the ID number of that organization. For example, the script with the arguments \textit{001-deploy-net-tls-ca-server.sh peer 1} would map to \textit{organizations/peerOrganizations/org1.fabsec.com}. It will first initialize the server. Initialization does a few things: (1) it will register a bootstrap identity which will be in the form of ADMIN\_NAME:ADMIN\_PW, (2) it'll set the default CA Home Directory environmental variable \textit{FABRIC\_CA\_HOME} to the present working directory, (3) generates the TLS CA root signed certificate, and (4) generates the TLS CA server private key and stores it in the \textit{FABRIC\_CA\_HOME} directory under msp/keystore.\\
+					
+					\hspace{10mm}Technically it'll generate its own default YAML configuration file, too, but this is actually replaced by our own. There are some important fields in that YAML file (called \textit{fabric-ca-server-config.yaml}) that need to be changed:
+						\begin{itemize}
+							\item port - The port on which the server will be listening.
+							\item tls.enabled - The default is false, but we want to change it to true.
+							
+							\item ca.name - The name identifying the server.
+
+							\item csr.hosts - The hostnames for the TLS server's Certificate Signing Requests are very important. Make sure all of the appropriate hostnames are listed here.
+							
+							\item signing.profiles - By default, a CA Server can act in either a TLS or Fabric (Identity) capacity. Since we are going to have two servers, one dedicated to each function, this will only have the \textit{tls} signing profile.
+						\end{itemize}
+						
+					\hspace{10mm}Finally, it'll restart the server with all of the new configurations and the main TLS admin bootstrapped.
+			
+				\item \textbf{002-enroll-tls-admin-with-tls-server.sh}
+				
+					\hspace{10mm}This script will enroll the boostrapped admin user from 001. Normally, a user will get both \textit{registered} and \textit{enrolled} with a CA Server. The register command is done by the administrator of the CA Server, and it exists to essentially let the server know that a user with this username/password set is going to contact the server for their cryptographic material (usually a public certificate and private key). An enroll command is done by the user who is going to end up receiving that crypto material to use by identifying themselves with the registered username and password. This is done in accordance with separation of powers, after all, the only person that should ever have a user's private key is the user themselves. That being said, the bootstrapping took the place of the register command of the admin, so all this script has to do is enroll the admin to get the admin's crypto material.\\
+					
+					\hspace{10mm}So, knowing that bit of background, this script will do the same preliminary work the last script did by moving to the correct, argument-led directory, and setting the correct environmental variable. In this case, however, since it'll be doing its work with the \textit{fabric-ca-client} binary, it will set the \textit{FABRIC\_CA\_CLIENT\_HOME} environmental variable. It will also pull the \textit{tls-ca-cert.pem} TLS root cert to be able to communicate with the server securely. And then it will execute the enroll command \textit{./fabric-ca-client enroll}. An explanation of the arguments to this command are as follows:
+						\begin{itemize}
+							\item -u https://username:password@host:port - This is the general form of the URL needed to contact the server. In this case, it's the TLS server that just got deployed. The username and password are the ones used to bootstrap the server. The host and port are gathered from the YAML config file also used in the last script.
+							\item --tls.certfiles - Points to the location of the signed certificate of the TLS server
+							\item --mspdir - Points to the directory of the MSP where the command will store the TLS CA admin certificates that are generated by this command.
+						\end{itemize}
+						
+					\hspace{10mm}A further note on the MSP argument: The --mspdir flag operates differently for a register command versus an enroll command. For a register connand, it points to the location of the cryptographic material to use. For an enroll command, it points to where to store the generated material. A subtle, but very important difference. After this command executes, the \textit{tls-ca/$<$username$>$/msp} will now contain the identity of the admin. Note: The username is last as a variable because this script is used for all TLS admins, and it is the incoming for arguments to the script which tell it which admin that is exactly.
+					
+				\item \textbf{003-register-enroll-fab-ca-admin-with-tls-server.sh}
+					
+					\hspace{10mm}This script will register and enroll the Fabric administrator with the TLS CA Server. Note that this is a different administrator than the TLS admin bootstrapped (registered) and enrolled with the TLS Server in the previous scripts. This script takes in the same commandline arguments to determine which Organization it's acting as. One thing that I failed to mention in the last script is that it will also use these arguments to determine which port to use. Even though, this is a TLS Server specific script, since we're hosting all of the Organization's locally for the project, it has three different ports to choose from (one for each TLS Server on the machine). This "port deciding" process will be present in future scripts as well for the same reasons.\\
+					
+					\hspace{10mm}So, the first thing that this script does, after the overhead actions, is register the Fabric Administrator. It will do this with a \textit{./fabric-ca-client register} command. It had the previous arguments attached to it with some new ones:
+						\begin{itemize}
+							\item --id.name - The username the Fabric Admin can use during the enroll command.
+							\item --id.secret - The password the Fabric Admin can use during the enroll command.
+							\item --mspdir - This points to the same MSP directory as before, however in this case it is to identify that the proper TLS administrator is being used.
+						\end{itemize}
+						
+					\hspace{10mm}Next, it will enroll the Fabric admin with the previously registered credentials. It will also point the \textit{--mspdir} argument to where the new identity is to be stored. Also, another side note about the Secret Key that gets generated and put in the MSP is that it is a ugly alphanumeric string, so this and the previous script rename them to a more manageable \textit{key.pem}.
+					
+				\item \textbf{004-deploy-new-fab-ca-server.sh}
+					
+					\hspace{10mm}This script will initialize and deploy an Organization's Fabric CA Server. As mentioned before, the official documentation refers to this server as the Organizational CA Server. However, "an Organization's Organizational CA Server" is bit confusing. Whatever you elect to call it, the purpose of the CA Server is to manage identities as they will be known on the network. This helps the Hyperledger Fabric System fulfill its "permissioned" quality.	This script will take in the usual commandline arguments to help it locate its organization. After that it will be initialize with the \textit{./fabric-ca-server init} command bootstrapping itself with a supplied username and password. Again, it'll generate its required crypto material, but we have an extra step of importing (moving) the TLS crypto material generated last step. It will also generate the default YAML configuration file that will get replaced by a pre-configured version. The values that needed changing are the same as the YAML configuration file that the TLS Server needed, however, the \textit{sigining.profile} is be that of the \textit{ca} instead of the \textit{tls}. After that, it is fired up with the \textit{./fabric-ca-server start} command.
+					
+				\item \textbf{005-enroll-fab-admin-with-fab-server.sh}
+				
+					\hspace{10mm}This script will enroll the Fabric CA Administrator with the Fabric CA Server. Remember that an enroll command tells the server to generate and return the public certificate and the private key for the actor that you're enrolling. This key-pair for the Fab CA admin identity will allow that admin to register other identities. A \textit{register} command is not needed for this admin since that was taken care of when we bootstrapped the identity in the previous script. Other than that, this follows the same step as the previous script when working with the TLS Server Admin just with the values for the Fab CA Server Admin instead.
+					
+				\item \textbf{006-register-enroll-org-admin-with-fab-server.sh}
+				
+					\hspace{10mm}This script is where we start to change gears. Now that both of the CA Servers (TLS and Fab) are up, we can register and enroll the other actors on the network. One of the main ones is that of the Organizational Administrator (Org Admin). As mentioned before, the act of creating an Org Admin identity is tantamount to creating the Organization itself. To start, it has the same overhead steps as previous scripts. Once those are completed, it registers the Org Admin. A few notes to keep in mind here:
+					
+					\begin{itemize}
+						\item Org Admins, unlike the Fab Admin or the TLS Admin, don't need to be registered and enrolled with the TLS Server just the Fab Server. However the subsequent nodes (Peers and the Orderers) will have to be registered/enrolled with both.
+						\item Since this is a register command, we need the Fab CA Admin's MSP to be pointed to by the \textit{--mspdir} flag.
+						\item Along with the standard arguments that get sent in to a \textit{./fabric-ca-client register} command, there is also a new argument of \textit{--id.type} (for the NodeOUs system) which will be of type \textit{admin}. This will continue to be an argument for all new identities created.
+					\end{itemize}
+					
+					\hspace{10mm}Next, the Org Admin is enrolled with the Fab CA Server. Typically, the Fab CA Admin (who is presumably setting this up will give the username/password combo to the Org Admin. Again, this is just PKI best practices as the enrollment will generate, among other things, a secret key that should ONLY be exposed to the user whose it is. Also recall that since this is the Org Admin that is now getting enrolled, the returned MSP data will effectively be the whole Organization's MSP. From there, we can start registering and enrolling the Organization's node identities. After the \textit{./fabric-ca-client enroll} command, we have a fully formed Organization MSP except for one thing. The NodeOUs system requires that a special configuration file aptly named \textit{config.yaml} be place in the MSP as well to define the certificate that goes along with a NodeOU type. (Talked about more under the NodeOUs subsection of the Hyperledger Fabric section.) After that, the name of the secret key is fixed up, and this script it done.
+					
+				\item \textbf{007-register-enroll-new-orderer-node}
+				
+					\hspace{10mm}This script is another massive change in gears from the previous scripts. Now, the Orderer starts getting set up. The Orderer, and by extension the Ordering Service, is explained further in the Orderer subsection of the Hyperledger Fabric section. Suffice it to say, they are one of the two type of Nodes of the Fabric Network, the other being the Peers, and they enact Consensus and order transactions into blocks to be disseminated to the Peers. When I say "set up the orderer", I mean this script interacts with the CA Servers, specifically the Fab CA Server, to collect the cryptographic material that defines this node's identity. (Also the TLS Server for communication purposes.) This identity will be collected into an MSP (standing for Membership Service Provider) directory which is also known as a Local MSP since its the MSP for a node. (This is opposed to a Channel, or Organizational MSP.) Along this the MSP, there will be a \textit{tls-msp} to hold the TLS information of the node.\\
+					
+					\hspace{10mm}Since the act of setting up an orderer is intrinsically happening within an Orderer Organization, the script will not need that information via commandline arguments. However, it will need to know specifically with Orderer Org we want to operate within, and which Orderer Node we want to operate on. The register and enroll commands are pretty much the same as above with the \textit{--id.type} being that of \textit{orderer}. Also, for the MSP of the register commands we have to point to the MSP of the TLS Admin when registering the Orderer with the TLS Server, and to the Fab Admin when registering the Orderer with the Fab Server. While this script is pretty similar in form to the above scripts, one thing that needs to be explained is that of the \textit{orderer.yaml} configuration file.\\
+					
+					\hspace{10mm}The \textit{orderer.yaml} file is one of two component that an Orderer needs to work. (The other being the Genesis Block which will be discussed in the next script.) This configuration file is copied from the official Hyperledger Fabric GitHub repository. And although it has a lot of values in it, only a few need to be changed for, or are relevant to, this project's purposes. That are as follows:
+					
+						\begin{itemize}
+							\item General.ListenAddress -- This is the address for the Orderer to listen on, 127.0.0.1 .
+							\item General.ListenPort -- This is the port for the Orderer to listen on, 6050.
+							\item General.TLS.Enabled -- Initially false, but flipped to true.
+							\item General.TLS.PrivateKey -- The location of the Private Key of the TLS Certificate, \textit{./tls-msp/keystore/key.pem}.
+							\item General.TLS.Certificate -- The location of the server TLS Certificate, \textit{./tls-msp/keystore/cert.pem}.
+							\item General.TLS.RootCAs -- The CA Server Certificate, \textit{./tls-msp/signcerts/hypertest-7054.pem}
+							\item General.BootstrapMethod -- The method by which to obtain the boostrap block of the system channel. This is a value of \textit{file} which is the path to a file (in the next key/value pair) containing the Genesis Block or Config Block of the System Channel.
+							\item General.BootstrapFile -- The file containing the bootstrap block to use when initializing the Orderer System Channel, \textit{./system-genesis-block/genesis.block}.
+							\item General.LocalMSPDir -- This is where to find the private crypto material needed by the Orderer. \textit{./msp}.
+							\item General.LocalMSPID -- The identity to register the local MSP material with the MSP manager, \textit{OrdererMSP}. This value needs to match as corresponding value in the \textit{configtx.yaml} file (which will be talked about next script).
+							\item FileLedger.Location -- The directory to store blocks in, \textit{./blockstore}.
+						\end{itemize}
+						
+					\hspace{10mm}And that is all that needs to be changed within the \textit{orderer.yaml} specific to this project. However, there are some sections that may be interesting to look into in future work such as Cluster for Ordering Service nodes that communicate with other Ordering Service nodes and Metrics to enable metrics collections for the orderer (via something like statsd or prometheus).
+					
+				\item \textbf{008-generate-new-system-channel-genesis-block.sh}
+					
+					\hspace{10mm}This script will create the channel artifacts for creating a new System Channel. A System Channel is different than the second Channel that will be created called the Application Channel. There can be more than one Application Channel (something I'll go into in the Application Channel script description), but there is only one System Channel. The System Channel is the first one that needs to be built (i.e. create the Genesis Block) since the Orderer will need this block to bootstrap itself. This block contains all of the configuration data for the Channel. This script uses the \textit{configtxgen} binary to accomplish this task. While the command to invoke the \textit{configtxgen} binary seems simple, it consumes its own configuration file called the \textit{configtx.yaml} into which a lot of the main decision making and work goes. Let's take a moment to examine the important parts of this file before continuing the script summary.\\
+					
+					\hspace{10mm}Each section will be built with the previous sections using the YAML operator $<<$, also known as the Merge Key Language-Independent Type operator. The first thing that happens in the \textit{configtx.yaml} file is the Organization Definitions. These will be referenced via the $<<$ operation later in the file. For now, every organization that will be a part of the network must be defined here. In the case of this project, that would be the Orderer Organization and the two Peer Organizations. Among other things, some of the important Key/Value pairs here are:
+						\begin{itemize}
+							\item Name - The name is the key by which an organization will be referenced in channel configuration transactions.
+							\item ID - The ID is the key by which an organization's MSP definition will be referenced.
+							\item MSPDir - The MSPDir is the filesystem path which contains the MSP configuration.
+							\item Policies - The Policies define the set of policies for Read actions, Write actions, Endorsement action, and Admin actions. Generally the policy \textit{type} is a Signature (e.g. signing off an action with a node's private key) and it defines which class of nodes are allowed to sign off on those actions (admin, peer, orderer, member, etc.).
+							\item OrdererEndpoint - This key is a list of all the orderers that \textit{this specific organization} runs with clients and peers may connect to to push transactions and receive blocks respectively. In the case of this project, only the Orderer Org will have this value set.
+							\item AnchorPeers - This key defines the location of peers which can be used for cross-organization Gossip communication. For this project, each Peer Organization will have one defined.
+						\end{itemize}
+							
+					\hspace{10mm}The next section to modify/look at is the Orderer section. This is different from the Orderer Organization Definition above, as it covers the type of Orderer that is going to be run (solo, kafka, or etcdraft) and some innerworking details. In the case of this project, the Orderer is going to be of type Raft (etcdraft) since Solo and Kafka are being deprecated. (More about Raft in its own subsubsection under subsection Orderer in section Hyperledger Fabric.) Some of the Key/Values here are:
+					
+						\begin{itemize}
+							\item OrdererType - The orderer implementation to use.
+							\item EtcdRaft.Consenters - EtcdRaft defines the configuration which is used when \textit{etcdraft} is used. In particular are the Consenters which are the set of Raft replicas on the network. However, this project is just using one Orderer node, so only one will have the details (Host, Port, ServerTLSCert) defined here.
+						\end{itemize}
+						
+					\hspace{10mm}The last section to look at is the one that will collect all of the previous information filled out through the use of the $<<$ operators and will be the parameter that is given to the \textit{configtxgen} command which is the Profiles section. There are different configuration profiles that are encoded here which specify the consortiums and are used for generating the Orderer (Genesis Block) as well as the Channel Creation Transaction request that is used to generate the Application Channel Genesis Block in a later script. The following is a snippet of the entries I created for my two channels.
+					
+						\verbatiminput{./fabsec-report-system-design/fabsec-configtx-profiles.txt}
+					
+					\hspace{10mm}With all of that in mind, this script will start by doing some directory traversal. The traversal goes to the Orderer Organization where the Genesis Block will be created. Unlike previous scripts, this script doesn't need to know whether it needs to go to the Orderer or Peer because the action of creating a new Genesis Block and, in turn, a Channel happens only for an Orderer. It then sets up the proper environmental variables that will be needed for the \textit{configtxgen} binary to work. Also, since the Peer Organizations were defined in the \textit{configtx.yaml} file, and specifically those Organization's MSPs, the MSPs need to be present. Once all the data has been collected, it runs \textit{./configtx.configtxgen -profile FabSecOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block}. This produces a Genesis Block that can be used by the Orderer to start up and create the System Channel.
+					
+				\item \textbf{009-deploy-new-orderer-node}
+				
+					\hspace{10mm}This script will deploy an orderer node. Since all of the information that the orderer will need has been created in other scripts, and all of the configuration values are set in the pre-configured files, this script is pretty simple. It just executes the \textit{./orderer} binary after some overhead work is done.
+					
+				\item \textbf{010-register-enroll-new-peer-node}
+				
+					\hspace{10mm}The script is the sibling script to 007 where we instead register and enroll a new peer node. It will follow the same logic, as there is not much difference between the two action other than (1) where the Local MSP will end up being generated, and (2) the \textit{--type.id} in the register command. The latter is changed from \textit{orderer} to \textit{peer}. So, I'll let 007 speak also for this script.
+					
+				\item \textbf{011-generate-new-fabsec-channel-creation-transaction.sh}
+				
+					\hspace{10mm}This script will create the channel artifact for creating a new Application Channel. For the purposes of this project, this channel is called \textit{fabsec-channel}. However, in production it would have a name that more accurately reflects its use such as \textit{logaggr-channel}. This way there won't be any conflicts on a multi-channel network. Unlike the System Channel Genesis Block that was built over in the Orderer Organization, which connected the Orderers, this is the start of connecting up the Peers. So, it'll take place in Peer Organization 1. Only one Peer Org needs to create the channel (and subsequently "create" the channel through the \textit{peer} binary. The other Peers will then \textit{join} through their binaries. (Something that will be discussed further in the peer join script.) So, after the overhead the Channel Creation Transaction is created through the command \textit{./configtx/configtxgen -profile FabSecChannel -channelID fabsec-channel -outputCreateChannelTx ./channel-artifact/fabsec-channel.tx}.
+					
+				\item \textbf{012-generate-new-fabsec-channel-block.sh}
+					
+					\hspace{10mm}This script will take the Channel Creation Transaction from the last script and submit it to the Ordering Service (which in the case of this project is just the Orderer itself). This will return the Application Channel's Genesis Block and finalize the channel so that peers can then join. One thing to note before the command is: since, by default, only admin identities of organizations that belong to the System Channel's Consortium can create a new channel, we need to set up the environmental variable \textit{CORE\_PEER\_MSPCONFIGPATH} to point to that of Organization 1's Administrator's MSP. This will override that the Local (node) MSP that would otherwise be used. (This location is stored in the \textit{core.yaml} peer configuration file which will be discussed in the peer deployment script description.) Since in the overhead step we traversed to the directory of the peer node, the Admin's MSP lives back in the Organization directory proper. In an environment where this peer would be on a different physical machine, one may have to create admins for each node that has to perform admin operations, or find a secure way to get the Organizational Administrator's MSP onto the nodes out-of-band. Once that is complete, a new channel is created with the command \textit{./peer channel create} giving it the location of the orderer with the argument \textit{-o orderer0.org0.fabsec.com:6050} as well as the Channel name \textit{-c fabsec-channel}, the location of the transaction file \textit{-f ./channel-artifacts/fabsec-channel.tx}, and where to store the newly created Application Channel Genesis Block \textit{--outputBlock ./channel-artifacts/fabsec-channel.block}.
+					
+				\item \textbf{013-deploy-new-peer-node}
+				
+					\hspace{10mm}This script will deploy a peer node. Since most of the information needed by the peer is already set in the \textit{core.yaml} file, this will be pretty straight forward. First, let's take a look at the \textit{core.yaml} file (note, all three peers will have unique Values to their version with some overlap, but it'll all be the same Keys and general idea):
+					
+						\begin{itemize}
+							\item peer.id - The peer id provides a name for this peer instance. For example, Peer 0 at Organization 1 would have the Value \textit{peer0.org1.fabsec.com}.
+							\item peer.networkId - The networkId allows for logical separation of networks. Since I only have one network in this project, it is a shared Value of \textit{grad-project}.
+							\item peer.listenAddress - The address at local network interfact this Peer will listen on. By default, it will listen on all network interfaces with IP \textit{0.0.0.0} which is fine to leave as the default, but the port must be changed to be unique to the peer.
+							\item peer.chaincodeListenAddress - The endpoint this peer uses to listen for inbound chaincode connections. Again, all interfaces is fine, but the port must be unique.
+							\item peer.chaincodeAddress - The endpoint the chaincode for this peer to uses to connect to the peer. For this project, this will take the value of peer.id and another unique port number.
+							\item peer.address - This represents the endpoint to other peers in the SAME organization. This, again, will take the value of peer.id and another unique port number. (For peers in other organizations, that'll be defined in \textit{peer.gossip.ExternalEndpoint}. This also doubles as the CLI interaction address.
+							\item peer.gossip.bootstrap - This is the bootstrap set to initialize the Gossip Protocol with. It is a list of other peers that this peer reaches out to at startup (within the same organization). The only peer that doesn't point to itself here is Peer 1 on Organization 2. This is because Peer 0 of Organization 1 is a lone wolf, so it doesn't have any other Peers (within the same Org) to connect to, and Peer 0 of Organization 2 is the "Org Leader" (explained next in this list) and is the first Peer of its Organization to come up.
+							\item peer.gossip.useLeaderElection - This defines if the peers will initiate the dynamic algorithm for "leader" selection, where the leader is the peer to establish the connection with the ordering service and use delivery protocol to pull ledger blocks from the ordering service. It is all part of the "Gossip Block Dissemination Protocol" which also works for inter-organization communication of peers. This will be false, as this project statically defines its own Organization Leaders (next item in list). However, in a production setting with many peer nodes per organization, it may be wise to default to this style.
+							\item peer.gossip.orgLeader - The statically defines a peer to be an organization "leader" which means that the current peer will maintain a connection with the ordering service and disseminate blocks across peers in its own organization. While multiple peers or all peers in an organization may be configured as Org Leaders (so that they all pull blocks directly from the ordering service), I will only define the Peer 0 of both Peer Organizations as such.
+							\item peer.gossip.externalEndpoint - This is the endpoint that is published to peers outside of the organization. (Note: if this isn't set, this peer will not be known to other organizations.) The value for this will the same as the \textit{peer.address} for Peer 0 of both Organizations, and it will be empty for Peer 1 of Org 2 (to show intra-organization communication).
+							\item peer.tls.enabled - This project requires all peers to have TLS enabled.
+							\item peer.tls.cert.file - This is the X.509 certificate used for the TLS Server.
+							\item peer.tls.cert.key.file - This is the private key used for the TLS Server.
+							\item peer.tls.rootcert.file - This is the trusted root certificate chain for the \textit{tls.cert.file}.
+							\item peer.mspConfigPath - The path on the filesystem where peer will find the Local MSP configuration.
+							\item peer.localMspId - This is the identifier of the Local MSP. This name needs to match the name of one of the MSPs in each of the channels of which this peer is a member, otherwise this peer's messages will not be identified as valid by the other nodes.
+							\item peer.discovery.enabled - This will be set to true. This Discovery Service is used by clients to query information about peers such as: which peers have joined a certain channel, what is the latest channel config, and most importantly, given a chaincode and channel, what possible sets of peers satisfy the endorsement policy as defined by the \textit{configtx.yaml} file.
+						\end{itemize}
+						
+					\hspace{10mm}With all of that information set, this script uses the \textit{./peer node start} command to start the peer. After starting a peer, it is not joined to any channel which is what will happen next.
+					
+				\item \textbf{014-join-peer-node-to-fabsec-channel.sh}
+					
+					\hspace{10mm}This is the script to join a peer to the \textit{fabsec-channel}. Again, since most of the information needed is already in the \textit{core.yaml}, for the peer, and now in the \textit{fabsec-channel.block}, for the channel, this will be a rather simple script. One thing to note is that if we're not the peer that generated the \textit{fabsec-channel} block (which is only done on peer0.org1), we will have to fetch the block from the Orderer to join. This is done through a \textit{./peer channel fetch 0} command. 0 because the initial configuration block is already the first (or 0th) block on the chain. The arguments to this command are \textit{./channel-artifact/fabsec-channel.block} which is where the block will be stored locally, \textit{-o orderer0.org0.fabsec.com:6050} which is the address of the Orderer to pull the block from, \textit{-c fabsec-channel} which is the Channel to which the block belongs. The rest is the TLS information for secure communication. Finally, it executes the join command feeding it the block that just got fetched with \textit{./peer channel join -b ./channel-artifacts/fabsec-channel.block}.
+					
+				\item \textbf{015-designate-anchor-peers.sh}
+				
+					\hspace{10mm}The script will designate the Anchor Peers for an Organization. As a little editorial note, I'm not entirely sure why this has to be an explicit step, as we designate these peers in the \textit{configtx.yaml} file, but without these commands, they do not register in the channel. The steps involve pulling the channel configuration block from the blockchain, adding the proper stanzas through the configtxlator with some \textit{jq} magic, and updating the channel through the peers. This needs to be done for each organization that wants to designate an Anchor Peer. For this project, both Peer Organizations will have to do this. There will be one for each (their \textit{peer0}. After the overhead steps, the first thing we need to do is grab the channel configuration block. This is done with a \textit{./peer channel fetch config} command, and we tell it where to store the block \textit{./channel-artifacts/config-block.pb}. We also feed it the address of the Orderer and the TLS information as noted in previous script summaries.\\
+					
+					\hspace{10mm}Once that completes, we have to decode the block from its native \textit{protobuf}\footnote{\textit{protobuf}, short for Protocol Buffers, is a language-neutral, platform-neutral, extensible mechanism for serializing structured data developed by Google.} format into JSON that we can more easily edit. We also strip away the information that we don't need from the new block JSON file, and create a copy to edit. (The original block JSON file will be used later.) This command a series of commands, but the two most important ones are \textit{../configtx/configtxlator proto\_decode --input config-block.pb --type common.Block --output config-block.json} and \textit{jq '.data.data[0]/payload.data.config' config-block.json > config.json}.\\
+					
+					\hspace{10mm}Next, the script uses the \textit{jq} program to add the new anchor peers data. To save on space, I won't show the full command, but it drills down to \textit{'.channel\_group.groups.Application.groups."org\$orgNum.fabsec.com".values'} and adds the stanza \textit{\{"Anchor Peers": \{"mod\_policy": "Admins", "value":\{"anchor\_peers": [\{"host": "\$host", "port": "\$port"\}]\}, "version": "0"\}\}}, and stores the modified JSON in a new file called \textit{modified-config.json}. Now, we can take the original JSON config and the modified JSON config, re-protobuf them, and then compute the updated protobuf version. To do this command-wise, they are both re-encoded, individually, through \textit{../configtx/configtxlator proto\_encode} with the type set to \textit{--type common.Config}, and then the update difference is computed through \textit{../configtx/configtxlator compute\_update}.\\
+					
+					\hspace{10mm}Penultimately, we need to decode the new protobuffed update config, wrap it it what they call an "envelope", and then re-encode it. To do this, we redo the \textit{proto\_decode} command on the \textit{config-update.pb} file with the \textit{--type common.ConfigUpdate} argument to create the JSON formatted \textit{config-update.json} file. Then use the \textit{jq} tool to add the "envelope" portion which looks like \textit{'"\{payload":\{"header":\{"channel\_header":\{"channel\_id": "fabsec-channel", "type": 2\}\}, "data":\{"config\_update":'\$(cat config-update.json'\}\}\}'} which will then be stored in the file \textit{config-update-in-envelope.json}. This JSON output file will then get re-encoded into \textit{protobuf} via the command \textit{../configtx/configtxlator proto\_encode --input config-update-in-envelope.json --type common.Envelope --output config-update-in-envelope.pb}.\\
+					
+					\hspace{10mm}Finally, we set the peer to become an Administrator through pointing the \textit{CORE\_PEER\_MSPCONFIGPATH} to the Organization's MSP, and then issue the config update with a \textit{./peer channel update} command feeding it the newly created update config file with \textit{-f channel-artifacts/config-update-in-envelope.pb}. We also have to point the command to the correct channel that is it for \textit{-c fabsec-channel} as well as give it the Orderer address and the TLS information. After that, a new block containing the updated channel configuration with the Anchor Peers will be on the blockchain which the Anchor Peers from the other organizations will recognize, reach out to them, and add them to their "network view".
+					
+				\item \textbf{016-deploy-chaincode-to-fabsec-channel.sh}
+					
+					\hspace{10mm}Here is where we come a little fuller circle with this project. This script will deploy the log aggregator chaincode that will run on the Peers. Chaincode deployment for Fabric is a whole, but necessary, beast. (As much as the developers tried to make it easy for the end user whether that be Operator or Developer.) One of the big headaches was sifting through current and deprecated versions of deployment. From Hyperledger Fabric 1.4 to 2.2, there was a major change in how chaincode is deployed to a Channel. This report won't go into the old way, but suffice it to say, there isn't a lot of information about the new way. That being said, with v2.2, there is the idea of the Chaincode Lifecycle. This allows all Organizations that belong to a certain channel to approve of the chaincode before it can be run for any Organization. The overarching steps of a Lifecycle-style Chaincode Deployment are:
+					
+						\begin{enumerate}
+							\item Packaging the Chaincode
+							
+								\hspace{10mm}Packaging the chaincode is pretty much creating a tarball (an archive file with a \textit{.tar.gz} extension similar to the zipfile). The tarball contains the code and some Fabric-specific meta-data. This either needs to take place on all the peers or have one peer do it and send the tarball to the others out-of-band. The command to do this is \textit{./peer lifecycle chaincode package}, and we feed it three pieces of information:
+								
+									\begin{itemize}
+										\item path: the path to the chaincode
+										\item lang: the language the chaincode is in. (This project will use Node.js)
+										\item label: a short, human readable description of the package
+									\end{itemize}							
+								
+								\hspace{10mm}Once the chaincode is packaged, it can then be installed.
+								
+							\item Installing the Chaincode on the Peers
+
+								\hspace{10mm}So, then the script will install the chaincode on the peer. This, too, should be done on every peer that will be running the chaincode. (Not just Endorsing Peers.) This command is simply \textit{./peer lifecycle chaincode install} and then the path to the tarball to install.\\
+								
+								\hspace{10mm}There is a quick in-between step that need to be done for the script and isn't officially part of the "chaincode deployment workflow" which is grabbing the \textit{Package ID} and putting it into a variable for use in the subsequent commands. The \textit{Package ID} is the label followed by a hash of the package. It is obtained by the \textit{queryinstalled} subcommand, such as \textit{./peer lifecycle chaincode queryinstalled}. This command returns a bit more than is needed so the script using a little \textit{sed}/\textit{awk} magic to exact the portion that IS needed, and saves it to a variable. 
+							
+							\item Approving the Chaincode "Definition" for Each Organization
+							
+							\hspace{10mm}Next, the script uses the verbosely named command \textit{approveformyorg} to approve the chaincode for the organization. This happens for each Organization, but only one Peer per Organization needs to do it. The command to do this is \textit{./peer lifecycle chaincode approveformyorg}, and it comes with some parameters which together make up the "Chaincode Definition":
+							
+								\begin{itemize}
+									\item channelID: the ID of the channel on which the chaincode will be run
+									\item name: the name of the chaincode (used when invoking the chaincode later)
+									\item version: the version of the chaincode (important for upgrading the chaincode later)
+									\item package-id: the \textit{Package ID} that got assigned to a variable earlier
+									\item sequence: the number of time the chaincode has been defined (also used for upgrading)
+								\end{itemize}
+								
+							\hspace{10mm}Since this has to happen for all Organizations, the script will then traverse over to Org 2 (since this script starts out at Org 1). While there, it will also take that time to install the chaincode on both of Org 2's Peers. After that it pops back over the Org 1 to commit the chaincode. The committing action only needs to be done by one Peer at one Organization and all other Peers in the Channel will automatically commit their approved definitions.
+							 
+							\item Committing the Chaincode Definition to the Channel
+							
+								\hspace{10mm}Now that execution is back at Peer 0 of Organization 1, it can commit the chaincode. A quick aside here: there is a command that I don't use in the script (since I control all of the commitments), but provides a check to see which organizations have approved the chaincode. It is invoked by \textit{./peer lifecycle chaincode checkcommitreadiness} and is handy when the Organizations don't have a constant line of communication. Anyway, now that everything is ready, the script will execute the \textit{./peer lifecycle chaincode commit} command. It takes in all of the previous arguments as well as a new one \textit{--peerAddress} which are the addresses of the endorsing peers that will commit the chaincode (even the ones from other organizations). This need to be a MAJORITY, as defined by the \textit{configtx.yaml} file, so in the script two are used -- one from both orgs. 
+								
+						\end{enumerate}				
+			\end{itemize}
+
+		\hspace{10mm}And with that,, there is a fully realized functioning Fabric network. Each Organization has their CAs up and running, the Orderer Organization has an Orderer up with a System Channel running, the Peer Organizations have their Peers up with the Application Channel \textit{fabsec-channel} running, the Anchor Peers are designated and ready to endorse transactions, all nodes have their Fabric Identities for network access, and the chaincode is install and ready to be use. The next thing that the project needs are the Clients. These are to be set up via the Javascript which will create a Backend that interfaces with the Peers to invoke the Chaincode functions, and a Frontend for a user to use/see the data in some meaningful way.
+					
+	\subsection{The Javascript Code}
+		\hspace{10mm} In the Fabric network, Chaincode can come in one of three types: Java, Javascript, or Go. This comes as a nice break from other Domain-Specific Languages, such as Ethereum's Solidity, to write Smart Contracts (or Chaincode in Fabric) with. Since I'm not familiar with Go yet, and Java isn't my favorite language to use, I elected to do the Chaincode in Javascript. This also comes with the bonus of being the same language as my Frontend and Backend web code. The Javascript is broken up into three parts: the Chaincode, the Backend, and the Frontend. So, let's go over what each one is and the files within each of these groups:
+		
 		\begin{itemize}
-			\item Org0, TLS CA -- main: 7054, operations: 9443
-			\item Org0, Fab CA -- main: 7055, operations: 9444
-			\item Org0, orderer0 -- main: 6050, operations: 8443
-			\item Org1, TLS CA -- main: 7056, operations: 9445
-			\item Org1, Fab CA -- main: 7057, operations: 9446
-			\item Org1, peer0 -- main: 6051, chaincode: 6052, operations: 8446			
-			\item Org2, TLS CA -- main: 7058, operations: 9447
-			\item Org2, Fab CA -- main: 7059, operations: 9448
-			\item Org2, peer0 -- main: 6053, chaincode: 6054, operations: 8447
-			\item Org2, peer1 -- main: 6055, chaincode: 6056, operations: 8448
-		\end{itemize}
+
+			\item \textbf{The Chaincode}
+
+				\hspace{10mm}This is the source code that will get deployed to the Peers. As a reminder, deploying consists of installing, approving, and committing the chaincode on the Peers. It is what is the main interface between the User (whoever or whatever that may be) and the Ledger (or the Blockchain). To make sure that all functions are well-defined and that all participates using the chaincode are authorized to do so, the Peers are used to regulate this usage. For the project, there are two files for the Chaincode (although with Future Work into other aspects of security, there may be many more):
+				
+					\begin{itemize}
+
+						\item \textbf{index.js}\\
+
+							\hspace{10mm}This is the main file of the Chaincode. It works with the \textit{fabric-contract-api} library to interface with the peer nodes and, in turn, the Blockchain. For now there are three functions in here: \textit{initLedger}, \textit{addMessage}, and \textit{queryAllMessages}. The \textit{initLedger} isn't currently used for the final project but was helpful for development. IT could certainly be brought back, if needed in the future, to do anything necessary in the pre-processing department. In fact, there is a special flag when committing the Chaincode called \textit{--initRequired} which will not let any other functions run until the initialization function has been called with the \textit{--isInit} invocation. The \textit{addMessage} function is the function that will add a new message to the Blockchain. It takes in the parameters that help construct the message (such as the User committing it, the Date, the Message itself, etc.) and uses the \textit{stub.putState()} interface function to talk to the Blockchain. The \textit{stub} is from the \textit{fabric-shim} library, and it is used as a middle-layer abstraction between the Contract API and the System Chaincode running on the Peers. Although it can be used directly, and there are cases even now that you would be, later version of Fabric ask that a developer use the Contract API.\\
+						
+							\hspace{10mm}Last, but not least, is the \textit{queryAllMessage()} function which, in turn, uses the \textit{stub.getStateByRange()} interface function. As the name implies, it grabs all the log entries (or messages) on the Blockchain. However it could be modified in the future to grab user-defined ranges. Another interesting interfact function I'd like to play around with is the \textit{getStateByPartialCompositeKey()} to provide even more search customization for the user.
+							
+						\item \textbf{log-messages.js}\\
+						
+							\hspace{10mm}This is a simple data structure file to help organize the log entries when passing them around the different flows. At current, it had a Constructor, and a helper function which will return the JSON representation of the data.
+							
+					\end{itemize}
+	
+			\item \textbf{The Backend}
+			 					
+				\hspace{10mm}The Backend has three phases it needs to go through to have a working system. Enrolling the amin, registering and enrolling the Application User, and finally setting up the environment to watch the logfile for changes and commit them to the Blockchain. Here they are in more detail:
+				
+					\begin{itemize}
+					
+						\item \textbf{enroll-admin.js}\\
+
+							\hspace{10mm}This module will use the appropriate Organization's Fabric CA Server to 'enroll' the \textit{app-admin}. As a reminder, the Fabric CA Server is the one that creates identities for the different participants on the network. This is opposed to the TLS Server which is what secures communications. An 'enroll' command just produces the cryptographic material for an identity. Typically, this would be proceeded by a 'register' command (which we'll see in the next module), but in this case, we already have an admin registered for any particular Organization, so we'll just use that identity. Of course, in production, a Designer would probably want a dedicated app admin.\\
+							
+							\hspace{10mm}We interface with the Fabric CA Server through the \textit{FabricCAServices} component of the \textit{fabric-ca-client} API provided by Hyperledger. After the enrollment, we wrap all the identity information together in a file, and store it in a special directory called a \textit{Wallet}. (A \textit{Wallet} has its own set of API functions to work with it through the \textit{fabric-network} module.)
+							
+						\item \textbf{register-enroll-user.js}\\
+							
+							\hspace{10mm}This is similar to the \textit{enroll-admin.js} module, but it is for the \textit{app-user}. Let the \textit{enroll-admin.js} module, it works through the \textit{FabricCAServices} set up API calls to enroll the \textit{app-user}'s identity. Unlike the previous module, however, it will also register that identity which creates a whole new identity just for the \textit{app-user}. This is nice for knowing how our system is getting used. Other than that, it's pretty much the same. It uses a \textit{Wallet} object to store the new identity for later use.
+							
+						\item \textbf{watch-and-commit-logs.js}\\
+						
+							\hspace{10mm}This is the main workhorse of the backend. As the name suggests, it holds the functionality to watch the log files for changes, and then will commit them to the Blockchain. The "watching" part is pretty simple with the built-in \textit{fs.watchFile} function. The interval to poll for changes is 5 seconds, but generally this will probably be more like a second to a half-second for a production setting. The real magic is in the suite of functions that the \textit{fabric-network} API provides which includes a function to access the network thrgouh the \textit{Gateway} API. The \textit{Gateway} is controlled through a file known as the Connection Profile. This is merely a YAML file containing the topography of the network as set up by the Operator (the scripts in this project's case).\\
+							
+							\hspace{10mm}With a mode known as \textit{Discovery}, a lot of how the \textit{Gateway} will find nodes (as well as Endorsement Policies and other Channel Configuration details) in the network is dynamic. However, the Anchor Peers are the main engine for that, and they are the ones statically defined in the Connection Profile. We use our newly created \textit{app-user} identity to identify it to the \textit{Gateway}, and then select the Channel we want to connect to via the \textit{getNetwork()} function, and then down to the Smart Contract (aka the Chaincode) we want to invoke functions from via the \textit{getContract()} function. Finally, we'll commit the new log changes to the Blockchain through the \textit{submitTransaction()} API function invoking our Chaincode function of \textit{addMessage}. And that's pretty much how this modules works.
+						
+					\end{itemize}
+					
+			\item \textbf{The Frontend}
+				
+					\hspace{10mm}The Frontend is a single module of code, although it still needs a Wallet and the Connection Profile like the Backend does.
+					
+					\begin{itemize}
+					
+						\item \textbf{index.js}\\
+						
+							\hspace{10mm}The main module of the Frontend sets up an Express Server to send the logs to the Browser. In terms of getting those logs, it needs all the same set up that the Backend does of \textit{Gateway} -> \textit{getNetwork} -> \textit{getContract} using the Connaction Profile. Once the set up has been done, it used the \textit{evaluateTransaction} from the Contract API to invoke the \textit{queryAllMessage} chaincode function.
+					
+					\end{itemize}
+					
+			\end{itemize}
+							
+						

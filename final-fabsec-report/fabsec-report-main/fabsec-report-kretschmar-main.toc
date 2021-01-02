@@ -1,22 +1,23 @@
+\babel@toc {english}{}
 \contentsline {section}{\numberline {1}Introduction}{3}%
 \contentsline {subsection}{\numberline {1.1}Conceptual Background}{3}%
 \contentsline {subsubsection}{\numberline {1.1.1}Computer Security}{4}%
 \contentsline {subsubsection}{\numberline {1.1.2}Bitcoin and Blockchain}{4}%
 \contentsline {subsubsection}{\numberline {1.1.3}Ethereum and Smart Contracts}{6}%
-\contentsline {subsubsection}{\numberline {1.1.4}Decentralized Applications (dApps)}{6}%
+\contentsline {subsubsection}{\numberline {1.1.4}Decentralized Applications (dApps)}{7}%
 \contentsline {subsection}{\numberline {1.2}Project Motivation}{7}%
-\contentsline {subsection}{\numberline {1.3}Project Objectives}{7}%
+\contentsline {subsection}{\numberline {1.3}Project Objectives}{8}%
 \contentsline {subsection}{\numberline {1.4}Key Achievements}{8}%
 \contentsline {section}{\numberline {2}Hyperledger Fabric}{9}%
-\contentsline {subsection}{\numberline {2.1}The Certificate Authority Servers}{9}%
+\contentsline {subsection}{\numberline {2.1}The Certificate Authority Servers}{10}%
 \contentsline {subsection}{\numberline {2.2}Membership Service Providers}{11}%
 \contentsline {subsection}{\numberline {2.3}Peers}{12}%
 \contentsline {subsection}{\numberline {2.4}Orderers}{12}%
-\contentsline {subsubsection}{\numberline {2.4.1}The Raft Consensus Protocol}{13}%
+\contentsline {subsubsection}{\numberline {2.4.1}The Raft Consensus Protocol}{14}%
 \contentsline {subsection}{\numberline {2.5}Channels}{14}%
 \contentsline {subsubsection}{\numberline {2.5.1}The Genesis Block}{14}%
-\contentsline {subsection}{\numberline {2.6}Ledgers}{14}%
-\contentsline {subsection}{\numberline {2.7}Chaincode}{14}%
+\contentsline {subsection}{\numberline {2.6}Ledgers}{15}%
+\contentsline {subsection}{\numberline {2.7}Chaincode}{15}%
 \contentsline {section}{\numberline {3}System Design}{16}%
 \contentsline {subsection}{\numberline {3.1}Design Decisions}{16}%
 \contentsline {subsection}{\numberline {3.2}The Network Scripts}{20}%

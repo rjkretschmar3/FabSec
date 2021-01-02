@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.23)  8 DEC 2020 01:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.23)  1 JAN 2021 18:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -103,9 +103,63 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks21
 \@floatcapt=\box47
 )
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2020/07/13 3.47 The Babel package
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2020/07/13 3.47 Babel common definitions
+\babel@savecnt=\count183
+\U@D=\dimen150
+\l@babelnohyphens=\language5
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@readstream=\read3
+)
+\bbl@dirlevel=\count184
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+Package babel Info: \l@canadian = using hyphenrules for english
+(babel)             (\language0) on input line 102.
+Package babel Info: \l@australian = using hyphenrules for ukenglish
+(babel)             (\language3) on input line 105.
+Package babel Info: \l@newzealand = using hyphenrules for ukenglish
+(babel)             (\language3) on input line 108.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.sty
+Package: csquotes 2019-12-06 v5.2j context-sensitive quotations (JAW)
+
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/07/15 v2.5i e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count185
+)
+\csq@reset=\count186
+\csq@gtype=\count187
+\csq@glevel=\count188
+\csq@qlevel=\count189
+\csq@maxlvl=\count190
+\csq@tshold=\count191
+\csq@ltx@everypar=\toks22
+
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.def
+File: csquotes.def 2019-12-06 v5.2j csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.cfg
+File: csquotes.cfg 
+)
+Package csquotes Info: Enabling multilingual quotes.
+Package csquotes Info: Redefining alias 'english' -> 'english/american'.
+)
+Package csquotes Info: Allocating character ".
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
+
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count183
+\l__kernel_color_stack_int=\count192
 \l__pdf_internal_box=\box48
 )
 (./fabsec-report-kretschmar-main.aux
@@ -117,20 +171,20 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 (./fabsec-report-conclusion/fabsec-report-conclusion-paper.aux))
 \openout1 = `fabsec-report-kretschmar-main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -168,36 +222,68 @@ LaTeX Font Info:    ... okay on input line 18.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count184
-\scratchdimen=\dimen150
+\scratchcounter=\count193
+\scratchdimen=\dimen151
 \scratchbox=\box49
-\nofMPsegments=\count185
-\nofMParguments=\count186
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count187
-\MPscratchDim=\dimen151
-\MPnumerator=\count188
-\makeMPintoPDFobject=\count189
-\everyMPtoPDFconversion=\toks23
+\nofMPsegments=\count194
+\nofMParguments=\count195
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count196
+\MPscratchDim=\dimen152
+\MPnumerator=\count197
+\makeMPintoPDFobject=\count198
+\everyMPtoPDFconversion=\toks24
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/grfext/grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+Package csquotes Info: Making character " active on input line 23.
+
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 (./fabsec-report-kretschmar-main.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 2.
+(Font)              <12> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 2.
+(Font)              <8> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 2.
+(Font)              <6> on input line 3.
 )
 \tf@toc=\write3
 \openout3 = `fabsec-report-kretschmar-main.toc'.
@@ -229,49 +315,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--11
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 13--14
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
-<./fabsec-report-introduction/blockchain-diagram.jpg, id=19, 963.6pt x 722.7pt>
+[4]
+<./fabsec-report-introduction/blockchain-diagram-resized.jpg, id=22, 702.625pt 
+x 361.35pt>
+File: ./fabsec-report-introduction/blockchain-diagram-resized.jpg Graphic file 
+(type jpg)
+<use ./fabsec-report-introduction/blockchain-diagram-resized.jpg>
+Package pdftex.def Info: ./fabsec-report-introduction/blockchain-diagram-resize
+d.jpg  used on input line 18.
+(pdftex.def)             Requested size: 430.00462pt x 221.15099pt.
 
-File: ./fabsec-report-introduction/blockchain-diagram.jpg Graphic file (type jp
-g)
-<use ./fabsec-report-introduction/blockchain-diagram.jpg>
-Package pdftex.def Info: ./fabsec-report-introduction/blockchain-diagram.jpg  u
-sed on input line 16.
-(pdftex.def)             Requested size: 430.00462pt x 322.49922pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--21
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
 
  []
 
-[4] [5 <./fabsec-report-introduction/blockchain-diagram.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[5 <./fabsec-report-introduction/blockchain-diagram-resized.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 25--26
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
 
-Overfull \hbox (15.98116pt too wide) in paragraph at lines 34--35
-\OT1/cmr/m/n/12 tributed De-nial of Ser-vice (DDoS) pre-ven-tion, Do-main Name 
-Sys-tem Se-cu-rity (DNSSec),
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--35
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
 
  []
 
 [7])
-Underfull \hbox (badness 10000) in paragraph at lines 45--27
+Underfull \hbox (badness 10000) in paragraph at lines 49--32
 
  []
 
@@ -289,7 +372,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--5
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
@@ -297,11 +385,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
@@ -311,29 +394,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
-[10]
+
 Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
-
+[10]
 Underfull \hbox (badness 10000) in paragraph at lines 17--18
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
 File: "./fabsec-report-hyperledger/msp-tree-nonuni.txt"  (verbatim)
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 24--25
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 27--28
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 30--31
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
@@ -353,12 +436,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--37
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--43
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
 
  []
 
@@ -368,25 +451,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--45
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 50--51
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 53--30
+Underfull \hbox (badness 10000) in paragraph at lines 55--35
 
  []
 
-[14] [15]
+[15]
 \openout2 = `./fabsec-report-system-design/fabsec-report-system-design-paper.au
 x'.
 
  (./fabsec-report-system-design/fabsec-report-system-design-paper.tex
+Overfull \hbox (3.00894pt too wide) in paragraph at lines 2--3
+\OT1/cmr/m/n/12 were made, the scripts that bring the net-work to-gether, and t
+he Javascript (chain)code
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 2--3
 
  []
@@ -542,15 +636,15 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 257.
 
 Overfull \hbox (4.07065pt too wide) in paragraph at lines 257--258
-\OT1/cmr/m/it/12 nel[]group.groups.Application.groups."org\TS1/cmr/m/it/12 $\OT
-1/cmr/m/it/12 orgNum.fabsec.com".values' \OT1/cmr/m/n/12 and adds
+\OT1/cmr/m/it/12 nel[]group.groups.Application.groups.\  org\TS1/cmr/m/it/12 $\
+OT1/cmr/m/it/12 orgNum.fabsec.com".values' \OT1/cmr/m/n/12 and adds
  []
 
 
 Overfull \hbox (14.60408pt too wide) in paragraph at lines 257--258
-\OT1/cmr/m/n/12 the stanza \OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "Anchor Peers": \
-OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "mod[]policy": "Ad-mins", "value":\OMS/cmsy/m
-/n/12 f\OT1/cmr/m/it/12 "anchor[]peers":
+\OT1/cmr/m/n/12 the stanza \OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 \  An-chor Peers"
+: \OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 \  mod[]policy": \  Ad-mins", \  value":\O
+MS/cmsy/m/n/12 f\OT1/cmr/m/it/12 \  an-chor[]peers":
  []
 
 
@@ -560,9 +654,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
 
 Overfull \hbox (22.25368pt too wide) in paragraph at lines 259--260
-\OT1/cmr/m/it/12 '"\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 payload":\OMS/cmsy/m/n/12
- f\OT1/cmr/m/it/12 "header":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "channel[]header
-":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 "channel[]id": "fabsec-channel", "type":
+\OT1/cmr/m/it/12 '\  \OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 payload":\OMS/cmsy/m/n/
+12 f\OT1/cmr/m/it/12 \  header":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 \  chan-nel[
+]header":\OMS/cmsy/m/n/12 f\OT1/cmr/m/it/12 \  chan-nel[]id": \  fabsec-channel
+", \  type":
  []
 
 
@@ -836,13 +931,13 @@ rk-flow/network-flow-22.jpg>]
 (./fabsec-report-summary/fabsec-report-summary-paper.aux)
 (./fabsec-report-conclusion/fabsec-report-conclusion-paper.aux)) ) 
 Here is how much of TeX's memory you used:
- 2389 strings out of 482811
- 42279 string characters out of 5955739
- 280487 words of memory out of 5000000
- 17664 multiletter control sequences out of 15000+600000
+ 4419 strings out of 482811
+ 72849 string characters out of 5955739
+ 340594 words of memory out of 5000000
+ 19639 multiletter control sequences out of 15000+600000
  542479 words of font info for 53 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 36i,8n,33p,1831b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,8n,37p,1831b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/armer
 suender/.texlive2020/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1200.600pk> </ho
 me/armersuender/.texlive2020/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600
@@ -857,7 +952,7 @@ blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mtt12.pfb>
-Output written on fabsec-report-kretschmar-main.pdf (59 pages, 15223349 bytes).
+Output written on fabsec-report-kretschmar-main.pdf (59 pages, 15270975 bytes).
 
 PDF statistics:
  275 PDF objects out of 1000 (max. 8388607)
